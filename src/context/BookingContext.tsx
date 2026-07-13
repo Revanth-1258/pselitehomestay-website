@@ -124,6 +124,14 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           return merged;
         });
       }
+      if (cloud && cloud.inventory && Object.keys(cloud.inventory).length > 0) {
+        try {
+          const existing = JSON.parse(localStorage.getItem('ps_date_inventory') || '{}');
+          const mergedInv = { ...existing, ...cloud.inventory };
+          localStorage.setItem('ps_date_inventory', JSON.stringify(mergedInv));
+          window.dispatchEvent(new Event('ps_inventory_updated'));
+        } catch (e) {}
+      }
     });
   }, []);
 

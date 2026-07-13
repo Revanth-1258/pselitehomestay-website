@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KeyRound, ShieldCheck, AlertCircle, CheckCircle2, X, Phone, Lock } from 'lucide-react';
+import { syncPasskeysToCloud } from '@/services/cloudSync';
 
 interface PasskeyResetModalProps {
   isOpen: boolean;
@@ -48,8 +49,10 @@ export default function PasskeyResetModal({
     try {
       if (selectedPortal === 'admin') {
         localStorage.setItem('ps_custom_admin_passkey', newPasskey.trim());
+        syncPasskeysToCloud({ admin: newPasskey.trim() });
       } else {
         localStorage.setItem('ps_custom_owner_passkey', newPasskey.trim());
+        syncPasskeysToCloud({ owner: newPasskey.trim() });
       }
       setSuccessMsg(
         `Successfully reset the ${

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
+import { syncInventoryToCloud, fetchCloudData } from '@/services/cloudSync';
 
 export default function AdminPage() {
   const { rooms, updateRoomPrice, bookings, updateBookingStatus, addBooking } = useBooking();
@@ -62,6 +63,26 @@ export default function AdminPage() {
   });
   const [inventorySuccessMsg, setInventorySuccessMsg] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetchCloudData().then((cloud) => {
+      if (cloud && cloud.inventory && Object.keys(cloud.inventory).length > 0) {
+        setDateInventory((prev) => ({ ...prev, ...cloud.inventory }));
+        try {
+          localStorage.setItem('ps_date_inventory', JSON.stringify(cloud.inventory));
+          window.dispatchEvent(new Event('ps_inventory_updated'));
+        } catch (e) {}
+      }
+      if (cloud && cloud.passkeys) {
+        if (cloud.passkeys.admin) {
+          try { localStorage.setItem('ps_custom_admin_passkey', cloud.passkeys.admin); } catch(e) {}
+        }
+        if (cloud.passkeys.owner) {
+          try { localStorage.setItem('ps_custom_owner_passkey', cloud.passkeys.owner); } catch(e) {}
+        }
+      }
+    });
+  }, []);
+
   // Custom Voucher & Negotiated Receipt State
   const [vGuestName, setVGuestName] = useState('');
   const [vGuestPhone, setVGuestPhone] = useState('');
@@ -97,6 +118,7 @@ export default function AdminPage() {
         }
 
         window.dispatchEvent(new Event('ps_inventory_updated'));
+        syncInventoryToCloud(nextState);
       } catch (err) {}
       return nextState;
     });
@@ -143,6 +165,7 @@ export default function AdminPage() {
       try {
         localStorage.setItem('ps_date_inventory', JSON.stringify(nextState));
         window.dispatchEvent(new Event('ps_inventory_updated'));
+        syncInventoryToCloud(nextState);
       } catch (err) {}
       return nextState;
     });

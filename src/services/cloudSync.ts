@@ -1,9 +1,8 @@
-// Universal Cloud Sync Service for PS Elite Homestays Tirupati
-// Syncs inventory, custom prices, and guest bookings across mobile & desktop devices
+// Universal Persistent Cloud Sync Service for PS Elite Homestays Tirupati
+// Syncs inventory, custom prices, passkeys, and guest bookings across mobile & desktop devices
 
 export async function syncBookingToCloud(booking: any): Promise<void> {
   try {
-    // 1. Sync to our Vercel API route
     await fetch('/api/sync', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -26,9 +25,22 @@ export async function syncInventoryToCloud(inventory: Record<string, any>): Prom
   }
 }
 
+export async function syncPasskeysToCloud(passkeys: Record<string, string>): Promise<void> {
+  try {
+    await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passkeys }),
+    });
+  } catch (error) {
+    console.warn('Passkeys cloud sync offline, saved locally:', error);
+  }
+}
+
 export async function fetchCloudData(): Promise<{
   inventory?: Record<string, any>;
   bookings?: any[];
+  passkeys?: Record<string, string>;
 } | null> {
   try {
     const res = await fetch('/api/sync', { cache: 'no-store' });
