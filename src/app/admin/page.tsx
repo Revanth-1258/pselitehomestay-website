@@ -25,7 +25,7 @@ import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
 
 export default function AdminPage() {
-  const { rooms, updateRoomPrice, bookings, updateBookingStatus } = useBooking();
+  const { rooms, updateRoomPrice, bookings, updateBookingStatus, addBooking } = useBooking();
   const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
   const [newPriceInput, setNewPriceInput] = useState<number>(0);
   const [statusFilter, setStatusFilter] = useState<string>('All');
@@ -1048,7 +1048,124 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => {
-                  window.print();
+                  const genId = `PSE-${Math.floor(1000 + Math.random() * 9000)}`;
+                  addBooking({
+                    bookingId: genId,
+                    guestName: vGuestName || 'Valued Guest',
+                    guestEmail: 'guest@pselite.com',
+                    guestPhone: vGuestPhone || '919392739715',
+                    room: {
+                      id: 'custom-suite',
+                      name: vRoomType,
+                      category: 'room',
+                      tagline: 'Custom Pilgrim Reservation',
+                      pricePerNight: vAgreedTotal,
+                      originalPrice: vAgreedTotal,
+                      guests: 2,
+                      areaSqFt: 350,
+                      bedrooms: 1,
+                      bathrooms: 1,
+                      image: '/images/rooms/family-room.jpg',
+                      gallery: ['/images/rooms/family-room.jpg'],
+                      amenities: ['AC', 'WiFi'],
+                      description: vRoomType,
+                      highlights: ['Custom Timing Policy'],
+                    },
+                    checkIn: vCheckIn,
+                    checkOut: vCheckOut,
+                    guestsCount: 2,
+                    nights: 1,
+                    needTemplePickup: false,
+                    needExtraBed: false,
+                    discountAmount: 0,
+                    subtotal: vAgreedTotal,
+                    gstTaxes: 0,
+                    totalAmount: vAgreedTotal,
+                    status: 'Confirmed',
+                    paymentMethod: 'Custom Voucher',
+                    utrNumber: 'N/A',
+                    advancePaid: vAdvancePaid,
+                    balanceDue: Math.max(0, vAgreedTotal - vAdvancePaid),
+                    paymentPlan: 'ADVANCE',
+                    createdAt: new Date().toISOString(),
+                  });
+                  alert(`Successfully registered ${vGuestName || 'Guest'} (${genId}) into Live Bookings Table!`);
+                }}
+                className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2"
+              >
+                <span>+ Register into Live Bookings Table</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const genId = `PSE-${Math.floor(1000 + Math.random() * 9000)}`;
+                  const balance = Math.max(0, vAgreedTotal - vAdvancePaid);
+                  const printWin = window.open('', '_blank', 'width=800,height=950');
+                  if (!printWin) {
+                    alert('Please allow popups to generate and download the PDF Voucher.');
+                    return;
+                  }
+                  printWin.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                      <head>
+                        <title>PS Elite Homestays - Official Stay Voucher (${genId})</title>
+                        <style>
+                          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 40px; color: #1a1a1a; background: #fff; }
+                          .voucher-box { max-width: 680px; margin: 0 auto; border: 2px solid #D4AF37; border-radius: 12px; padding: 36px; }
+                          .header { text-align: center; border-bottom: 2px solid #D4AF37; padding-bottom: 20px; margin-bottom: 24px; }
+                          .header h1 { margin: 0; font-size: 26px; color: #111; letter-spacing: 2px; }
+                          .header p { margin: 6px 0 0; color: #666; font-size: 13px; }
+                          .badge { display: inline-block; background: #FFF9E6; color: #B8860B; border: 1px solid #D4AF37; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-top: 10px; text-transform: uppercase; }
+                          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+                          .info-item { background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 12px; }
+                          .label { font-size: 11px; color: #777; text-transform: uppercase; margin-bottom: 4px; }
+                          .value { font-size: 14px; font-weight: bold; color: #111; }
+                          .table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+                          .table th, .table td { padding: 12px 14px; border-bottom: 1px solid #eee; text-align: left; font-size: 14px; }
+                          .table th { background: #fcfcfc; color: #666; font-size: 12px; text-transform: uppercase; }
+                          .balance-row { background: #FFF9E6; font-weight: bold; font-size: 16px; color: #B8860B; }
+                          .footer { margin-top: 36px; padding-top: 20px; border-top: 1px dashed #ccc; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #666; }
+                          @media print { body { padding: 0; } .voucher-box { border: 1px solid #D4AF37; } }
+                        </style>
+                      </head>
+                      <body>
+                        <div class="voucher-box">
+                          <div class="header">
+                            <h1>PS ELITE HOMESTAYS</h1>
+                            <p>Srinivasa Mangapuram Road, Tirupati, Andhra Pradesh - 517505</p>
+                            <p>Phone / WhatsApp: +91 93927 39715 | Domain: pselitehomestays.com</p>
+                            <div class="badge">Official Stay Voucher & Receipt</div>
+                          </div>
+                          <div class="grid">
+                            <div class="info-item"><div class="label">Voucher ID</div><div class="value">${genId}</div></div>
+                            <div class="info-item"><div class="label">Date Issued</div><div class="value">${new Date().toLocaleDateString('en-IN')}</div></div>
+                            <div class="info-item"><div class="label">Pilgrim Guest</div><div class="value">${vGuestName || 'Valued Guest'}</div></div>
+                            <div class="info-item"><div class="label">WhatsApp Contact</div><div class="value">${vGuestPhone || 'N/A'}</div></div>
+                            <div class="info-item"><div class="label">Accommodation Suite</div><div class="value">${vRoomType}</div></div>
+                            <div class="info-item"><div class="label">Check-In Policy</div><div class="value">${vTimingRule}</div></div>
+                            <div class="info-item"><div class="label">Check-In Date</div><div class="value">${vCheckIn}</div></div>
+                            <div class="info-item"><div class="label">Check-Out Date</div><div class="value">${vCheckOut}</div></div>
+                          </div>
+                          <table class="table">
+                            <thead><tr><th>Description</th><th style="text-align: right;">Amount (INR)</th></tr></thead>
+                            <tbody>
+                              <tr><td>Total Agreed Stay Tariff</td><td style="text-align: right;">₹${vAgreedTotal.toLocaleString('en-IN')}</td></tr>
+                              <tr><td>Advance Amount Paid</td><td style="text-align: right; color: #10B981;">- ₹${vAdvancePaid.toLocaleString('en-IN')}</td></tr>
+                              <tr class="balance-row"><td>Balance Due at Stay Check-In</td><td style="text-align: right;">₹${balance.toLocaleString('en-IN')}</td></tr>
+                            </tbody>
+                          </table>
+                          <div class="footer">
+                            <div><strong>Note:</strong> Present this official voucher at check-in.<br>May Lord Venkateswara bless your stay!</div>
+                            <div style="text-align: right;"><div style="width: 140px; border-bottom: 1px solid #333; margin-bottom: 4px;"></div>Authorized Signatory<br><span style="font-size: 10px; color: #888;">PS Elite Front Desk</span></div>
+                          </div>
+                        </div>
+                        <script>window.onload = function() { window.print(); };</script>
+                      </body>
+                    </html>
+                  `);
+                  printWin.document.close();
                 }}
                 className="px-6 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#c59b27] text-black font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2"
               >

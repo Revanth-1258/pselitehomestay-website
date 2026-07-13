@@ -75,6 +75,8 @@ interface BookingContextType {
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
+import { syncBookingToCloud, fetchCloudData } from '@/services/cloudSync';
+
 export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomType[]>(ROOMS_DATA);
   const [searchParams, setSearchParams] = useState({
@@ -95,7 +97,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [bookings, setBookings] = useState<BookingDetails[]>([]);
 
-  // Load persisted bookings from localStorage on mount
+  // Load persisted bookings from localStorage & Cloud on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('ps_bookings_live');
@@ -103,13 +105,26 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
           setBookings(parsed);
-          return;
         }
       }
     } catch (e) {}
 
-    // Only real bookings from website interactions
-    setBookings([]);
+    // Fetch from free universal cloud storage API
+    fetchCloudData().then((cloud) => {
+      if (cloud && cloud.bookings && Array.isArray(cloud.bookings) && cloud.bookings.length > 0) {
+        setBookings((prev) => {
+          const map = new Map();
+          [...(cloud.bookings || []), ...prev].forEach((b) => {
+            if (b && b.bookingId) map.set(b.bookingId, b);
+          });
+          const merged = Array.from(map.values());
+          try {
+            localStorage.setItem('ps_bookings_live', JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
+    });
   }, []);
 
   // Sync bookings to localStorage whenever they change
@@ -141,6 +156,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const addBooking = (booking: BookingDetails) => {
+    syncBookingToCloud(booking);
     setBookings((prev) => {
       const next = [booking, ...prev];
       try {
