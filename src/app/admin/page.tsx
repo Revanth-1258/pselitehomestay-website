@@ -1298,7 +1298,7 @@ export default function AdminPage() {
               <tbody className="divide-y divide-neutral-200">
                 {filteredBookings.map((b) => {
                   const phoneDigits = b.guestPhone.replace(/\D/g, '') || '919392739715';
-                  const welcomeMsg = `Namaste ${b.guestName}!\nWarm greetings from PS Elite Homestay Tirupati.\n\nWe are delighted to assist you with your booking (${b.bookingId}) for ${b.room.name} from ${b.checkIn} to ${b.checkOut}.\n\nPlease let us know your arrival time or if you need cab pickup assistance!`;
+                  const welcomeMsg = `Namaste ${b.guestName}!\nWarm greetings from PS Elite Homestay Tirupati.\n\nWe are delighted to assist you with your booking (${b.bookingId}) for ${b.room.name} from ${b.checkIn} to ${b.checkOut}.\n\nPlease let us know your arrival time or if you need any other assistance!`;
                   const reviewMsg = `Namaste ${b.guestName}!\nWe hope you had a blessed darshan and a peaceful stay at PS Elite Homestay Tirupati.\n\nCould you please take 30 seconds to share your review on Google? Your review helps pilgrim families discover our homestay!\n\nClick here to Review: https://g.page/r/CUrLKvmEc7ihEAE/review\n\nMay Lord Venkateswara bless your family!`;
 
                   return (
