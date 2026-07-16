@@ -13,6 +13,19 @@ export async function syncBookingToCloud(booking: any): Promise<void> {
   }
 }
 
+export async function syncBookingsListToCloud(bookings: any[]): Promise<void> {
+  try {
+    await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bookings }),
+    });
+  } catch (error) {
+    console.warn('Cloud sync offline, saved locally:', error);
+  }
+}
+
+
 export async function syncInventoryToCloud(inventory: Record<string, any>): Promise<void> {
   try {
     await fetch('/api/sync', {

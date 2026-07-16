@@ -75,7 +75,7 @@ interface BookingContextType {
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
-import { syncBookingToCloud, fetchCloudData } from '@/services/cloudSync';
+import { syncBookingToCloud, fetchCloudData, syncBookingsListToCloud } from '@/services/cloudSync';
 
 export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomType[]>(ROOMS_DATA);
@@ -181,6 +181,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       try {
         localStorage.setItem('ps_bookings_live', JSON.stringify(next));
       } catch (e) {}
+      syncBookingsListToCloud(next);
       return next;
     });
   };

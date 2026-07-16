@@ -3,9 +3,8 @@ import { NextResponse } from 'next/server';
 // Universal Persistent Cloud Sync API for PS Elite Homestays Tirupati
 // Synchronizes Bookings, Date-Specific Inventory & Dynamic Pricing, and Passkeys globally across all devices
 
-// Public cloud fallback bucket ID for PS Elite Homestay Tirupati
-const JSONBIN_ID = '67843818e41b4d34e4776100'; // Universal fallback bin
-const JSONBIN_MASTER_KEY = '$2a$10$wN9P3J8S7xYxQv4O4R0F.O8X6J2Y4R7S9T1U3V5W7X9Y1Z3A5B7C9';
+// Free public cloud fallback bucket ID for PS Elite Homestay Tirupati (ExtendsClass)
+const EXTENDSCLASS_ID = 'fedabbd';
 
 // Ephemeral memory cache fallback
 let fallbackMemoryStore: {
@@ -40,19 +39,46 @@ async function fetchFromPersistentCloud() {
     } catch (e) {}
   }
 
-  // 2. Try JSONBin universal cloud bucket
+  // 2. Try Firebase Admin SDK if configured
+  const firebaseProjectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY;
+  const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  if (firebaseProjectId && firebasePrivateKey && firebaseClientEmail) {
+    try {
+      const admin = (await import('firebase-admin')).default;
+      if (!admin.apps.length) {
+        admin.initializeApp({
+          credential: admin.credential.cert({
+            projectId: firebaseProjectId,
+            clientEmail: firebaseClientEmail,
+            privateKey: firebasePrivateKey.replace(/\\n/g, '\n'),
+          }),
+        });
+      }
+      const db = admin.firestore();
+      const doc = await db.collection('ps_elite_store').doc('global').get();
+      if (doc.exists) {
+        const docData = doc.data();
+        if (docData && docData.data) {
+          fallbackMemoryStore = { ...fallbackMemoryStore, ...docData.data };
+          return docData.data;
+        }
+      }
+    } catch (e) {
+      console.warn('Firebase read error:', e);
+    }
+  }
+
+  // 3. Try ExtendsClass universal cloud bucket (free zero-config fallback)
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
-      headers: {
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-      },
+    const res = await fetch(`https://extendsclass.com/api/json-storage/bin/${EXTENDSCLASS_ID}`, {
       cache: 'no-store',
     });
     if (res.ok) {
       const json = await res.json();
-      if (json && json.record) {
-        fallbackMemoryStore = { ...fallbackMemoryStore, ...json.record };
-        return json.record;
+      if (json && (json.bookings || json.inventory || json.passkeys)) {
+        fallbackMemoryStore = { ...fallbackMemoryStore, ...json };
+        return json;
       }
     }
   } catch (e) {}
@@ -81,13 +107,38 @@ async function saveToPersistentCloud(data: any) {
     } catch (e) {}
   }
 
-  // 2. Try JSONBin universal cloud bucket
+  // 2. Try Firebase Admin SDK if configured
+  const firebaseProjectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY;
+  const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  if (firebaseProjectId && firebasePrivateKey && firebaseClientEmail) {
+    try {
+      const admin = (await import('firebase-admin')).default;
+      if (!admin.apps.length) {
+        admin.initializeApp({
+          credential: admin.credential.cert({
+            projectId: firebaseProjectId,
+            clientEmail: firebaseClientEmail,
+            privateKey: firebasePrivateKey.replace(/\\n/g, '\n'),
+          }),
+        });
+      }
+      const db = admin.firestore();
+      await db.collection('ps_elite_store').doc('global').set({
+        data: fallbackMemoryStore,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      }, { merge: true });
+    } catch (e) {
+      console.warn('Firebase write error:', e);
+    }
+  }
+
+  // 3. Try ExtendsClass universal cloud bucket (free zero-config fallback)
   try {
-    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+    await fetch(`https://extendsclass.com/api/json-storage/bin/${EXTENDSCLASS_ID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_MASTER_KEY,
       },
       body: JSON.stringify(fallbackMemoryStore),
     });
