@@ -111,7 +111,7 @@ export const RoomDetailModal: React.FC = () => {
               <Bath className="w-5 h-5 text-[#B8860B]" />
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-neutral-500">Bathrooms</p>
-                <p className="text-sm font-semibold text-neutral-900">{room.bathrooms} Marble Bath{room.bathrooms > 1 ? 's' : ''}</p>
+                <p className="text-sm font-semibold text-neutral-900">{room.bathrooms} Bathroom{room.bathrooms > 1 ? 's' : ''}</p>
               </div>
             </div>
           </div>
