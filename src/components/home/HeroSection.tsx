@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, Crown, ArrowRight, Sparkles, Compass, CheckCircle2 } from 'lucide-react';
+import { Calendar, Users, Crown, ArrowRight, Sparkles, Compass, CheckCircle2, ChevronDown } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 
 export const HeroSection: React.FC = () => {
@@ -136,7 +136,7 @@ export const HeroSection: React.FC = () => {
                 type="date"
                 value={searchParams.checkIn}
                 onChange={(e) => setSearchParams((prev) => ({ ...prev, checkIn: e.target.value }))}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
+                className="w-full min-w-0 appearance-none bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
               />
             </div>
 
@@ -150,7 +150,7 @@ export const HeroSection: React.FC = () => {
                 type="date"
                 value={searchParams.checkOut}
                 onChange={(e) => setSearchParams((prev) => ({ ...prev, checkOut: e.target.value }))}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
+                className="w-full min-w-0 appearance-none bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
               />
             </div>
 
@@ -160,17 +160,22 @@ export const HeroSection: React.FC = () => {
                 <Users className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Guests</span>
               </label>
-              <select
-                value={searchParams.guests}
-                onChange={(e) => setSearchParams((prev) => ({ ...prev, guests: Number(e.target.value) }))}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
-              >
-                {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                  <option key={num} value={num} className="bg-white text-neutral-900">
-                    {num} Guest{num > 1 ? 's' : ''}
-                  </option>
-                ))}
-              </select>
+              <div className="relative w-full">
+                <select
+                  value={searchParams.guests}
+                  onChange={(e) => setSearchParams((prev) => ({ ...prev, guests: Number(e.target.value) }))}
+                  className="w-full appearance-none bg-neutral-50 border border-neutral-300 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                    <option key={num} value={num} className="bg-white text-neutral-900">
+                      {num} Guest{num > 1 ? 's' : ''}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
+                  <ChevronDown className="w-4 h-4 text-[#B8860B]" />
+                </div>
+              </div>
             </div>
 
             {/* Room Type */}
@@ -179,16 +184,21 @@ export const HeroSection: React.FC = () => {
                 <Crown className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Room Type</span>
               </label>
-              <select
-                value={searchParams.roomCategory}
-                onChange={(e) => setSearchParams((prev) => ({ ...prev, roomCategory: e.target.value }))}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
-              >
-                <option value="all" className="bg-white text-neutral-900">All Luxury Categories</option>
-                <option value="room" className="bg-white text-neutral-900">Standard &amp; Deluxe Rooms</option>
-                <option value="apartment" className="bg-white text-neutral-900">1BHK &amp; 2BHK Apartments</option>
-                <option value="penthouse" className="bg-white text-neutral-900">Penthouse</option>
-              </select>
+              <div className="relative w-full">
+                <select
+                  value={searchParams.roomCategory}
+                  onChange={(e) => setSearchParams((prev) => ({ ...prev, roomCategory: e.target.value }))}
+                  className="w-full appearance-none bg-neutral-50 border border-neutral-300 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
+                >
+                  <option value="all" className="bg-white text-neutral-900">All Luxury Categories</option>
+                  <option value="room" className="bg-white text-neutral-900">Standard &amp; Deluxe Rooms</option>
+                  <option value="apartment" className="bg-white text-neutral-900">1BHK &amp; 2BHK Apartments</option>
+                  <option value="penthouse" className="bg-white text-neutral-900">Penthouse</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
+                  <ChevronDown className="w-4 h-4 text-[#B8860B]" />
+                </div>
+              </div>
             </div>
 
             {/* Submit CTA - Sleek Black Button */}
