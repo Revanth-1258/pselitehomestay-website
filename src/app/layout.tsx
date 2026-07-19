@@ -23,10 +23,9 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://pselitehomestays.com'),
-  title:
-    'PS Elite Homestay Tirupati | Budget & Luxury Rooms Near Railway Station, Bus Stand, Padmavathi Ammavari Temple & Alipiri',
+  title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
   description:
-    'Experience serene budget and luxury stays at PS Elite Homestay Tirupati. Prime location just 1 km from Bus Stand, 1.5 km from Railway Station, 3 km from Padmavathi Ammavari Temple Tiruchanur, and 8 mins to Alipiri Footpath. Featuring AC & Non-AC rooms, deluxe family suites, 1BHK/2BHK apartments, elevator access, and 24/7 support desk.',
+    'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
   keywords: [
     'PS Elite Homestay Tirupati',
     'Budget homestay Tirupati',
@@ -48,14 +47,19 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title:
-      'PS Elite Homestay Tirupati | Budget & Luxury Rooms Near Railway Station, Bus Stand, Padmavathi Temple & Alipiri',
+    title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
     description:
-      'Prime location in Tirupati: 1 km from Bus Stand, 1.5 km from Railway Station, 3 km from Padmavathi Ammavari Temple, and 8 mins to Alipiri Footpath. Deluxe AC/Non-AC rooms, 1BHK/2BHK family suites & elevator access.',
+      'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
     url: 'https://pselitehomestays.com',
     siteName: 'PS Elite Homestay, Tirupati',
     locale: 'en_IN',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
+    description:
+      'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
   },
 };
 
