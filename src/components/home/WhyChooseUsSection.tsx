@@ -35,7 +35,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Feel at Home in Tirupati',
       description:
         'Unlike standard hotel rooms, our accommodations provide spacious layouts with beautifully designed interiors, comfortable living areas, premium furnishings, and a relaxing atmosphere that feels like your own home.',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/6dNsNboQCT9IyPR6',
       icon: Home,
       highlight: '340 - 2,100 Sq. Ft. Private Layouts',
     },
@@ -44,7 +44,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Fast & Convenient Temple Gateway',
       description:
         'Stay just minutes away from Tirumala Temple, Alipiri Footpath, Railway Station, Bus Station, Airport, shopping streets, and popular attractions, making every journey faster and more convenient.',
-      image: 'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/wp6bJRaoBf92FZgA',
       icon: MapPin,
       highlight: 'Minutes to Alipiri & Railway Station',
     },
@@ -53,7 +53,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Designed for Every Traveler & Group',
       description:
         'Traveling with family or large groups? Choose from Deluxe Rooms, Family Suites, 1BHK Apartments, 2BHK Apartments, and Luxury Penthouse options designed for every type of traveler.',
-      image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/zdnwEAsMlgYjuDJ2',
       icon: Users,
       highlight: '1BHK & 2BHK Family Suites Up to 8 Guests',
     },
@@ -62,7 +62,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: '24×7 Dedicated Guest Support',
       description:
         'Our dedicated hospitality team is available around the clock to ensure every guest enjoys a seamless and memorable experience from arrival to departure.',
-      image: 'https://images.unsplash.com/photo-1521737711867-e3b904737c86?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/uYmPqpRZ5GPsIihb',
       icon: HeartHandshake,
       highlight: 'Personalized Concierge & Temple Cab Assistance',
     },
@@ -71,7 +71,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Fast Check-In & WhatsApp Assistance',
       description:
         'Enjoy fast online booking, instant confirmation, digital check-in, secure payments, WhatsApp assistance, and personalized guest support.',
-      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/s7AZxPxOo3FcmvUY',
       icon: Smartphone,
       highlight: 'Instant Confirmation & Digital Support',
     },
@@ -80,7 +80,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Sanitized & Inspected Before Check-In',
       description:
         'Every room is professionally cleaned, sanitized, and inspected before every check-in to ensure a fresh and hygienic stay.',
-      image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/EkaCFEEfQsKmxRhn',
       icon: Sparkle,
       highlight: '100% Hygienic & Sanitized Linen',
     },
@@ -89,7 +89,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Escape Overcrowded Commercial Hotels',
       description:
         'Escape the crowded commercial hotel environment and relax in a peaceful setting designed for comfort, privacy, and quality family time.',
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+      image: 'https://yralcgckodgemrozhvhn.supabase.co/storage/v1/object/public/websites-data/logo/X3lLj6QKrUKzVLN7',
       icon: Moon,
       highlight: 'Serene Sanctuary Under Seshachalam Hills',
     },
