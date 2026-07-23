@@ -240,7 +240,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.65 }}
-          className="mt-6 bg-[#DC2626] rounded-2xl p-5 sm:p-6 shadow-xl max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-red-500"
+          className="mt-6 bg-[#DC2626] rounded-2xl p-5 sm:p-6 shadow-xl max-w-5xl w-full flex flex-col sm:flex-row items-center justify-between gap-4 border border-red-500"
         >
           <p className="text-white font-medium text-sm sm:text-base text-center sm:text-left">
             Finding your ideal pilgrimage homestay in Tirupati should be easy, we&apos;re here to help!
@@ -251,6 +251,33 @@ export const HeroSection: React.FC = () => {
           >
             <Phone className="w-4 h-4 text-[#D4AF37] fill-current" />
             <span>Request Callback</span>
+          </a>
+        </motion.div>
+
+        {/* Instagram Follow Ticker Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.7 }}
+          className="mt-6 w-full max-w-5xl rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center shadow-md">
+              <span className="text-white text-base">📷</span>
+            </div>
+            <div>
+              <p className="font-bold text-white text-sm">@ps_elite_homestay</p>
+              <p className="text-neutral-400 text-[11px]">Follow us on Instagram for latest discounts &amp; pilgrim promotions!</p>
+            </div>
+          </div>
+          <a
+            href="https://instagram.com/ps_elite_homestay"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-xl border border-white/20 hover:border-[#ee2a7b] hover:text-[#ee2a7b] text-neutral-300 font-bold uppercase tracking-wider transition-all flex items-center gap-1.5"
+          >
+            <span>Follow Journey</span>
+            <span>→</span>
           </a>
         </motion.div>
       </div>

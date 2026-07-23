@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
+import { LuxuryDateTimePicker } from '@/components/admin/LuxuryDateTimePicker';
 import { syncInventoryToCloud, fetchCloudData } from '@/services/cloudSync';
 
 const formatDisplayDate = (dStr: string) => {
@@ -1020,30 +1021,18 @@ export default function AdminPage() {
             </div>
 
             {/* Check-In Date */}
-            <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
-                Check-In Date &amp; Time
-              </label>
-              <input
-                type="datetime-local"
-                value={vCheckIn}
-                onChange={(e) => setVCheckIn(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
-              />
-            </div>
+            <LuxuryDateTimePicker
+              label="Check-In Date &amp; Time"
+              value={vCheckIn}
+              onChange={setVCheckIn}
+            />
 
             {/* Check-Out Date */}
-            <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
-                Check-Out Date &amp; Time
-              </label>
-              <input
-                type="datetime-local"
-                value={vCheckOut}
-                onChange={(e) => setVCheckOut(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
-              />
-            </div>
+            <LuxuryDateTimePicker
+              label="Check-Out Date &amp; Time"
+              value={vCheckOut}
+              onChange={setVCheckOut}
+            />
 
             {/* Check-In / Timing Rule */}
             <div className="space-y-1">
