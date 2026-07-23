@@ -10,6 +10,8 @@ import { BookingModal } from '@/components/booking/BookingModal';
 import { RoomDetailModal } from '@/components/booking/RoomDetailModal';
 import { BookingInvoiceModal } from '@/components/booking/BookingInvoiceModal';
 import { DevotionalAudioPlayer } from '@/components/ui/DevotionalAudioPlayer';
+import { FloatingContactBar } from '@/components/layout/FloatingContactBar';
+import { BookDirectPopup } from '@/components/ui/BookDirectPopup';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -168,6 +170,8 @@ export default function RootLayout({
           <BookingModal />
           <BookingInvoiceModal />
           <DevotionalAudioPlayer />
+          <FloatingContactBar />
+          <BookDirectPopup />
         </BookingProvider>
       </body>
     </html>

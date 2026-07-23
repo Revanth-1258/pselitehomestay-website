@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, Crown, ArrowRight, Sparkles, Compass, CheckCircle2, ChevronDown } from 'lucide-react';
+import { Calendar, Users, Crown, ArrowRight, Sparkles, Compass, CheckCircle2, ChevronDown, Phone } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 
 export const HeroSection: React.FC = () => {
@@ -63,6 +63,27 @@ export const HeroSection: React.FC = () => {
         >
           Premium Homestay Near Tirumala Temple with Deluxe Rooms, Family Suites, 1BHK, 2BHK Apartments and Luxury Penthouse.
         </motion.p>
+
+        {/* Rating & Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="mt-6 flex flex-wrap items-center gap-3 text-xs"
+        >
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[#D4AF37] font-semibold">
+            <span className="text-[#D4AF37]">★</span>
+            <span>4.8 Rating</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white font-semibold">
+            <span className="text-[#D4AF37]">✓</span>
+            <span>Trusted by 3,500+ Stays</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white font-semibold">
+            <span className="text-[#D4AF37]">🎁</span>
+            <span>Direct Booking Discount</span>
+          </div>
+        </motion.div>
 
         {/* Hero Action Buttons */}
         <motion.div
@@ -228,6 +249,7 @@ export const HeroSection: React.FC = () => {
             href="tel:+919392739715"
             className="flex-shrink-0 px-6 py-3 rounded-xl bg-black hover:bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all transform hover:scale-105"
           >
+            <Phone className="w-4 h-4 text-[#D4AF37] fill-current" />
             <span>Request Callback</span>
           </a>
         </motion.div>
