@@ -71,15 +71,7 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.25 }}
           className="mt-6 flex flex-wrap items-center gap-3 text-xs"
         >
-          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[#D4AF37] font-semibold">
-            <span className="text-[#D4AF37]">★</span>
-            <span>4.8 Rating</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white font-semibold">
-            <span className="text-[#D4AF37]">✓</span>
-            <span>Trusted by 3,500+ Stays</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white font-semibold">
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-[#D4AF37]/35 bg-[#D4AF37]/5 backdrop-blur-md text-[#D4AF37] font-semibold">
             <span className="text-[#D4AF37]">🎁</span>
             <span>Direct Booking Discount</span>
           </div>
