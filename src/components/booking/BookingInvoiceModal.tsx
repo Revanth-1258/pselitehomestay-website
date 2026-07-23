@@ -44,9 +44,9 @@ export const BookingInvoiceModal: React.FC = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 mb-8 print:hidden">
             <CheckCircle2 className="w-6 h-6 shrink-0" />
             <div>
-              <p className="text-sm font-semibold">Stay Voucher Ready!</p>
+              <p className="text-sm font-semibold">Stay Receipt Ready!</p>
               <p className="text-xs text-emerald-300/80">
-                Official reservation voucher for {invoice.guestName} ({invoice.guestPhone}).
+                Official reservation receipt for {invoice.guestName} ({invoice.guestPhone}).
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export const BookingInvoiceModal: React.FC = () => {
               </div>
               <div className="text-left sm:text-right">
                 <span className="inline-block px-3 py-1 rounded-full bg-[#B8860B]/20 text-[#D4AF37] print:bg-neutral-100 print:text-black text-[10px] font-bold uppercase tracking-widest">
-                  Official Stay Voucher
+                  Official Stay Receipt
                 </span>
                 <p className="text-xs font-mono text-neutral-400 mt-1">
                   Booking ID: <strong className="text-white print:text-black">{invoice.bookingId}</strong>
@@ -227,7 +227,7 @@ export const BookingInvoiceModal: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                const waText = `*🌟 PS ELITE HOMESTAY — OFFICIAL BOOKING RECEIPT 🌟*\n\n*Booking ID:* ${invoice.bookingId}\n*Guest Name:* ${invoice.guestName}\n*Phone Number:* ${invoice.guestPhone}\n*Suite Reserved:* ${invoice.room.name}\n*Check-in:* ${invoice.checkIn} | *Check-out:* ${invoice.checkOut}\n*Total Stay Value:* ₹${invoice.totalAmount.toLocaleString()}\n*Payment Status:* ${invoice.paymentMethod || 'Confirmed'}\n*UTR / Transaction Reference:* ${invoice.utrNumber || 'Settle at Check-In'}\n\n_Please confirm receipt of this stay voucher._`;
+                const waText = `*🌟 PS ELITE HOMESTAY — OFFICIAL BOOKING RECEIPT 🌟*\n\n*Booking ID:* ${invoice.bookingId}\n*Guest Name:* ${invoice.guestName}\n*Phone Number:* ${invoice.guestPhone}\n*Suite Reserved:* ${invoice.room.name}\n*Check-in:* ${invoice.checkIn} | *Check-out:* ${invoice.checkOut}\n*Total Stay Value:* ₹${invoice.totalAmount.toLocaleString()}\n*Payment Status:* ${invoice.paymentMethod || 'Confirmed'}\n*UTR / Transaction Reference:* ${invoice.utrNumber || 'Settle at Check-In'}\n\n_Please confirm receipt of this stay receipt._`;
                 window.open(
                   `https://wa.me/919392739715?text=${encodeURIComponent(waText)}`,
                   '_blank'
@@ -251,7 +251,7 @@ export const BookingInvoiceModal: React.FC = () => {
                 className="px-6 py-2.5 rounded-xl bg-[#B8860B]/20 border border-[#B8860B] text-[#D4AF37] font-semibold text-xs uppercase tracking-wider hover:bg-[#B8860B]/30 flex items-center gap-2"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print / PDF Voucher</span>
+                <span>Print / PDF Receipt</span>
               </button>
             </div>
           </div>

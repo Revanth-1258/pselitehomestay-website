@@ -25,6 +25,31 @@ import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
 import { syncInventoryToCloud, fetchCloudData } from '@/services/cloudSync';
 
+const formatDisplayDate = (dStr: string) => {
+  if (!dStr) return 'N/A';
+  if (dStr.includes('T')) {
+    const [datePart, timePart] = dStr.split('T');
+    const dParts = datePart.split('-');
+    const formattedDate = dParts.length === 3 ? `${dParts[2]}/${dParts[1]}/${dParts[0]}` : datePart;
+    const tParts = timePart.split(':');
+    if (tParts.length >= 2) {
+      let hours = parseInt(tParts[0], 10);
+      const minutes = tParts[1];
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const formattedHours = String(hours).padStart(2, '0');
+      return `${formattedDate} (${formattedHours}:${minutes} ${ampm})`;
+    }
+    return formattedDate;
+  }
+  const parts = dStr.split('-');
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  return dStr;
+};
+
 export default function AdminPage() {
   const { rooms, updateRoomPrice, bookings, updateBookingStatus, addBooking } = useBooking();
   const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
@@ -83,19 +108,31 @@ export default function AdminPage() {
     });
   }, []);
 
-  // Custom Voucher & Negotiated Receipt State
+  // Custom Receipt State
   const [vGuestName, setVGuestName] = useState('');
   const [vGuestPhone, setVGuestPhone] = useState('');
   const [vRoomType, setVRoomType] = useState('Standard AC Room');
-  const [vCheckIn, setVCheckIn] = useState(new Date().toISOString().split('T')[0]);
+
+  const getLocalDateTimeStr = (d = new Date()) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  const [vCheckIn, setVCheckIn] = useState(() => getLocalDateTimeStr());
   const [vCheckOut, setVCheckOut] = useState(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
-    return d.toISOString().split('T')[0];
+    return getLocalDateTimeStr(d);
   });
   const [vTimingRule, setVTimingRule] = useState('24-Hour Flexible Check-In / Check-Out');
   const [vAgreedTotal, setVAgreedTotal] = useState<number>(2000);
   const [vAdvancePaid, setVAdvancePaid] = useState<number>(500);
+  const [vAdultsCount, setVAdultsCount] = useState<number>(2);
+  const [vKidsCount, setVKidsCount] = useState<number>(0);
 
   const handleUpdateDateInventory = (roomId: string, available: number, rateOverride: number) => {
     setDateInventory((prev) => {
@@ -230,7 +267,7 @@ export default function AdminPage() {
   const todayStr = new Date().toISOString().split('T')[0];
 
   const todaysBookingsCount = bookings.filter(
-    (b) => b.checkIn <= todayStr && b.checkOut >= todayStr
+    (b) => b.checkIn.split('T')[0] <= todayStr && b.checkOut.split('T')[0] >= todayStr
   ).length;
 
   const filteredBookings = bookings.filter((b) => {
@@ -242,11 +279,11 @@ export default function AdminPage() {
 
     let matchesDate = true;
     if (selectedBookingDateFilter === 'TODAY') {
-      matchesDate = b.checkIn <= todayStr && b.checkOut >= todayStr;
+      matchesDate = b.checkIn.split('T')[0] <= todayStr && b.checkOut.split('T')[0] >= todayStr;
     } else if (selectedBookingDateFilter !== 'ALL') {
       matchesDate =
-        b.checkIn <= selectedBookingDateFilter &&
-        b.checkOut >= selectedBookingDateFilter;
+        b.checkIn.split('T')[0] <= selectedBookingDateFilter &&
+        b.checkOut.split('T')[0] >= selectedBookingDateFilter;
     }
 
     return matchesStatus && matchesSearch && matchesDate;
@@ -877,7 +914,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* CUSTOM STAY VOUCHER & NEGOTIATED RECEIPT GENERATOR */}
+        {/* CUSTOM STAY RECEIPT & NEGOTIATED RECEIPT GENERATOR */}
         <div className="bg-gradient-to-br from-[#121212] via-[#1a1a1a] to-[#121212] rounded-3xl border border-[#D4AF37]/50 shadow-2xl p-6 sm:p-8 mb-12 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6 mb-6 relative z-10">
@@ -886,15 +923,15 @@ export default function AdminPage() {
                 Receptionist &amp; Admin Tool
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight uppercase text-white">
-                Custom Stay Voucher &amp; Negotiated Receipt Generator
+                Custom Stay Receipt &amp; Negotiated Receipt Generator
               </h2>
               <p className="text-xs text-neutral-300 mt-1">
-                Generate official vouchers for walk-ins, phone reservations, or negotiated rates with flexible 24-hour check-in timing &amp; advance breakdown.
+                Generate official stay receipts for walk-ins, phone reservations, or negotiated rates with flexible 24-hour check-in timing &amp; advance breakdown.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-10 text-xs">
             {/* Guest Name */}
             <div className="space-y-1">
               <label className="font-bold uppercase tracking-wider text-neutral-400">
@@ -935,6 +972,7 @@ export default function AdminPage() {
               >
                 <option value="Standard AC Room">Standard AC Room</option>
                 <option value="Standard Non-AC Room">Standard Non-AC Room</option>
+                <option value="Budget Non-AC Room">Budget Non-AC Room</option>
                 <option value="Deluxe AC Room">Deluxe AC Room</option>
                 <option value="Deluxe Non-AC Room">Deluxe Non-AC Room</option>
                 <option value="Family AC Room (2BHK)">Family AC Room (2BHK)</option>
@@ -943,6 +981,68 @@ export default function AdminPage() {
                 <option value="Penthouse Non-AC Room">Penthouse Non-AC Room</option>
                 <option value="Terrace AC Room (1BHK)">Terrace AC Room (1BHK)</option>
               </select>
+            </div>
+
+            {/* Total Adults */}
+            <div className="space-y-1">
+              <label className="font-bold uppercase tracking-wider text-neutral-400">
+                Total Adults
+              </label>
+              <select
+                value={vAdultsCount}
+                onChange={(e) => setVAdultsCount(Number(e.target.value))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold focus:border-[#D4AF37] focus:outline-none"
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                  <option key={num} value={num} className="bg-neutral-900 text-white">
+                    {num} Adult{num > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Total Kids */}
+            <div className="space-y-1">
+              <label className="font-bold uppercase tracking-wider text-neutral-400">
+                Total Kids
+              </label>
+              <select
+                value={vKidsCount}
+                onChange={(e) => setVKidsCount(Number(e.target.value))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold focus:border-[#D4AF37] focus:outline-none"
+              >
+                {[0, 1, 2, 3, 4, 5, 6].map((num) => (
+                  <option key={num} value={num} className="bg-neutral-900 text-white">
+                    {num} Kid{num > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Check-In Date */}
+            <div className="space-y-1">
+              <label className="font-bold uppercase tracking-wider text-neutral-400">
+                Check-In Date &amp; Time
+              </label>
+              <input
+                type="datetime-local"
+                value={vCheckIn}
+                onChange={(e) => setVCheckIn(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
+              />
+            </div>
+
+            {/* Check-Out Date */}
+            <div className="space-y-1">
+              <label className="font-bold uppercase tracking-wider text-neutral-400">
+                Check-Out Date &amp; Time
+              </label>
+              <input
+                type="datetime-local"
+                value={vCheckOut}
+                onChange={(e) => setVCheckOut(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
+              />
             </div>
 
             {/* Check-In / Timing Rule */}
@@ -965,32 +1065,6 @@ export default function AdminPage() {
                   Custom Agreed Timing Policy
                 </option>
               </select>
-            </div>
-
-            {/* Check-In Date */}
-            <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
-                Check-In Date
-              </label>
-              <input
-                type="date"
-                value={vCheckIn}
-                onChange={(e) => setVCheckIn(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
-              />
-            </div>
-
-            {/* Check-Out Date */}
-            <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
-                Check-Out Date
-              </label>
-              <input
-                type="date"
-                value={vCheckOut}
-                onChange={(e) => setVCheckOut(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
-              />
             </div>
 
             {/* Total Agreed Price */}
@@ -1055,9 +1129,9 @@ export default function AdminPage() {
                 onClick={() => {
                   const phoneDigits = vGuestPhone.replace(/\D/g, '') || '919392739715';
                   const balance = Math.max(0, vAgreedTotal - vAdvancePaid);
-                  const msg = `*PS ELITE HOMESTAY TIRUPATI - OFFICIAL STAY VOUCHER*\n\nNamaste ${
+                  const msg = `*PS ELITE HOMESTAY TIRUPATI - OFFICIAL STAY RECEIPT*\n\nNamaste ${
                     vGuestName || 'Valued Guest'
-                  }!\nYour stay reservation is confirmed.\n\n*Accommodation:* ${vRoomType}\n*Check-In:* ${vCheckIn}\n*Check-Out:* ${vCheckOut}\n*Timing Policy:* ${vTimingRule}\n\n*Total Agreed Stay Value:* Rs. ${vAgreedTotal.toLocaleString()}\n*Advance Amount Received:* Rs. ${vAdvancePaid.toLocaleString()}\n*Balance Due at Check-in:* Rs. ${balance.toLocaleString()}\n\nWe look forward to hosting your pilgrim family. May Lord Venkateswara bless your stay!`;
+                  }!\nYour stay reservation is confirmed.\n\n*Accommodation:* ${vRoomType}\n*Check-In:* ${formatDisplayDate(vCheckIn)}\n*Check-Out:* ${formatDisplayDate(vCheckOut)}\n*Timing Policy:* ${vTimingRule}\n*Guests:* ${vAdultsCount} Adult(s), ${vKidsCount} Kid(s)\n\n*Total Agreed Stay Value:* Rs. ${vAgreedTotal.toLocaleString()}\n*Advance Amount Received:* Rs. ${vAdvancePaid.toLocaleString()}\n*Balance Due at Check-in:* Rs. ${balance.toLocaleString()}\n\nWe look forward to hosting your pilgrim family. May Lord Venkateswara bless your stay!`;
                   window.open(
                     `https://wa.me/${phoneDigits}?text=${encodeURIComponent(msg)}`,
                     '_blank'
@@ -1065,7 +1139,7 @@ export default function AdminPage() {
                 }}
                 className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-2"
               >
-                <span>📲 Send Custom Voucher via WhatsApp</span>
+                <span>📲 Send Custom Receipt via WhatsApp</span>
               </button>
 
               <button
@@ -1084,7 +1158,7 @@ export default function AdminPage() {
                       tagline: 'Custom Pilgrim Reservation',
                       pricePerNight: vAgreedTotal,
                       originalPrice: vAgreedTotal,
-                      guests: 2,
+                      guests: vAdultsCount + vKidsCount,
                       areaSqFt: 350,
                       bedrooms: 1,
                       bathrooms: 1,
@@ -1096,7 +1170,7 @@ export default function AdminPage() {
                     },
                     checkIn: vCheckIn,
                     checkOut: vCheckOut,
-                    guestsCount: 2,
+                    guestsCount: vAdultsCount + vKidsCount,
                     nights: 1,
                     needTemplePickup: false,
                     needExtraBed: false,
@@ -1105,7 +1179,7 @@ export default function AdminPage() {
                     gstTaxes: 0,
                     totalAmount: vAgreedTotal,
                     status: 'Confirmed',
-                    paymentMethod: 'Custom Voucher',
+                    paymentMethod: 'Custom Receipt',
                     utrNumber: 'N/A',
                     advancePaid: vAdvancePaid,
                     balanceDue: Math.max(0, vAgreedTotal - vAdvancePaid),
@@ -1126,17 +1200,17 @@ export default function AdminPage() {
                   const balance = Math.max(0, vAgreedTotal - vAdvancePaid);
                   const printWin = window.open('', '_blank', 'width=800,height=950');
                   if (!printWin) {
-                    alert('Please allow popups to generate and download the PDF Voucher.');
+                    alert('Please allow popups to generate and download the PDF Receipt.');
                     return;
                   }
                   printWin.document.write(`
                     <!DOCTYPE html>
                     <html>
                       <head>
-                        <title>PS Elite Homestays - Official Stay Voucher (${genId})</title>
+                        <title>PS Elite Homestays - Official Stay Receipt (${genId})</title>
                         <style>
                           body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 40px; color: #1a1a1a; background: #fff; }
-                          .voucher-box { max-width: 680px; margin: 0 auto; border: 2px solid #D4AF37; border-radius: 12px; padding: 36px; }
+                          .receipt-box { max-width: 680px; margin: 0 auto; border: 2px solid #D4AF37; border-radius: 12px; padding: 36px; }
                           .header { text-align: center; border-bottom: 2px solid #D4AF37; padding-bottom: 20px; margin-bottom: 24px; }
                           .header h1 { margin: 0; font-size: 26px; color: #111; letter-spacing: 2px; }
                           .header p { margin: 6px 0 0; color: #666; font-size: 13px; }
@@ -1150,26 +1224,28 @@ export default function AdminPage() {
                           .table th { background: #fcfcfc; color: #666; font-size: 12px; text-transform: uppercase; }
                           .balance-row { background: #FFF9E6; font-weight: bold; font-size: 16px; color: #B8860B; }
                           .footer { margin-top: 36px; padding-top: 20px; border-top: 1px dashed #ccc; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #666; }
-                          @media print { body { padding: 0; } .voucher-box { border: 1px solid #D4AF37; } }
+                          @media print { body { padding: 0; } .receipt-box { border: 1px solid #D4AF37; } }
                         </style>
                       </head>
                       <body>
-                        <div class="voucher-box">
+                        <div class="receipt-box">
                           <div class="header">
                             <h1>PS ELITE HOMESTAYS</h1>
                             <p>Srinivasa Mangapuram Road, Tirupati, Andhra Pradesh - 517505</p>
                             <p>Phone / WhatsApp: +91 93927 39715 | Domain: pselitehomestays.com</p>
-                            <div class="badge">Official Stay Voucher & Receipt</div>
+                            <div class="badge">Official Stay Receipt</div>
                           </div>
                           <div class="grid">
-                            <div class="info-item"><div class="label">Voucher ID</div><div class="value">${genId}</div></div>
+                            <div class="info-item"><div class="label">Receipt ID</div><div class="value">${genId}</div></div>
                             <div class="info-item"><div class="label">Date Issued</div><div class="value">${new Date().toLocaleDateString('en-IN')}</div></div>
                             <div class="info-item"><div class="label">Pilgrim Guest</div><div class="value">${vGuestName || 'Valued Guest'}</div></div>
                             <div class="info-item"><div class="label">WhatsApp Contact</div><div class="value">${vGuestPhone || 'N/A'}</div></div>
                             <div class="info-item"><div class="label">Accommodation Suite</div><div class="value">${vRoomType}</div></div>
                             <div class="info-item"><div class="label">Check-In Policy</div><div class="value">${vTimingRule}</div></div>
-                            <div class="info-item"><div class="label">Check-In Date</div><div class="value">${vCheckIn}</div></div>
-                            <div class="info-item"><div class="label">Check-Out Date</div><div class="value">${vCheckOut}</div></div>
+                            <div class="info-item"><div class="label">Check-In Date/Time</div><div class="value">${formatDisplayDate(vCheckIn)}</div></div>
+                            <div class="info-item"><div class="label">Check-Out Date/Time</div><div class="value">${formatDisplayDate(vCheckOut)}</div></div>
+                            <div class="info-item"><div class="label">Adults</div><div class="value">${vAdultsCount} Guest(s)</div></div>
+                            <div class="info-item"><div class="label">Kids</div><div class="value">${vKidsCount} Guest(s)</div></div>
                           </div>
                           <table class="table">
                             <thead><tr><th>Description</th><th style="text-align: right;">Amount (INR)</th></tr></thead>
@@ -1180,7 +1256,7 @@ export default function AdminPage() {
                             </tbody>
                           </table>
                           <div class="footer">
-                            <div><strong>Note:</strong> Present this official voucher at check-in.<br>May Lord Venkateswara bless your stay!</div>
+                            <div><strong>Note:</strong> Present this official receipt at check-in.<br>May Lord Venkateswara bless your stay!</div>
                             <div style="text-align: right;"><div style="width: 140px; border-bottom: 1px solid #333; margin-bottom: 4px;"></div>Authorized Signatory<br><span style="font-size: 10px; color: #888;">PS Elite Front Desk</span></div>
                           </div>
                         </div>
@@ -1192,7 +1268,7 @@ export default function AdminPage() {
                 }}
                 className="px-6 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#c59b27] text-black font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2"
               >
-                <span>🖨️ Print / Download PDF Voucher</span>
+                <span>🖨️ Print / Download PDF Receipt</span>
               </button>
             </div>
           </div>
@@ -1284,7 +1360,7 @@ export default function AdminPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-neutral-100 uppercase tracking-wider text-neutral-600 font-bold border-b border-neutral-200">
-                  <th className="p-4">Voucher ID</th>
+                  <th className="p-4">Receipt ID</th>
                   <th className="p-4">Pilgrim Guest</th>
                   <th className="p-4">Sanctuary</th>
                   <th className="p-4">Dates</th>
@@ -1298,7 +1374,7 @@ export default function AdminPage() {
               <tbody className="divide-y divide-neutral-200">
                 {filteredBookings.map((b) => {
                   const phoneDigits = b.guestPhone.replace(/\D/g, '') || '919392739715';
-                  const welcomeMsg = `Namaste ${b.guestName}!\nWarm greetings from PS Elite Homestay Tirupati.\n\nWe are delighted to assist you with your booking (${b.bookingId}) for ${b.room.name} from ${b.checkIn} to ${b.checkOut}.\n\nPlease let us know your arrival time or if you need any other assistance!`;
+                  const welcomeMsg = `Namaste ${b.guestName}!\nWarm greetings from PS Elite Homestay Tirupati.\n\nWe are delighted to assist you with your booking (${b.bookingId}) for ${b.room.name} from ${formatDisplayDate(b.checkIn)} to ${formatDisplayDate(b.checkOut)}.\n\nPlease let us know your arrival time or if you need any other assistance!`;
                   const reviewMsg = `Namaste ${b.guestName}!\nWe hope you had a blessed darshan and a peaceful stay at PS Elite Homestay Tirupati.\n\nCould you please take 30 seconds to share your review on Google? Your review helps pilgrim families discover our homestay!\n\nClick here to Review: https://g.page/r/CUrLKvmEc7ihEAE/review\n\nMay Lord Venkateswara bless your family!`;
 
                   return (
@@ -1310,7 +1386,7 @@ export default function AdminPage() {
                       </td>
                       <td className="p-4 font-bold text-neutral-800">{b.room.name}</td>
                       <td className="p-4 text-neutral-700">
-                        <p className="font-semibold">{b.checkIn} to {b.checkOut}</p>
+                        <p className="font-semibold">{formatDisplayDate(b.checkIn)} to {formatDisplayDate(b.checkOut)}</p>
                         <p className="text-neutral-500">{b.nights} night(s) &bull; {b.guestsCount} guests</p>
                       </td>
                       <td className="p-4">
