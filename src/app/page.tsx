@@ -10,6 +10,7 @@ import { DiscoverTirupatiSection } from '@/components/home/DiscoverTirupatiSecti
 import { LocationSection } from '@/components/home/LocationSection';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { BookingCtaSection } from '@/components/home/BookingCtaSection';
+import { InstagramPromo } from '@/components/home/InstagramPromo';
 import { FaqSection } from '@/components/home/FaqSection';
 
 export default function HomePage() {
@@ -26,6 +27,7 @@ export default function HomePage() {
       <DiscoverTirupatiSection />
       <LocationSection />
       <BookingCtaSection />
+      <InstagramPromo />
       <FaqSection />
     </div>
   );

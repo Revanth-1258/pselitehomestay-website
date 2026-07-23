@@ -254,32 +254,7 @@ export const HeroSection: React.FC = () => {
           </a>
         </motion.div>
 
-        {/* Instagram Follow Ticker Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.7 }}
-          className="mt-6 w-full max-w-5xl rounded-2xl bg-black/50 border border-[#D4AF37]/25 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs shadow-lg"
-        >
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] flex items-center justify-center shadow-md shrink-0">
-              <Crown className="w-5 h-5 text-black" />
-            </div>
-            <div className="text-left">
-              <p className="font-bold text-white text-sm tracking-wide">@ps_elite_homestay</p>
-              <p className="text-neutral-200 text-xs mt-0.5 font-medium">Follow us on Instagram for latest discounts &amp; pilgrim promotions!</p>
-            </div>
-          </div>
-          <a
-            href="https://instagram.com/ps_elite_homestay"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-black font-extrabold uppercase tracking-wider transition-all transform hover:scale-105 shadow-md shadow-[#B8860B]/20 flex items-center gap-1.5 shrink-0"
-          >
-            <span>Follow Journey</span>
-            <span>→</span>
-          </a>
-        </motion.div>
+
       </div>
     </section>
   );
