@@ -932,7 +932,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-10 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-20 text-xs">
             {/* Guest Name */}
             <div className="space-y-1">
               <label className="font-bold uppercase tracking-wider text-neutral-400">

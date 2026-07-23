@@ -69,9 +69,17 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="mt-6 flex flex-wrap items-center gap-3 text-xs"
+          className="mt-6 flex flex-wrap items-center gap-3 text-xs font-semibold"
         >
-          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-[#D4AF37]/35 bg-[#D4AF37]/5 backdrop-blur-md text-[#D4AF37] font-semibold">
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[#D4AF37]">
+            <span className="text-[#D4AF37]">★</span>
+            <span>4.9/5 Rating</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white">
+            <span className="text-[#D4AF37]">✓</span>
+            <span>Trusted by 5,000+ Guests</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/35 backdrop-blur-md text-[#D4AF37]">
             <span className="text-[#D4AF37]">🎁</span>
             <span>Direct Booking Discount</span>
           </div>
@@ -251,22 +259,22 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.7 }}
-          className="mt-6 w-full max-w-5xl rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs"
+          className="mt-6 w-full max-w-5xl rounded-2xl bg-black/50 border border-[#D4AF37]/25 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs shadow-lg"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center shadow-md">
-              <span className="text-white text-base">📷</span>
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] flex items-center justify-center shadow-md shrink-0">
+              <Crown className="w-5 h-5 text-black" />
             </div>
-            <div>
-              <p className="font-bold text-white text-sm">@ps_elite_homestay</p>
-              <p className="text-neutral-400 text-[11px]">Follow us on Instagram for latest discounts &amp; pilgrim promotions!</p>
+            <div className="text-left">
+              <p className="font-bold text-white text-sm tracking-wide">@ps_elite_homestay</p>
+              <p className="text-neutral-200 text-xs mt-0.5 font-medium">Follow us on Instagram for latest discounts &amp; pilgrim promotions!</p>
             </div>
           </div>
           <a
             href="https://instagram.com/ps_elite_homestay"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl border border-white/20 hover:border-[#ee2a7b] hover:text-[#ee2a7b] text-neutral-300 font-bold uppercase tracking-wider transition-all flex items-center gap-1.5"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-black font-extrabold uppercase tracking-wider transition-all transform hover:scale-105 shadow-md shadow-[#B8860B]/20 flex items-center gap-1.5 shrink-0"
           >
             <span>Follow Journey</span>
             <span>→</span>

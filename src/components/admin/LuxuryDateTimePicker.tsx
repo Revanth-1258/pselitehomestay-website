@@ -161,7 +161,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
   };
 
   return (
-    <div className="space-y-1 relative" ref={containerRef}>
+    <div className={`space-y-1 relative ${isOpen ? 'z-[100]' : 'z-10'}`} ref={containerRef}>
       <label className="font-bold uppercase tracking-wider text-neutral-400 block text-[10px]">
         {label}
       </label>
@@ -176,24 +176,24 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 z-50 bg-[#151515] border border-white/15 rounded-2xl shadow-2xl p-4 w-[310px] sm:w-[330px] text-white flex flex-col gap-3">
+        <div className="absolute top-full left-0 mt-2 z-[100] bg-[#181818] border border-[#D4AF37]/50 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] p-5 w-[310px] sm:w-[340px] text-white flex flex-col gap-4">
           {/* Calendar Month Selector Header */}
           <div className="flex justify-between items-center pb-2 border-b border-white/5">
             <span className="font-bold text-[11px] tracking-wider uppercase text-[#D4AF37]">
               {monthNames[month]} {year}
             </span>
-            <div className="flex gap-1">
+            <div className="flex gap-1.5">
               <button
                 type="button"
                 onClick={handlePrevMonth}
-                className="p-1 rounded bg-neutral-900 border border-white/5 hover:bg-neutral-800 text-[#D4AF37]"
+                className="p-1 rounded-lg bg-neutral-900 border border-white/5 hover:bg-neutral-800 text-[#D4AF37] transition-colors"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={handleNextMonth}
-                className="p-1 rounded bg-neutral-900 border border-white/5 hover:bg-neutral-800 text-[#D4AF37]"
+                className="p-1 rounded-lg bg-neutral-900 border border-white/5 hover:bg-neutral-800 text-[#D4AF37] transition-colors"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -201,7 +201,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
           </div>
 
           {/* Weekdays */}
-          <div className="grid grid-cols-7 text-center text-[10px] font-bold text-neutral-400 uppercase tracking-widest gap-0.5">
+          <div className="grid grid-cols-7 text-center text-[10px] font-bold text-neutral-400 uppercase tracking-widest gap-1 justify-items-center">
             <span>Su</span>
             <span>Mo</span>
             <span>Tu</span>
@@ -212,7 +212,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
           </div>
 
           {/* Days */}
-          <div className="grid grid-cols-7 gap-0.5 text-[11px]">
+          <div className="grid grid-cols-7 gap-1 text-xs justify-items-center">
             {daysGrid.map((cell, idx) => {
               const isSelected =
                 cell.date.getDate() === selectedDate.getDate() &&
@@ -224,11 +224,11 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
                   key={idx}
                   type="button"
                   onClick={() => handleDaySelect(cell.date)}
-                  className={`py-1 rounded-lg text-center font-semibold transition-all ${
+                  className={`w-9 h-9 rounded-xl text-center font-bold transition-all flex items-center justify-center text-xs ${
                     !cell.isCurrentMonth
-                      ? 'text-neutral-700 hover:bg-white/5 text-[10px]'
+                      ? 'text-neutral-600 hover:bg-white/5 text-[10px] font-normal'
                       : isSelected
-                      ? 'bg-gradient-to-br from-[#D4AF37] to-[#B8860B] text-black shadow-md scale-105'
+                      ? 'bg-gradient-to-br from-[#D4AF37] to-[#B8860B] text-black shadow-md scale-105 font-extrabold'
                       : 'text-white hover:bg-[#D4AF37]/20 hover:text-[#D4AF37]'
                   }`}
                 >
@@ -239,18 +239,18 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
           </div>
 
           {/* Time Picker Panel */}
-          <div className="border-t border-white/5 pt-3 flex items-center justify-between gap-1 text-[11px]">
-            <div className="flex items-center gap-1 text-neutral-400 font-bold uppercase tracking-wider text-[9px]">
+          <div className="border-t border-white/5 pt-3.5 flex items-center justify-between gap-1 text-[11px]">
+            <div className="flex items-center gap-1.5 text-neutral-400 font-bold uppercase tracking-wider text-[9px]">
               <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Time</span>
+              <span>Select Time</span>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               {/* Hours Selector */}
               <select
                 value={hours}
                 onChange={(e) => handleHourSelect(Number(e.target.value))}
-                className="bg-black/60 border border-white/10 rounded-lg p-1 text-white font-bold focus:outline-none text-[11px]"
+                className="bg-black/60 border border-white/10 rounded-lg p-1.5 text-white font-bold focus:outline-none text-[11px]"
               >
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
                   <option key={h} value={h} className="bg-neutral-900 text-white">
@@ -265,7 +265,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
               <select
                 value={minutes}
                 onChange={(e) => handleMinuteSelect(Number(e.target.value))}
-                className="bg-black/60 border border-white/10 rounded-lg p-1 text-white font-bold focus:outline-none text-[11px]"
+                className="bg-black/60 border border-white/10 rounded-lg p-1.5 text-white font-bold focus:outline-none text-[11px]"
               >
                 {Array.from({ length: 12 }, (_, i) => i * 5).map((m) => (
                   <option key={m} value={m} className="bg-neutral-900 text-white">
@@ -278,7 +278,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
               <select
                 value={amPm}
                 onChange={(e) => handleAmPmSelect(e.target.value)}
-                className="bg-[#D4AF37]/10 border border-[#D4AF37]/35 rounded-lg p-1 text-[#D4AF37] font-bold focus:outline-none text-[11px]"
+                className="bg-[#D4AF37]/10 border border-[#D4AF37]/35 rounded-lg p-1.5 text-[#D4AF37] font-bold focus:outline-none text-[11px]"
               >
                 <option value="AM" className="bg-neutral-900 text-white">AM</option>
                 <option value="PM" className="bg-neutral-900 text-white">PM</option>
@@ -290,7 +290,7 @@ export const LuxuryDateTimePicker: React.FC<LuxuryDateTimePickerProps> = ({ labe
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="w-full mt-1 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider transition-all border border-white/5"
+            className="w-full mt-1 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider transition-all border border-white/5 shadow-md"
           >
             Apply Selection
           </button>
