@@ -916,7 +916,7 @@ export default function AdminPage() {
         </div>
 
         {/* CUSTOM STAY RECEIPT & NEGOTIATED RECEIPT GENERATOR */}
-        <div className="bg-gradient-to-br from-[#121212] via-[#1a1a1a] to-[#121212] rounded-3xl border border-[#D4AF37]/50 shadow-2xl p-6 sm:p-8 mb-12 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-br from-[#121212] via-[#1a1a1a] to-[#121212] rounded-3xl border border-[#D4AF37]/50 shadow-2xl p-6 sm:p-8 mb-12 text-white relative">
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6 mb-6 relative z-10">
             <div>
