@@ -73,6 +73,7 @@ const ATTRACTIONS_DATA: AttractionItem[] = [
     distance: '24 Km',
     image: '/images/attractions/tirumala.jpg',
     tag: 'Lord Venkateswara Shrine',
+    objectPosition: 'top',
   },
   {
     name: 'Srikalahasthi Shiva Temple',
