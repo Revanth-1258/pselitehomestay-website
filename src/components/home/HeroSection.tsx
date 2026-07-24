@@ -20,7 +20,7 @@ export const HeroSection: React.FC = () => {
       {/* Background image & luxury overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/rooms/hero-bg.jpg"
+          src="/images/rooms/hospitality-w1.jpeg"
           alt="PS Elite Homestay Luxury Living"
           className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[12000ms]"
         />
