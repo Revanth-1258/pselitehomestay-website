@@ -35,7 +35,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Feel at Home in Tirupati',
       description:
         'Unlike standard hotel rooms, our accommodations provide spacious layouts with beautifully designed interiors, comfortable living areas, premium furnishings, and a relaxing atmosphere that feels like your own home.',
-      image: '/images/rooms/2bhk-main.png',
+      image: '/images/rooms/2bhk-w1.jpeg',
       icon: Home,
       highlight: '340 - 2,100 Sq. Ft. Private Layouts',
     },
@@ -44,7 +44,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Fast & Convenient Temple Gateway',
       description:
         'Stay just minutes away from Tirumala Temple, Alipiri Footpath, Railway Station, Bus Station, Airport, shopping streets, and popular attractions, making every journey faster and more convenient.',
-      image: '/images/rooms/outer-1.jpg',
+      image: '/images/rooms/penthouse-w2.jpeg',
       icon: MapPin,
       highlight: 'Minutes to Alipiri & Railway Station',
     },
@@ -53,7 +53,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Designed for Every Traveler & Group',
       description:
         'Traveling with family or large groups? Choose from Deluxe Rooms, Family Suites, 1BHK Apartments, 2BHK Apartments, and Luxury Penthouse options designed for every type of traveler.',
-      image: '/images/rooms/penthouse-11.png',
+      image: '/images/rooms/2bhk-1.png',
       icon: Users,
       highlight: '1BHK & 2BHK Family Suites Up to 8 Guests',
     },
@@ -62,7 +62,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: '24×7 Dedicated Guest Support',
       description:
         'Our dedicated hospitality team is available around the clock to ensure every guest enjoys a seamless and memorable experience from arrival to departure.',
-      image: '/images/rooms/outer-3.jpg',
+      image: '/images/rooms/hospitality-w1.jpeg',
       icon: HeartHandshake,
       highlight: 'Personalized Concierge & Temple Cab Assistance',
     },
@@ -80,7 +80,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Sanitized & Inspected Before Check-In',
       description:
         'Every room is professionally cleaned, sanitized, and inspected before every check-in to ensure a fresh and hygienic stay.',
-      image: '/images/rooms/deluxe-7.png',
+      image: '/images/rooms/deluxe-w2.jpeg',
       icon: Sparkle,
       highlight: '100% Hygienic & Sanitized Linen',
     },

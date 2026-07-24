@@ -30,10 +30,11 @@ export const ROOMS_DATA: RoomType[] = [
     areaSqFt: 240,
     bedrooms: 1,
     bathrooms: 1,
-    image: '/images/rooms/budget-w1.jpeg',
+    image: '/images/rooms/budget-screenshot.png',
     gallery: [
-      '/images/rooms/budget-w1.jpeg',
       '/images/rooms/budget-screenshot.png',
+      '/images/rooms/budget-w1.jpeg',
+      '/images/rooms/building-exterior.jpg',
     ],
     amenities: [
       'Comfortable Double Bed',
