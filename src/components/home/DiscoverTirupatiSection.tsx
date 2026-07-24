@@ -9,6 +9,7 @@ interface AttractionItem {
   distance: string;
   image: string;
   tag?: string;
+  objectPosition?: string;
 }
 
 const ATTRACTIONS_DATA: AttractionItem[] = [
@@ -35,6 +36,7 @@ const ATTRACTIONS_DATA: AttractionItem[] = [
     distance: '4 km',
     image: '/images/attractions/padmavati.jpg',
     tag: 'Goddess Padmavati',
+    objectPosition: 'top',
   },
   {
     name: 'Govindharajula Swamy Temple',
@@ -199,6 +201,7 @@ export const DiscoverTirupatiSection: React.FC = () => {
                 <img
                   src={item.image}
                   alt={item.name}
+                  style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                 />
                 <div className="absolute top-3 right-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-bold">
