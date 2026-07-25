@@ -81,10 +81,10 @@ export default function AdminPage() {
   >({
     [getLocalDateStr()]: {
       'budget-room': { available: 4, rateOverride: 1000 },
-      'standard-room': { available: 5, rateOverride: 1800 },
-      'deluxe-king-room': { available: 3, rateOverride: 2500 },
-      'superior-terrace-1bhk': { available: 2, rateOverride: 2800 },
-      'family-double-2bhk': { available: 2, rateOverride: 3500 },
+      'standard-room': { available: 5, rateOverride: 1699 },
+      'deluxe-king-room': { available: 3, rateOverride: 2499 },
+      'superior-terrace-1bhk': { available: 2, rateOverride: 2799 },
+      'family-double-2bhk': { available: 2, rateOverride: 3499 },
     },
   });
   const [inventorySuccessMsg, setInventorySuccessMsg] = useState<string | null>(null);
@@ -112,7 +112,8 @@ export default function AdminPage() {
   // Custom Receipt State
   const [vGuestName, setVGuestName] = useState('');
   const [vGuestPhone, setVGuestPhone] = useState('');
-  const [vRoomType, setVRoomType] = useState('Standard AC Room');
+  const [selectedRoomTypes, setSelectedRoomTypes] = useState<string[]>(['Standard AC Room']);
+  const vRoomType = selectedRoomTypes.join(', ');
 
   const getLocalDateTimeStr = (d = new Date()) => {
     const year = d.getFullYear();
@@ -173,7 +174,7 @@ export default function AdminPage() {
   });
   const [bulkRoomId, setBulkRoomId] = useState<string>('ALL');
   const [bulkAvailable, setBulkAvailable] = useState<number>(4);
-  const [bulkRate, setBulkRate] = useState<number>(3500);
+  const [bulkRate, setBulkRate] = useState<number>(3499);
 
   const handleBulkUpdateDateRange = () => {
     const start = new Date(bulkStart);
@@ -934,7 +935,7 @@ export default function AdminPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-20 text-xs">
             {/* Guest Name */}
-            <div className="space-y-1">
+            <div className="space-y-1 sm:col-span-2 lg:col-span-2">
               <label className="font-bold uppercase tracking-wider text-neutral-400">
                 Guest Full Name *
               </label>
@@ -959,29 +960,6 @@ export default function AdminPage() {
                 placeholder="+91 98765 43210"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-medium focus:border-[#D4AF37] focus:outline-none"
               />
-            </div>
-
-            {/* Room Category */}
-            <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
-                Accommodation Type *
-              </label>
-              <select
-                value={vRoomType}
-                onChange={(e) => setVRoomType(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-bold focus:border-[#D4AF37] focus:outline-none"
-              >
-                <option value="Standard AC Room">Standard AC Room</option>
-                <option value="Standard Non-AC Room">Standard Non-AC Room</option>
-                <option value="Budget Non-AC Room">Budget Non-AC Room</option>
-                <option value="Deluxe AC Room">Deluxe AC Room</option>
-                <option value="Deluxe Non-AC Room">Deluxe Non-AC Room</option>
-                <option value="Family AC Room (2BHK)">Family AC Room (2BHK)</option>
-                <option value="Family Non-AC Room (2BHK)">Family Non-AC Room (2BHK)</option>
-                <option value="Penthouse AC Room">Penthouse AC Room</option>
-                <option value="Penthouse Non-AC Room">Penthouse Non-AC Room</option>
-                <option value="Terrace AC Room (1BHK)">Terrace AC Room (1BHK)</option>
-              </select>
             </div>
 
             {/* Total Adults */}
@@ -1018,6 +996,56 @@ export default function AdminPage() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Accommodation Type (Multi-select Checklist) */}
+            <div className="space-y-1.5 col-span-full border-t border-b border-white/5 py-4 my-2">
+              <label className="font-bold uppercase tracking-wider text-neutral-400 block mb-2 text-[11px]">
+                Accommodation Type * (Select one or multiple rooms)
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4 rounded-xl bg-black/60 border border-white/15 max-h-56 overflow-y-auto">
+                {[
+                  'Standard AC Room',
+                  'Standard Non-AC Room',
+                  'Budget Non-AC Room',
+                  'Deluxe AC Room',
+                  'Deluxe Non-AC Room',
+                  'Family AC Room (2BHK)',
+                  'Family Non-AC Room (2BHK)',
+                  'Penthouse AC Room',
+                  'Penthouse Non-AC Room',
+                  'Terrace AC Room (1BHK)',
+                ].map((room) => {
+                  const isChecked = selectedRoomTypes.includes(room);
+                  return (
+                    <label
+                      key={room}
+                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all cursor-pointer select-none ${
+                        isChecked
+                          ? 'bg-[#D4AF37]/15 border-[#D4AF37] text-[#D4AF37]'
+                          : 'border-white/10 hover:border-white/20 text-neutral-300 hover:text-white'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => {
+                          setSelectedRoomTypes((prev) => {
+                            if (isChecked) {
+                              if (prev.length <= 1) return prev;
+                              return prev.filter((r) => r !== room);
+                            } else {
+                              return [...prev, room];
+                            }
+                          });
+                        }}
+                        className="w-4 h-4 rounded accent-[#D4AF37] border-white/20 bg-black text-black cursor-pointer"
+                      />
+                      <span className="text-[11px] sm:text-xs font-semibold">{room}</span>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Check-In Date */}
