@@ -112,8 +112,15 @@ export default function AdminPage() {
   // Custom Receipt State
   const [vGuestName, setVGuestName] = useState('');
   const [vGuestPhone, setVGuestPhone] = useState('');
-  const [selectedRoomTypes, setSelectedRoomTypes] = useState<string[]>(['Standard AC Room']);
-  const vRoomType = selectedRoomTypes.join(', ');
+  const [selectedRoomCounts, setSelectedRoomCounts] = useState<Record<string, number>>({
+    'Standard AC Room': 1,
+  });
+
+  const vRoomType =
+    Object.entries(selectedRoomCounts)
+      .filter(([_, count]) => count > 0)
+      .map(([name, count]) => (count > 1 ? `${count} x ${name}` : `1 x ${name}`))
+      .join(', ') || '1 x Standard AC Room';
 
   const getLocalDateTimeStr = (d = new Date()) => {
     const year = d.getFullYear();
@@ -130,6 +137,7 @@ export default function AdminPage() {
     d.setDate(d.getDate() + 1);
     return getLocalDateTimeStr(d);
   });
+  const [vAdvancePaidTime, setVAdvancePaidTime] = useState(() => getLocalDateTimeStr());
   const [vTimingRule, setVTimingRule] = useState('24-Hour Flexible Check-In / Check-Out');
   const [vAgreedTotal, setVAgreedTotal] = useState<number>(2000);
   const [vAdvancePaid, setVAdvancePaid] = useState<number>(500);
@@ -933,7 +941,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-20 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 relative z-20 text-xs">
             {/* Guest Name */}
             <div className="space-y-1 sm:col-span-2 lg:col-span-2">
               <label className="font-bold uppercase tracking-wider text-neutral-400">
@@ -949,7 +957,7 @@ export default function AdminPage() {
             </div>
 
             {/* Guest Phone */}
-            <div className="space-y-1">
+            <div className="space-y-1 sm:col-span-2 lg:col-span-2">
               <label className="font-bold uppercase tracking-wider text-neutral-400">
                 WhatsApp Phone *
               </label>
@@ -998,12 +1006,12 @@ export default function AdminPage() {
               </select>
             </div>
 
-            {/* Accommodation Type (Multi-select Checklist) */}
+            {/* Accommodation Type (Multi-select Checklist with Quantities) */}
             <div className="space-y-1.5 col-span-full border-t border-b border-white/5 py-4 my-2">
               <label className="font-bold uppercase tracking-wider text-neutral-400 block mb-2 text-[11px]">
-                Accommodation Type * (Select one or multiple rooms)
+                Accommodation Type * (Select room types and set quantity per room)
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4 rounded-xl bg-black/60 border border-white/15 max-h-56 overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 p-4 rounded-xl bg-black/60 border border-white/15 max-h-64 overflow-y-auto">
                 {[
                   'Standard AC Room',
                   'Standard Non-AC Room',
@@ -1016,33 +1024,85 @@ export default function AdminPage() {
                   'Penthouse Non-AC Room',
                   'Terrace AC Room (1BHK)',
                 ].map((room) => {
-                  const isChecked = selectedRoomTypes.includes(room);
+                  const count = selectedRoomCounts[room] || 0;
+                  const isChecked = count > 0;
                   return (
-                    <label
+                    <div
                       key={room}
-                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all cursor-pointer select-none ${
+                      className={`flex flex-col justify-between p-3 rounded-xl border transition-all select-none gap-2.5 ${
                         isChecked
                           ? 'bg-[#D4AF37]/15 border-[#D4AF37] text-[#D4AF37]'
-                          : 'border-white/10 hover:border-white/20 text-neutral-300 hover:text-white'
+                          : 'border-white/10 hover:border-white/20 text-neutral-300 hover:text-white bg-black/40'
                       }`}
                     >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => {
-                          setSelectedRoomTypes((prev) => {
-                            if (isChecked) {
-                              if (prev.length <= 1) return prev;
-                              return prev.filter((r) => r !== room);
-                            } else {
-                              return [...prev, room];
-                            }
-                          });
-                        }}
-                        className="w-4 h-4 rounded accent-[#D4AF37] border-white/20 bg-black text-black cursor-pointer"
-                      />
-                      <span className="text-[11px] sm:text-xs font-semibold">{room}</span>
-                    </label>
+                      <label className="flex items-center gap-2.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => {
+                            setSelectedRoomCounts((prev) => {
+                              if (isChecked) {
+                                const selectedKeys = Object.keys(prev).filter((k) => prev[k] > 0);
+                                if (selectedKeys.length <= 1) return prev;
+                                const next = { ...prev };
+                                delete next[room];
+                                return next;
+                              } else {
+                                return { ...prev, [room]: 1 };
+                              }
+                            });
+                          }}
+                          className="w-4 h-4 rounded accent-[#D4AF37] border-white/20 bg-black text-black cursor-pointer shrink-0"
+                        />
+                        <span className="text-[11px] sm:text-xs font-semibold leading-tight">{room}</span>
+                      </label>
+
+                      {isChecked && (
+                        <div className="flex items-center justify-between pt-1.5 border-t border-[#D4AF37]/30 text-xs">
+                          <span className="text-[10px] uppercase font-bold text-neutral-400">Qty:</span>
+                          <div className="flex items-center gap-1 bg-black/70 rounded-lg p-1 border border-[#D4AF37]/40">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedRoomCounts((prev) => {
+                                  const cur = prev[room] || 0;
+                                  if (cur <= 1) {
+                                    const selectedKeys = Object.keys(prev).filter((k) => prev[k] > 0);
+                                    if (selectedKeys.length <= 1) return prev;
+                                    const next = { ...prev };
+                                    delete next[room];
+                                    return next;
+                                  }
+                                  return { ...prev, [room]: cur - 1 };
+                                });
+                              }}
+                              className="w-5 h-5 rounded bg-neutral-800 hover:bg-neutral-700 text-white font-bold flex items-center justify-center text-xs transition-colors"
+                              title="Decrease Quantity"
+                            >
+                              -
+                            </button>
+                            <span className="font-extrabold text-white text-xs px-1.5 min-w-[20px] text-center">
+                              {count}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedRoomCounts((prev) => ({
+                                  ...prev,
+                                  [room]: (prev[room] || 0) + 1,
+                                }));
+                              }}
+                              className="w-5 h-5 rounded bg-neutral-800 hover:bg-neutral-700 text-[#D4AF37] font-bold flex items-center justify-center text-xs transition-colors"
+                              title="Increase Quantity"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
@@ -1064,13 +1124,13 @@ export default function AdminPage() {
 
             {/* Check-In / Timing Rule */}
             <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
+              <label className="font-bold uppercase tracking-wider text-neutral-400 text-[10px]">
                 Check-In Timing Policy
               </label>
               <select
                 value={vTimingRule}
                 onChange={(e) => setVTimingRule(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-[#D4AF37] font-bold focus:border-[#D4AF37] focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-[#D4AF37] font-bold focus:border-[#D4AF37] focus:outline-none text-xs"
               >
                 <option value="24-Hour Flexible Check-In / Check-Out">
                   24-Hour Check-In / Check-Out
@@ -1084,9 +1144,16 @@ export default function AdminPage() {
               </select>
             </div>
 
+            {/* Advance Paid Date & Time */}
+            <LuxuryDateTimePicker
+              label="Advance Paid Date &amp; Time"
+              value={vAdvancePaidTime}
+              onChange={setVAdvancePaidTime}
+            />
+
             {/* Total Agreed Price */}
             <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
+              <label className="font-bold uppercase tracking-wider text-neutral-400 text-[10px]">
                 Total Stay Price (₹)
               </label>
               <input
@@ -1094,13 +1161,13 @@ export default function AdminPage() {
                 step={100}
                 value={vAgreedTotal}
                 onChange={(e) => setVAgreedTotal(parseInt(e.target.value) || 0)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-gold-gradient font-extrabold text-sm focus:border-[#D4AF37] focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-gold-gradient font-extrabold text-xs focus:border-[#D4AF37] focus:outline-none"
               />
             </div>
 
             {/* Advance Amount Paid */}
             <div className="space-y-1">
-              <label className="font-bold uppercase tracking-wider text-neutral-400">
+              <label className="font-bold uppercase tracking-wider text-neutral-400 text-[10px]">
                 Advance Paid (₹)
               </label>
               <input
@@ -1108,7 +1175,7 @@ export default function AdminPage() {
                 step={100}
                 value={vAdvancePaid}
                 onChange={(e) => setVAdvancePaid(parseInt(e.target.value) || 0)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-emerald-400 font-bold text-sm focus:border-[#D4AF37] focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-emerald-400 font-bold text-xs focus:border-[#D4AF37] focus:outline-none"
               />
             </div>
           </div>
@@ -1148,7 +1215,11 @@ export default function AdminPage() {
                   const balance = Math.max(0, vAgreedTotal - vAdvancePaid);
                   const msg = `*PS ELITE HOMESTAY TIRUPATI - OFFICIAL STAY RECEIPT*\n\nNamaste ${
                     vGuestName || 'Valued Guest'
-                  }!\nYour stay reservation is confirmed.\n\n*Accommodation:* ${vRoomType}\n*Check-In:* ${formatDisplayDate(vCheckIn)}\n*Check-Out:* ${formatDisplayDate(vCheckOut)}\n*Timing Policy:* ${vTimingRule}\n*Guests:* ${vAdultsCount} Adult(s), ${vKidsCount} Kid(s)\n\n*Total Agreed Stay Value:* Rs. ${vAgreedTotal.toLocaleString()}\n*Advance Amount Received:* Rs. ${vAdvancePaid.toLocaleString()}\n*Balance Due at Check-in:* Rs. ${balance.toLocaleString()}\n\nWe look forward to hosting your pilgrim family. May Lord Venkateswara bless your stay!`;
+                  }!\nYour stay reservation is confirmed.\n\n*Guest Contact:* ${
+                    vGuestPhone || 'N/A'
+                  }\n*Accommodation:* ${vRoomType}\n*Check-In:* ${formatDisplayDate(vCheckIn)}\n*Check-Out:* ${formatDisplayDate(vCheckOut)}\n*Timing Policy:* ${vTimingRule}\n*Guests:* ${vAdultsCount} Adult(s), ${vKidsCount} Kid(s)\n\n*Total Agreed Stay Value:* Rs. ${vAgreedTotal.toLocaleString()}\n*Advance Amount Paid:* Rs. ${vAdvancePaid.toLocaleString()} (Paid on ${formatDisplayDate(
+                    vAdvancePaidTime
+                  )})\n*Balance Due at Check-in:* Rs. ${balance.toLocaleString()}\n\nWe look forward to hosting your pilgrim family. May Lord Venkateswara bless your stay!`;
                   window.open(
                     `https://wa.me/${phoneDigits}?text=${encodeURIComponent(msg)}`,
                     '_blank'
@@ -1197,7 +1268,7 @@ export default function AdminPage() {
                     totalAmount: vAgreedTotal,
                     status: 'Confirmed',
                     paymentMethod: 'Custom Receipt',
-                    utrNumber: 'N/A',
+                    utrNumber: `Advance Paid on ${formatDisplayDate(vAdvancePaidTime)}`,
                     advancePaid: vAdvancePaid,
                     balanceDue: Math.max(0, vAgreedTotal - vAdvancePaid),
                     paymentPlan: 'ADVANCE',
@@ -1256,19 +1327,19 @@ export default function AdminPage() {
                             <div class="info-item"><div class="label">Receipt ID</div><div class="value">${genId}</div></div>
                             <div class="info-item"><div class="label">Date Issued</div><div class="value">${new Date().toLocaleDateString('en-IN')}</div></div>
                             <div class="info-item"><div class="label">Pilgrim Guest</div><div class="value">${vGuestName || 'Valued Guest'}</div></div>
-                            <div class="info-item"><div class="label">WhatsApp Contact</div><div class="value">${vGuestPhone || 'N/A'}</div></div>
-                            <div class="info-item"><div class="label">Accommodation Suite</div><div class="value">${vRoomType}</div></div>
+                            <div class="info-item"><div class="label">Guest Phone</div><div class="value">${vGuestPhone || 'N/A'}</div></div>
+                            <div class="info-item"><div class="label">Accommodation Suites</div><div class="value">${vRoomType}</div></div>
                             <div class="info-item"><div class="label">Check-In Policy</div><div class="value">${vTimingRule}</div></div>
                             <div class="info-item"><div class="label">Check-In Date/Time</div><div class="value">${formatDisplayDate(vCheckIn)}</div></div>
                             <div class="info-item"><div class="label">Check-Out Date/Time</div><div class="value">${formatDisplayDate(vCheckOut)}</div></div>
-                            <div class="info-item"><div class="label">Adults</div><div class="value">${vAdultsCount} Guest(s)</div></div>
-                            <div class="info-item"><div class="label">Kids</div><div class="value">${vKidsCount} Guest(s)</div></div>
+                            <div class="info-item"><div class="label">Advance Paid Date &amp; Time</div><div class="value">${formatDisplayDate(vAdvancePaidTime)}</div></div>
+                            <div class="info-item"><div class="label">Guests</div><div class="value">${vAdultsCount} Adult(s), ${vKidsCount} Kid(s)</div></div>
                           </div>
                           <table class="table">
                             <thead><tr><th>Description</th><th style="text-align: right;">Amount (INR)</th></tr></thead>
                             <tbody>
                               <tr><td>Total Agreed Stay Tariff</td><td style="text-align: right;">₹${vAgreedTotal.toLocaleString('en-IN')}</td></tr>
-                              <tr><td>Advance Amount Paid</td><td style="text-align: right; color: #10B981;">- ₹${vAdvancePaid.toLocaleString('en-IN')}</td></tr>
+                              <tr><td>Advance Amount Paid (Paid on ${formatDisplayDate(vAdvancePaidTime)})</td><td style="text-align: right; color: #10B981;">- ₹${vAdvancePaid.toLocaleString('en-IN')}</td></tr>
                               <tr class="balance-row"><td>Balance Due at Stay Check-In</td><td style="text-align: right;">₹${balance.toLocaleString('en-IN')}</td></tr>
                             </tbody>
                           </table>
