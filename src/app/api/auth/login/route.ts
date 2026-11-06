@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import {
   authConfigured,
+  authConfigProblem,
   createSessionValue,
   passkeyMatches,
   SESSION_COOKIE,
@@ -11,10 +12,10 @@ import {
 
 export async function POST(request: Request) {
   if (!authConfigured()) {
-    return NextResponse.json(
-      { ok: false, error: 'Login is not configured on the server (SESSION_SECRET / passkey env vars missing).' },
-      { status: 503 }
-    );
+    // Says which setting is wrong (never the values) so the owner can fix it in Vercel.
+    const problem = authConfigProblem() ?? 'Login is not configured.';
+    console.error('[auth] Login disabled:', problem);
+    return NextResponse.json({ ok: false, error: `Login is disabled: ${problem}` }, { status: 503 });
   }
 
   let body: { role?: string; passkey?: string };

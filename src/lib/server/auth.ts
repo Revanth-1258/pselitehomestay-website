@@ -13,7 +13,23 @@ const SESSION_TTL_SECONDS = 12 * 60 * 60; // 12 hours
 
 function secret(): string | null {
   const s = process.env.SESSION_SECRET;
-  return s && s.length >= 32 ? s : null;
+  if (!s || s.length < 32) return null;
+  // The signing secret must not be a passkey: anyone who knows the passkey could forge sessions.
+  if (s === process.env.ADMIN_PASSKEY || s === process.env.OWNER_PASSKEY) return null;
+  return s;
+}
+
+/** Human-readable reason login is disabled, for the 503 response and server logs. */
+export function authConfigProblem(): string | null {
+  const s = process.env.SESSION_SECRET;
+  const admin = process.env.ADMIN_PASSKEY;
+  const owner = process.env.OWNER_PASSKEY;
+  if (!admin && !owner) return 'ADMIN_PASSKEY / OWNER_PASSKEY are not set.';
+  if (!s) return 'SESSION_SECRET is not set.';
+  if (s.length < 32) return 'SESSION_SECRET must be at least 32 characters.';
+  if (s === admin || s === owner) return 'SESSION_SECRET must be different from the passkeys.';
+  if (admin && owner && admin === owner) return 'ADMIN_PASSKEY and OWNER_PASSKEY must be different.';
+  return null;
 }
 
 const sha256 = (v: string) => createHash('sha256').update(v).digest();
@@ -26,7 +42,7 @@ export function passkeyMatches(role: Role, input: string): boolean {
 }
 
 export function authConfigured(): boolean {
-  return Boolean(secret() && (process.env.ADMIN_PASSKEY || process.env.OWNER_PASSKEY));
+  return authConfigProblem() === null && secret() !== null;
 }
 
 function sign(payload: string, key: string) {

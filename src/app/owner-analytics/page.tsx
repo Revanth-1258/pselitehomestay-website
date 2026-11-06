@@ -65,6 +65,8 @@ export default function OwnerAnalyticsPage() {
       loadAllBookings();
     } else {
       setAuthError(true);
+      // Server misconfiguration (e.g. env vars in Vercel) is not a wrong passkey: say so.
+      if (result.error && result.error.startsWith('Login is disabled')) window.alert(result.error);
     }
   };
 
