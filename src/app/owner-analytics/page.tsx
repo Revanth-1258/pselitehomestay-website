@@ -25,9 +25,10 @@ import {
 } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
+import { portalLogin, portalLogout, portalSession } from '@/services/cloudSync';
 
 export default function OwnerAnalyticsPage() {
-  const { bookings } = useBooking();
+  const { bookings, loadAllBookings } = useBooking();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passkeyInput, setPasskeyInput] = useState('');
   const [authError, setAuthError] = useState(false);
@@ -35,10 +36,17 @@ export default function OwnerAnalyticsPage() {
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   useEffect(() => {
-    const savedAuth = sessionStorage.getItem('ps_owner_auth');
-    if (savedAuth === 'unlocked') {
-      setIsAuthenticated(true);
-    }
+    // Session is a server-verified httpOnly cookie; the browser can't fake it.
+    portalSession().then((role) => {
+      if (role === 'owner') {
+        setIsAuthenticated(true);
+        loadAllBookings();
+      }
+    });
+    try {
+      localStorage.removeItem('ps_custom_owner_passkey');
+      sessionStorage.removeItem('ps_owner_auth');
+    } catch (err) {}
     try {
       const savedClicks = localStorage.getItem('ps_trip_package_clicks');
       if (savedClicks) {
@@ -47,35 +55,24 @@ export default function OwnerAnalyticsPage() {
     } catch (err) {}
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const customPass = localStorage.getItem('ps_custom_owner_passkey');
-    if (customPass && passkeyInput === customPass) {
-      sessionStorage.setItem('ps_owner_auth', 'unlocked');
+    const result = await portalLogin('owner', passkeyInput);
+    if (result.ok) {
       setIsAuthenticated(true);
       setAuthError(false);
-      return;
-    }
-    // Default Owner Passkey
-    if (
-      !customPass &&
-      (passkeyInput === 'OWNER777' ||
-        passkeyInput === 'PSFINANCE999' ||
-        passkeyInput === 'owner777' ||
-        passkeyInput === '2026')
-    ) {
-      sessionStorage.setItem('ps_owner_auth', 'unlocked');
-      setIsAuthenticated(true);
-      setAuthError(false);
+      setPasskeyInput('');
+      loadAllBookings();
     } else {
       setAuthError(true);
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('ps_owner_auth');
+  const handleLogout = async () => {
+    await portalLogout();
     setIsAuthenticated(false);
     setPasskeyInput('');
+    window.location.reload(); // drop the guest list from memory
   };
 
   // STRICT LIVE DATA CALCULATIONS (No Dummy Base Data)

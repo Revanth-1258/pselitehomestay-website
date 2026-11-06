@@ -68,6 +68,8 @@ interface BookingContextType {
   bookings: BookingDetails[];
   addBooking: (booking: BookingDetails) => void;
   updateBookingStatus: (bookingId: string, status: BookingDetails['status']) => void;
+  /** Admin/owner portals: load all bookings via the session-protected API. */
+  loadAllBookings: () => Promise<boolean>;
 
   // Coupon helper
   applyCoupon: (code: string, subtotal: number) => { valid: boolean; discount: number; message: string };
@@ -75,7 +77,17 @@ interface BookingContextType {
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
-import { syncBookingToCloud, fetchCloudData, syncBookingsListToCloud } from '@/services/cloudSync';
+import {
+  syncBookingToCloud,
+  fetchCloudData,
+  fetchPrivateData,
+  syncBookingStatusToCloud,
+} from '@/services/cloudSync';
+
+// Public visitors only keep bookings made on this device. The old key held a copy of
+// every guest booking and is wiped on load.
+const MY_BOOKINGS_KEY = 'ps_my_bookings';
+const LEGACY_BOOKINGS_KEY = 'ps_bookings_live';
 
 export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomType[]>(ROOMS_DATA);
@@ -108,10 +120,14 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [bookings, setBookings] = useState<BookingDetails[]>([]);
 
-  // Load persisted bookings from localStorage & Cloud on mount
+  // When true, `bookings` holds every guest booking (admin/owner portal) and must not be cached locally.
+  const [privateView, setPrivateView] = useState(false);
+
+  // Load this device's own bookings + public availability on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('ps_bookings_live');
+      localStorage.removeItem(LEGACY_BOOKINGS_KEY);
+      const saved = localStorage.getItem(MY_BOOKINGS_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
@@ -120,21 +136,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
     } catch (e) {}
 
-    // Fetch from free universal cloud storage API
     fetchCloudData().then((cloud) => {
-      if (cloud && cloud.bookings && Array.isArray(cloud.bookings) && cloud.bookings.length > 0) {
-        setBookings((prev) => {
-          const map = new Map();
-          [...(cloud.bookings || []), ...prev].forEach((b) => {
-            if (b && b.bookingId) map.set(b.bookingId, b);
-          });
-          const merged = Array.from(map.values());
-          try {
-            localStorage.setItem('ps_bookings_live', JSON.stringify(merged));
-          } catch (e) {}
-          return merged;
-        });
-      }
       if (cloud && cloud.inventory && Object.keys(cloud.inventory).length > 0) {
         try {
           const existing = JSON.parse(localStorage.getItem('ps_date_inventory') || '{}');
@@ -146,12 +148,21 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }, []);
 
-  // Sync bookings to localStorage whenever they change
+  // Persist only this device's own bookings (never the full admin list)
   useEffect(() => {
+    if (privateView) return;
     try {
-      localStorage.setItem('ps_bookings_live', JSON.stringify(bookings));
+      localStorage.setItem(MY_BOOKINGS_KEY, JSON.stringify(bookings));
     } catch (e) {}
-  }, [bookings]);
+  }, [bookings, privateView]);
+
+  const loadAllBookings = async () => {
+    const data = await fetchPrivateData<BookingDetails>();
+    if (!data) return false;
+    setPrivateView(true);
+    setBookings(Array.isArray(data.bookings) ? data.bookings : []);
+    return true;
+  };
 
   const updateRoomPrice = (roomId: string, newPrice: number) => {
     setRooms((prev) =>
@@ -176,25 +187,13 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const addBooking = (booking: BookingDetails) => {
     syncBookingToCloud(booking);
-    setBookings((prev) => {
-      const next = [booking, ...prev];
-      try {
-        localStorage.setItem('ps_bookings_live', JSON.stringify(next));
-      } catch (e) {}
-      return next;
-    });
+    setBookings((prev) => [booking, ...prev]);
     setCurrentBookingInvoice(booking);
   };
 
   const updateBookingStatus = (bookingId: string, status: BookingDetails['status']) => {
-    setBookings((prev) => {
-      const next = prev.map((b) => (b.bookingId === bookingId ? { ...b, status } : b));
-      try {
-        localStorage.setItem('ps_bookings_live', JSON.stringify(next));
-      } catch (e) {}
-      syncBookingsListToCloud(next);
-      return next;
-    });
+    syncBookingStatusToCloud(bookingId, status);
+    setBookings((prev) => prev.map((b) => (b.bookingId === bookingId ? { ...b, status } : b)));
   };
 
   const applyCoupon = (code: string, subtotal: number) => {
@@ -231,6 +230,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         bookings,
         addBooking,
         updateBookingStatus,
+        loadAllBookings,
         applyCoupon,
       }}
     >

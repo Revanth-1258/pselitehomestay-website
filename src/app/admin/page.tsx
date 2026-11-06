@@ -24,7 +24,7 @@ import {
 import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
 import { LuxuryDateTimePicker } from '@/components/admin/LuxuryDateTimePicker';
-import { syncInventoryToCloud, fetchCloudData } from '@/services/cloudSync';
+import { syncInventoryToCloud, fetchCloudData, portalLogin, portalLogout, portalSession } from '@/services/cloudSync';
 
 const formatDisplayDate = (dStr: string) => {
   if (!dStr) return 'N/A';
@@ -52,7 +52,7 @@ const formatDisplayDate = (dStr: string) => {
 };
 
 export default function AdminPage() {
-  const { rooms, updateRoomPrice, bookings, updateBookingStatus, addBooking } = useBooking();
+  const { rooms, updateRoomPrice, bookings, updateBookingStatus, addBooking, loadAllBookings } = useBooking();
   const [editingRoomId, setEditingRoomId] = useState<string | null>(null);
   const [newPriceInput, setNewPriceInput] = useState<number>(0);
   const [statusFilter, setStatusFilter] = useState<string>('All');
@@ -97,14 +97,6 @@ export default function AdminPage() {
           localStorage.setItem('ps_date_inventory', JSON.stringify(cloud.inventory));
           window.dispatchEvent(new Event('ps_inventory_updated'));
         } catch (e) {}
-      }
-      if (cloud && cloud.passkeys) {
-        if (cloud.passkeys.admin) {
-          try { localStorage.setItem('ps_custom_admin_passkey', cloud.passkeys.admin); } catch(e) {}
-        }
-        if (cloud.passkeys.owner) {
-          try { localStorage.setItem('ps_custom_owner_passkey', cloud.passkeys.owner); } catch(e) {}
-        }
       }
     });
   }, []);
@@ -228,10 +220,19 @@ export default function AdminPage() {
   const [tripClicks, setTripClicks] = useState<number>(14);
 
   useEffect(() => {
-    const savedAuth = sessionStorage.getItem('ps_admin_auth');
-    if (savedAuth === 'unlocked') {
-      setIsAuthenticated(true);
-    }
+    // Session is a server-verified httpOnly cookie; the browser can't fake it.
+    portalSession().then((role) => {
+      if (role === 'admin') {
+        setIsAuthenticated(true);
+        loadAllBookings();
+      }
+    });
+    try {
+      // Remove passkeys left in browsers by the old client-side login.
+      localStorage.removeItem('ps_custom_admin_passkey');
+      localStorage.removeItem('ps_custom_owner_passkey');
+      sessionStorage.removeItem('ps_admin_auth');
+    } catch (err) {}
     try {
       const savedClicks = localStorage.getItem('ps_trip_package_clicks');
       if (savedClicks) {
@@ -244,32 +245,24 @@ export default function AdminPage() {
     } catch (err) {}
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const customAdminPass = localStorage.getItem('ps_custom_admin_passkey');
-    if (customAdminPass && passkeyInput === customAdminPass) {
-      sessionStorage.setItem('ps_admin_auth', 'unlocked');
+    const result = await portalLogin('admin', passkeyInput);
+    if (result.ok) {
       setIsAuthenticated(true);
       setAuthError(false);
-      return;
-    }
-    // Default Admin Passkeys: 2026 or pselite2026
-    if (
-      !customAdminPass &&
-      (passkeyInput === '2026' || passkeyInput === 'pselite2026')
-    ) {
-      sessionStorage.setItem('ps_admin_auth', 'unlocked');
-      setIsAuthenticated(true);
-      setAuthError(false);
+      setPasskeyInput('');
+      loadAllBookings();
     } else {
       setAuthError(true);
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('ps_admin_auth');
+  const handleLogout = async () => {
+    await portalLogout();
     setIsAuthenticated(false);
     setPasskeyInput('');
+    window.location.reload(); // drop the guest list from memory
   };
 
   // Calculate live statistics
