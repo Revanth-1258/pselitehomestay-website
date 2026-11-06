@@ -122,7 +122,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   e.stopPropagation();
                   setCurrentIdx(i);
                 }}
-                className={`h-1.5 rounded-full transition-all ${
+                className={`h-1.5 box-content p-[9px] bg-clip-content rounded-full transition-all ${
                   i === currentIdx ? 'w-5 bg-[#D4AF37]' : 'w-1.5 bg-white/60 hover:bg-white'
                 }`}
                 aria-label={`Go to slide ${i + 1}`}
@@ -218,7 +218,7 @@ export const RoomsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-14">
-          <span className="inline-block px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-3 shadow-sm">
+          <span className="inline-block px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-3 shadow-sm">
             Tirupati Pilgrim Accommodations
           </span>
 

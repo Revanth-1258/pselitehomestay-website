@@ -79,7 +79,7 @@ export const CustomerGallerySection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header inspired by user screenshot */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-100 border border-amber-300 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-100 border border-amber-300 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-3">
             Real Guest Experiences
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-neutral-900">
@@ -132,9 +132,9 @@ export const CustomerGallerySection: React.FC = () => {
                       <Star key={i} className="w-3.5 h-3.5 fill-current" />
                     ))}
                   </div>
-                  <h4 className="text-base font-bold text-white group-hover:text-[#D4AF37] transition-colors">
+                  <h3 className="text-base font-bold text-white group-hover:text-[#D4AF37] transition-colors">
                     {item.guestName}
-                  </h4>
+                  </h3>
                   <p className="text-xs text-neutral-300 mt-1 line-clamp-2">
                     &ldquo;{item.comment}&rdquo;
                   </p>

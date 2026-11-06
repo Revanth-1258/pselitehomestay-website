@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   // every route without its own canonical (404s, admin) point at the homepage.
   icons: {
     icon: '/favicon.ico',
-    apple: '/ps-elite-logo.png',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',

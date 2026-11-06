@@ -11,7 +11,7 @@ export const AmenitiesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-3">
             Bespoke Comfort &amp; Pilgrim Services
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 uppercase">

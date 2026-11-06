@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
               <img
                   loading="lazy"
                   decoding="async"
-                src="/ps-elite-logo.png"
+                src="/ps-elite-logo-96.webp" width={40} height={40}
                 alt="PS Elite Logo"
                 className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
               />
@@ -103,10 +103,10 @@ export const Footer: React.FC = () => {
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <div className="flex flex-col gap-1 font-mono">
-                  <a href="tel:+919392739715" className="text-white hover:text-[#D4AF37] font-bold transition-colors">
+                  <a href="tel:+919392739715" className="inline-block py-1.5 text-white hover:text-[#D4AF37] font-bold transition-colors">
                     +91 93927 39715
                   </a>
-                  <a href="tel:+919440311716" className="text-neutral-400 hover:text-white transition-colors">
+                  <a href="tel:+919440311716" className="inline-block py-1.5 text-neutral-400 hover:text-white transition-colors">
                     +91 94403 11716
                   </a>
                 </div>
@@ -163,7 +163,7 @@ export const Footer: React.FC = () => {
 
                 <Link
                   href="/#location"
-                  className="w-full py-1.5 px-3 rounded-lg border border-white/15 bg-black/50 text-neutral-300 hover:text-white text-[11px] font-medium flex items-center justify-center gap-1.5 transition-all block text-center"
+                  className="w-full py-1.5 px-3 rounded-lg border border-white/15 bg-neutral-900 text-neutral-200 hover:text-white text-[11px] font-medium flex items-center justify-center gap-1.5 transition-all block text-center"
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
                   <span>View Exact Landmark Guide</span>
@@ -209,7 +209,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Copyright Centered Below Icons */}
-          <p className="text-[11px] text-neutral-500 text-center">
+          <p className="text-[11px] text-neutral-400 text-center">
             &copy; 2026 PS Elite Homestay. All rights reserved. Premium Luxury Pilgrimage Sanctuary.
           </p>
         </div>

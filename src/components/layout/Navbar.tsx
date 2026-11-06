@@ -47,7 +47,7 @@ export const Navbar: React.FC = () => {
         {/* Luxury Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
           <img
-            src="/ps-elite-logo.png"
+            src="/ps-elite-logo-96.webp" width={40} height={40}
             alt="PS Elite Homestay Logo"
             className="w-10 h-10 object-contain group-hover:scale-105 transition-transform"
           />

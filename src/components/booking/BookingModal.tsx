@@ -242,7 +242,7 @@ export const BookingModal: React.FC = () => {
               <img
                   loading="lazy"
                   decoding="async"
-                src="/ps-elite-logo.png"
+                src="/ps-elite-logo-96.webp" width={40} height={40}
                 alt="PS Elite Logo"
                 className="w-11 h-11 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] flex-shrink-0"
               />

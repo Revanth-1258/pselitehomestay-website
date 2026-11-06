@@ -117,13 +117,13 @@ export const WhyChooseUsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section requested by User */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-4">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-4">
             The PS Elite Distinction
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 uppercase">
             Why Choose <span className="text-gold-gradient">PS Elite Homestay</span>
           </h2>
-          <p className="mt-4 text-lg sm:text-xl text-[#B8860B] font-bold tracking-wide">
+          <p className="mt-4 text-lg sm:text-xl text-[#8C6514] font-bold tracking-wide">
             Experience More Than a Stay—Feel at Home in Tirupati
           </p>
           <p className="mt-4 text-sm sm:text-base text-neutral-600 font-medium leading-relaxed">
@@ -229,7 +229,7 @@ export const WhyChooseUsSection: React.FC = () => {
         {/* Modern Comforts Interactive Grid */}
         <div className="mb-20">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs uppercase tracking-[0.2em] text-[#B8860B] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#8C6514] font-bold">
               All-Inclusive Luxury Amenities
             </span>
             <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 uppercase mt-2">

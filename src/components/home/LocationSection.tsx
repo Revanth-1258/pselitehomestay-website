@@ -44,7 +44,7 @@ export const LocationSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-3">
             Exact Location &amp; Live Navigation
           </span>
           <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 uppercase">
@@ -86,7 +86,7 @@ export const LocationSection: React.FC = () => {
                   href={googleMapsDirectionsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#B45309] hover:bg-[#92400E] text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5"
                 >
                   <Navigation className="w-4 h-4" />
                   <span>Start Live GPS Navigation</span>
@@ -99,7 +99,7 @@ export const LocationSection: React.FC = () => {
           {/* Right: Routes, Exact Address & Phone Assistance */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white p-6 rounded-3xl border border-neutral-200 shadow-md">
-              <h3 className="text-sm uppercase tracking-widest text-[#B8860B] font-bold mb-3 flex items-center gap-2">
+              <h3 className="text-sm uppercase tracking-widest text-[#8C6514] font-bold mb-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 <span>Exact Homestay Address</span>
               </h3>
@@ -111,7 +111,7 @@ export const LocationSection: React.FC = () => {
                   <p className="text-[11px] text-neutral-500 font-semibold">Direct Navigation Support:</p>
                   <a
                     href="tel:+919392739715"
-                    className="text-sm font-mono font-bold text-[#B8860B] hover:underline flex items-center gap-1.5 mt-0.5"
+                    className="text-sm font-mono font-bold text-[#8C6514] hover:underline flex items-center gap-1.5 mt-0.5"
                   >
                     <Phone className="w-3.5 h-3.5" />
                     <span>+91 93927 39715</span>
@@ -154,7 +154,7 @@ export const LocationSection: React.FC = () => {
                           {guide.from}
                         </p>
                         <p className="text-[11px] text-neutral-600 font-medium">
-                          {guide.time} &bull; <span className="text-[#B8860B] font-bold">{guide.distance}</span>
+                          {guide.time} &bull; <span className="text-[#8C6514] font-bold">{guide.distance}</span>
                         </p>
                       </div>
                     </div>

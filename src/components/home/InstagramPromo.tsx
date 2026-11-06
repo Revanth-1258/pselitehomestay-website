@@ -16,9 +16,9 @@ export const InstagramPromo: React.FC = () => {
             <Crown className="w-6 h-6 text-black" />
           </div>
           <div>
-            <h4 className="text-base font-bold text-white tracking-wide">
+            <h3 className="text-base font-bold text-white tracking-wide">
               Follow Our Journey on Instagram
-            </h4>
+            </h3>
             <p className="text-neutral-300 text-xs mt-1 font-medium">
               Join <span className="text-[#D4AF37] font-semibold">@ps_elite_homestay</span> for exclusive room discounts, Tirupati pilgrim updates, and darshan tips!
             </p>

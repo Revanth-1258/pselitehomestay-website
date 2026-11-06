@@ -66,7 +66,7 @@ export const TestimonialsSection: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#B8860B] text-xs font-bold tracking-[0.2em] uppercase mb-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#8C6514] text-xs font-bold tracking-[0.2em] uppercase mb-3">
               Verified Pilgrim Stories &amp; Testimonials
             </span>
             <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 uppercase">
@@ -199,7 +199,9 @@ export const TestimonialsSection: React.FC = () => {
                   setActiveCardIndex(idx);
                 }
               }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              aria-label={`Show review ${idx + 1}`}
+              aria-current={idx === activeCardIndex ? 'true' : undefined}
+              className={`h-1.5 box-content p-[9px] bg-clip-content rounded-full transition-all duration-300 ${
                 idx === activeCardIndex
                   ? 'w-8 bg-[#B8860B]'
                   : 'w-2 bg-neutral-300 hover:bg-neutral-400'

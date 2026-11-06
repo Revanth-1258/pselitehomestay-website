@@ -23,7 +23,7 @@ export const FloatingContactBar: React.FC = () => {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 px-4 rounded-xl bg-[#25D366] text-white font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
+          className="flex-1 py-3 px-4 rounded-xl bg-[#25D366] text-black font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
         >
           <MessageCircle className="w-3.5 h-3.5 fill-current" />
           <span>WhatsApp</span>

@@ -75,7 +75,7 @@ export const BookDirectPopup: React.FC = () => {
               onClick={handleClose}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 py-2 px-3 rounded-xl bg-[#25D366] text-white font-extrabold text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
+              className="flex-1 py-2 px-3 rounded-xl bg-[#25D366] text-black font-extrabold text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
             >
               <MessageCircle className="w-3 h-3 fill-current" />
               <span>WhatsApp</span>
