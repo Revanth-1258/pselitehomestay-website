@@ -1,6 +1,6 @@
 # PS Elite Homestay Tirupati — Official Web Application & Management Console
 
-Official full-stack web application, booking engine, and property management portal for **PS Elite Homestay Tirupati** (`https://pselitehomestays.com`).
+Official full-stack web application, booking engine, and property management portal for **PS Elite Homestay  Tirupati** (`https://pselitehomestays.com`).
 
 Repository: [Revanth-1258/pselitehomestay-website](https://github.com/Revanth-1258/pselitehomestay-website)  
 Production Domain: **https://pselitehomestays.com**
