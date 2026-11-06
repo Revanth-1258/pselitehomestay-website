@@ -13,10 +13,10 @@ export const StatsSection: React.FC = () => {
       desc: 'Trusted by families across India & NRI visitors',
     },
     {
-      value: '4.9 / 5',
-      label: 'Verified Guest Rating',
+      value: '4.8 / 5',
+      label: 'Google Guest Rating',
       icon: Star,
-      desc: 'Top-rated homestay experience in Tirupati',
+      desc: 'From 550+ guest reviews on Google',
     },
     {
       value: '24 / 7',
@@ -39,8 +39,9 @@ export const StatsSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 bg-[#F8F7F4] border-y border-neutral-200 relative z-10">
+    <section className="py-16 bg-[#F8F7F4] border-y border-neutral-200 relative z-10" aria-label="Key Proximity and Guest Highlights">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">Key Proximity and Guest Highlights</h2>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
           {stats.map((item, index) => {
             const Icon = item.icon;
@@ -56,9 +57,9 @@ export const StatsSection: React.FC = () => {
                 <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Icon className="w-5 h-5 text-[#B8860B]" />
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 tracking-tight">
+                <p className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 tracking-tight">
                   {item.value}
-                </h3>
+                </p>
                 <p className="text-xs uppercase tracking-widest text-[#B8860B] font-bold mt-1">
                   {item.label}
                 </p>

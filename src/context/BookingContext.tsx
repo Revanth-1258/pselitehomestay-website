@@ -86,6 +86,17 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     roomCategory: 'all',
   });
 
+  // Default the search to tonight → tomorrow (local date). Done after mount so the
+  // statically built HTML never carries a stale, already-past date.
+  useEffect(() => {
+    const toISO = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    setSearchParams((prev) => ({ ...prev, checkIn: toISO(today), checkOut: toISO(tomorrow) }));
+  }, []);
+
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedRoomForBooking, setSelectedRoomForBooking] = useState<RoomType | null>(ROOMS_DATA[0]);
 

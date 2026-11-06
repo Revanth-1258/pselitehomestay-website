@@ -62,7 +62,7 @@ export const LocationSection: React.FC = () => {
             <div className="relative w-full h-[400px] sm:h-[480px] rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
               <iframe
                 title="PS Elite Homestay Location Map Tirupati"
-                src="https://maps.google.com/maps?q=Air+Bypass+Road,+STV+Nagar,+Tirupati,+Andhra+Pradesh+517501&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=PS+Elite+Homestay,+Air+Bypass+Rd,+STV+Nagar,+Tirupati,+Andhra+Pradesh+517501&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-full border-0"
                 allowFullScreen
                 loading="lazy"
@@ -75,7 +75,7 @@ export const LocationSection: React.FC = () => {
                   <MapPin className="w-4 h-4 text-[#B8860B] animate-bounce" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-neutral-900">PS Elite Homestay, Tirupati</p>
+                  <p className="text-xs font-bold text-neutral-900">PS Elite Homestay</p>
                   <p className="text-[10px] text-neutral-600 font-medium">Air Bypass Road, STV Nagar</p>
                 </div>
               </div>

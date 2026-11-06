@@ -1,11 +1,18 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, ExternalLink, Sparkles, Navigation, Compass } from 'lucide-react';
+import { NEARBY_ATTRACTIONS } from '@/data/templesData';
+
+// Distances come from templesData (single source of truth, shared with /near/* pages).
+const distanceFor = (slug: string, fallback: string) =>
+  NEARBY_ATTRACTIONS.find((a) => a.id === slug)?.distanceKm ?? fallback;
 
 interface AttractionItem {
   name: string;
+  slug: string;
   distance: string;
   image: string;
   tag?: string;
@@ -15,70 +22,81 @@ interface AttractionItem {
 const ATTRACTIONS_DATA: AttractionItem[] = [
   {
     name: 'Alipiri Foot Path Gateway',
+    slug: 'alipiri-footpath',
     distance: '4.7 Km',
-    image: '/images/attractions/alipiri.jpg',
+    image: '/images/attractions/alipiri.webp',
     tag: 'Sacred Trek Gateway',
   },
   {
     name: 'Sri Kapilatheertham Waterfalls & Temple',
+    slug: 'kapila-theertham',
     distance: '4.4 Km',
-    image: '/images/attractions/kapiltheertham.jpg',
+    image: '/images/attractions/kapiltheertham.webp',
     tag: 'Divine Waterfall',
   },
   {
     name: 'ISKCON Tirupati Temple',
+    slug: 'iskcon-tirupati',
     distance: '4.2 Km',
-    image: '/images/attractions/iscon.jpg',
+    image: '/images/attractions/iscon.webp',
     tag: 'Radha Krishna Temple',
   },
   {
     name: 'Tiruchanur Sri Padmavati Ammavaari Temple',
+    slug: 'padmavathi-temple',
     distance: '4 km',
-    image: '/images/attractions/padmavati.jpg',
+    image: '/images/attractions/padmavati.webp',
     tag: 'Goddess Padmavati',
     objectPosition: 'top',
   },
   {
     name: 'Govindharajula Swamy Temple',
+    slug: 'govindaraja-swamy',
     distance: '2 km',
-    image: '/images/attractions/govindharaja.jpg',
+    image: '/images/attractions/govindharaja.webp',
     tag: 'Historic City Center Shrine',
   },
   {
     name: 'Tirupati Main Railway Station',
+    slug: 'railway-station',
     distance: '1.5 km',
-    image: '/images/attractions/railway.jpg',
+    image: '/images/attractions/railway.webp',
     tag: 'Railway Transit Hub',
   },
   {
     name: 'Tirupati Bus Stand (APSRTC Hub)',
+    slug: 'bus-stand',
     distance: '1.0 km',
-    image: '/images/attractions/busstand.jpg',
+    image: '/images/attractions/busstand.webp',
     tag: 'Central Bus Station',
   },
   {
     name: 'SV Zoological Park',
+    slug: 'sv-zoo',
     distance: '9 km',
-    image: '/images/attractions/zoo.jpg',
+    image: '/images/attractions/zoo.webp',
     tag: 'Nature & Wildlife',
   },
   {
     name: 'Chandragiri Fort & Palace',
+    slug: 'chandragiri-fort',
     distance: '16.5 Km',
-    image: '/images/attractions/chandragiri.jpg',
+    image: '/images/attractions/chandragiri.webp',
     tag: 'Heritage Monument',
   },
   {
     name: 'Tirumala Sacred Hills Darshan',
+    slug: 'tirumala-temple',
     distance: '24 Km',
-    image: '/images/attractions/tirumala.jpg',
+    image: '/images/attractions/tirumala.webp',
     tag: 'Lord Venkateswara Shrine',
     objectPosition: 'top',
   },
   {
     name: 'Srikalahasthi Shiva Temple',
+    slug: 'srikalahasthi-temple',
     distance: '36 Km',
-    image: '/images/attractions/kalahasthi.jpg',
+    image: '/images/attractions/kalahasthi.webp',
     tag: 'Vayu Linga Kshetram',
   },
 ];
@@ -200,13 +218,15 @@ export const DiscoverTirupatiSection: React.FC = () => {
             >
               <div className="relative h-48 overflow-hidden bg-neutral-950">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={item.image}
                   alt={item.name}
                   style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                 />
                 <div className="absolute top-3 right-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-bold">
-                  {item.distance}
+                  {distanceFor(item.slug, item.distance)}
                 </div>
                 {item.tag && (
                   <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm px-2.5 py-0.5 rounded-md text-neutral-300 text-[10px] uppercase tracking-wider">
@@ -219,10 +239,13 @@ export const DiscoverTirupatiSection: React.FC = () => {
                   {item.name}
                 </h4>
                 <div className="mt-3 flex items-center justify-between text-xs text-neutral-400 pt-3 border-t border-neutral-800">
-                  <span className="flex items-center gap-1 text-[#D4AF37]">
+                  <Link
+                    href={`/near/${item.slug}`}
+                    className="flex items-center gap-1 text-[#D4AF37] hover:text-white font-semibold transition-colors"
+                  >
                     <Navigation className="w-3.5 h-3.5" />
-                    <span>Direct Access</span>
-                  </span>
+                    <span>View Guide &rarr;</span>
+                  </Link>
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                       item.name + ' Tirupati'

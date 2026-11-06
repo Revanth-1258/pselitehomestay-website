@@ -42,9 +42,9 @@ export const LuxuryLoader: React.FC = () => {
             <div className="inline-block px-3 py-1 rounded-full border border-[#B8860B]/40 bg-[#B8860B]/10 text-[#D4AF37] text-xs font-medium tracking-widest uppercase mb-4">
               Tirumala Pilgrimage Sanctuary
             </div>
-            <h1 className="text-3xl md:text-5xl font-light tracking-[0.2em] uppercase text-white mb-2">
+            <div className="text-3xl md:text-5xl font-light tracking-[0.2em] uppercase text-white mb-2">
               PS Elite <span className="font-semibold text-gold-gradient">Homestay</span>
-            </h1>
+            </div>
             <p className="text-sm tracking-widest text-neutral-400 uppercase">
               Tirupati &bull; Andhra Pradesh
             </p>

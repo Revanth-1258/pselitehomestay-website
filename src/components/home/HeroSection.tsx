@@ -20,7 +20,8 @@ export const HeroSection: React.FC = () => {
       {/* Background image & luxury overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/rooms/hospitality-w1.jpeg"
+          fetchPriority="high"
+          src="/images/rooms/hospitality-w1.webp"
           alt="PS Elite Homestay Luxury Living"
           className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[12000ms]"
         />
@@ -31,7 +32,7 @@ export const HeroSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Brand Proximity Badge */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#B8860B]/40 bg-black/60 backdrop-blur-md mb-6"
@@ -45,35 +46,35 @@ export const HeroSection: React.FC = () => {
 
         {/* Hero Heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 25 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
           className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white max-w-4xl leading-[1.08]"
         >
-          Feels like home –{' '}
-          <span className="font-semibold text-gold-gradient">Luxury stays in Tirupati</span>
+          PS Elite Homestay Tirupati –{' '}
+          <span className="font-semibold text-gold-gradient">Luxury Stays Near Tirumala</span>
         </motion.h1>
 
         {/* Sub Heading */}
         <motion.p
-          initial={{ opacity: 0, y: 25 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mt-6 text-base sm:text-lg lg:text-xl text-neutral-300 max-w-3xl leading-relaxed font-light"
         >
-          Premium Homestay Near Tirumala Temple with Deluxe Rooms, Family Suites, 1BHK, 2BHK Apartments and Luxury Penthouse.
+          Premium Homestay Near Tirumala Temple with Deluxe Rooms, 1BHK & 2BHK Service Apartments and a Penthouse Terrace Suite.
         </motion.p>
 
         {/* Rating & Trust Badges */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
           className="mt-6 flex flex-wrap items-center gap-3 text-xs font-semibold"
         >
           <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-neutral-200">
             <span className="text-[#D4AF37]">★</span>
-            <span>4.9/5 Rating</span>
+            <span>4.8/5 on Google · 550+ reviews</span>
           </div>
           <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-neutral-200">
             <span className="text-[#D4AF37]">✓</span>
@@ -87,7 +88,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Hero Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-8 flex flex-wrap items-center gap-4"
@@ -128,7 +129,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Highlight Perks */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.45 }}
           className="mt-10 flex flex-wrap items-center gap-6 text-xs text-neutral-300"
@@ -141,7 +142,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Animated Booking Search Bar - Crisp White Card inspired by MyHomestayz */}
         <motion.div
-          initial={{ opacity: 0, y: 35 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.5 }}
           className="mt-12 bg-white rounded-2xl p-4 sm:p-6 shadow-2xl border border-neutral-200/90 max-w-5xl"
@@ -149,12 +150,13 @@ export const HeroSection: React.FC = () => {
           <form onSubmit={handleSearchBook} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
             {/* Check-In */}
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="hero-checkin" className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Check-In</span>
               </label>
               <input
                 type="date"
+                id="hero-checkin"
                 value={searchParams.checkIn}
                 onChange={(e) => setSearchParams((prev) => ({ ...prev, checkIn: e.target.value }))}
                 className="w-full min-w-0 appearance-none bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
@@ -163,12 +165,13 @@ export const HeroSection: React.FC = () => {
 
             {/* Check-Out */}
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="hero-checkout" className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Check-Out</span>
               </label>
               <input
                 type="date"
+                id="hero-checkout"
                 value={searchParams.checkOut}
                 onChange={(e) => setSearchParams((prev) => ({ ...prev, checkOut: e.target.value }))}
                 className="w-full min-w-0 appearance-none bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
@@ -177,12 +180,13 @@ export const HeroSection: React.FC = () => {
 
             {/* Guests */}
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="hero-guests" className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Guests</span>
               </label>
               <div className="relative w-full">
                 <select
+                  id="hero-guests"
                   value={searchParams.guests}
                   onChange={(e) => setSearchParams((prev) => ({ ...prev, guests: Number(e.target.value) }))}
                   className="w-full appearance-none bg-neutral-50 border border-neutral-300 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
@@ -201,12 +205,13 @@ export const HeroSection: React.FC = () => {
 
             {/* Room Type */}
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="hero-roomtype" className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-1.5 flex items-center gap-1.5">
                 <Crown className="w-3.5 h-3.5 text-[#B8860B]" />
                 <span>Room Type</span>
               </label>
               <div className="relative w-full">
                 <select
+                  id="hero-roomtype"
                   value={searchParams.roomCategory}
                   onChange={(e) => setSearchParams((prev) => ({ ...prev, roomCategory: e.target.value }))}
                   className="w-full appearance-none bg-neutral-50 border border-neutral-300 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#B8860B]"
@@ -237,7 +242,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Signature Crimson Red Callout Banner inspired by MyHomestayz */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.65 }}
           className="mt-6 bg-[#DC2626] rounded-2xl p-5 sm:p-6 shadow-xl max-w-5xl w-full flex flex-col sm:flex-row items-center justify-between gap-4 border border-red-500"

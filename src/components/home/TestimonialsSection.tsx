@@ -157,6 +157,8 @@ export const TestimonialsSection: React.FC = () => {
               <div className="border-t border-neutral-200 pt-5 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <img
+                  loading="lazy"
+                  decoding="async"
                     src={review.avatarUrl}
                     alt={review.name}
                     className="w-12 h-12 rounded-full object-cover border-2 border-[#B8860B]"

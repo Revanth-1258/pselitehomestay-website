@@ -17,7 +17,7 @@ export const REVIEWS_DATA: ReviewItem[] = [
     name: 'Dr. Rajeshwar Rao & Family',
     origin: 'Hyderabad, Telangana',
     stayDate: 'July 2026',
-    roomBooked: 'Family Double Room (2BHK — AC / Non-AC)',
+    roomBooked: '2BHK Family Service Apartment',
     rating: 5,
     comment:
       'We stayed at PS Elite Homestay for our family Tirumala darshan. The 2BHK apartment was immaculate—spacious, peaceful, and truly felt like a luxury home. Having our own clean kitchen to prepare early morning tea before our 4 AM Alipiri climb was a blessing!',
@@ -30,7 +30,7 @@ export const REVIEWS_DATA: ReviewItem[] = [
     name: 'Ananya & Karthik Sundaram',
     origin: 'San Jose, CA (NRI Visitors)',
     stayDate: 'June 2026',
-    roomBooked: 'Terrace Room (AC / Non-AC)',
+    roomBooked: 'Penthouse Terrace Suite (1BHK)',
     rating: 5,
     comment:
       'The Terrace Room (1BHK) at PS Elite exceeded every expectation. The private terrace view of the hills at dawn is breathtaking. Pristine bathrooms, super fast Wi-Fi, and the management arranged our temple drop flawlessly.',

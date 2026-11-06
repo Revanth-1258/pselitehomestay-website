@@ -3,7 +3,6 @@ import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { BookingProvider } from '@/context/BookingContext';
 import { CustomCursor } from '@/components/ui/CustomCursor';
-import { LuxuryLoader } from '@/components/layout/LuxuryLoader';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { BookingModal } from '@/components/booking/BookingModal';
@@ -12,6 +11,7 @@ import { BookingInvoiceModal } from '@/components/booking/BookingInvoiceModal';
 import { DevotionalAudioPlayer } from '@/components/ui/DevotionalAudioPlayer';
 import { FloatingContactBar } from '@/components/layout/FloatingContactBar';
 import { BookDirectPopup } from '@/components/ui/BookDirectPopup';
+import { Analytics } from '@/components/layout/Analytics';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,10 +24,10 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://pselitehomestays.com'),
-  title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
+  metadataBase: new URL('https://www.pselitehomestays.com'),
+  title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
   description:
-    'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
+    'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
   keywords: [
     'PS Elite Homestay Tirupati',
     'Budget homestay Tirupati',
@@ -41,27 +41,35 @@ export const metadata: Metadata = {
     'AC and Non-AC budget rooms Tirupati',
     'Best homestay near Tirumala darshan',
   ],
-  alternates: {
-    canonical: 'https://pselitehomestays.com',
-  },
-  robots: {
-    index: true,
-    follow: true,
+  // Canonical is set per page (page.tsx, rooms, near). Setting it here would make
+  // every route without its own canonical (404s, admin) point at the homepage.
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/ps-elite-logo.png',
   },
   openGraph: {
-    title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
+    title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
     description:
-      'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
-    url: 'https://pselitehomestays.com',
-    siteName: 'PS Elite Homestay, Tirupati',
+      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
+    url: 'https://www.pselitehomestays.com',
+    siteName: 'PS Elite Homestay',
     locale: 'en_IN',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.pselitehomestays.com/images/og-cover.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'PS Elite Homestay Tirupati - Luxury Rooms & Family Apartments Near Tirumala',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PS Elite Homestay Tirupati | Stays Near Railway Station & Alipiri',
+    title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
     description:
-      'Experience budget & luxury rooms at PS Elite Homestay Tirupati. Prime location just 1.5 km from Railway Station and 8 mins to Alipiri Tirumala footpath.',
+      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
+    images: ['https://www.pselitehomestays.com/images/og-cover.jpg'],
   },
 };
 
@@ -75,17 +83,32 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'Hotel',
-        '@id': 'https://pselitehomestays.com/#hotel',
-        name: 'PS Elite Homestay, Tirupati',
+        '@id': 'https://www.pselitehomestays.com/#hotel',
+        name: 'PS Elite Homestay',
+        alternateName: 'PS Elite Homestay Tirupati',
         description:
-          'Budget and luxury homestay featuring AC/Non-AC rooms, 1BHK/2BHK family apartments, elevator access, and 24/7 support desk near Tirupati Railway Station, Bus Stand, Padmavathi Ammavari Temple, and Alipiri Footpath.',
-        url: 'https://pselitehomestays.com',
-        telephone: '+919392739715',
+          'Budget and luxury homestay featuring AC/Non-AC rooms, 1BHK/2BHK family service apartments, a penthouse terrace suite, elevator access, and 24/7 support desk near Tirupati Railway Station, Bus Stand, Padmavathi Ammavari Temple, and Alipiri Footpath.',
+        url: 'https://www.pselitehomestays.com',
+        telephone: '+91 93927 39715',
         email: 'pselitehomestays@gmail.com',
-        priceRange: '₹₹₹',
+        priceRange: '₹1,000 - ₹4,500',
+        currenciesAccepted: 'INR',
+        paymentAccepted: 'Cash, UPI, Credit Card, Debit Card, Net Banking',
+        checkinTime: '12:00',
+        checkoutTime: '11:00',
+        hasMap: 'https://g.page/r/CUrLKvmEc7ihEAE',
+        sameAs: [
+          'https://instagram.com/ps_elite_homestay',
+          'https://www.youtube.com/@PSEliteHomestay',
+        ],
+        image: [
+          'https://www.pselitehomestays.com/images/rooms/hospitality-w1.webp',
+          'https://www.pselitehomestays.com/images/rooms/building-exterior.webp',
+          'https://www.pselitehomestays.com/ps-elite-logo.png',
+        ],
         address: {
           '@type': 'PostalAddress',
-          streetAddress: '19-4-9/D/9A, Air Bypass Road, STV Nagar',
+          streetAddress: '19-4-9/D/9A, Air Bypass Rd, behind Easy Buy, STV Nagar',
           addressLocality: 'Tirupati',
           addressRegion: 'Andhra Pradesh',
           postalCode: '517501',
@@ -93,58 +116,27 @@ export default function RootLayout({
         },
         geo: {
           '@type': 'GeoCoordinates',
-          latitude: 13.6548,
-          longitude: 79.4011,
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '128',
+          latitude: 13.623146,
+          longitude: 79.426038,
         },
         amenityFeature: [
           { '@type': 'LocationFeatureSpecification', name: 'Elevator Access', value: true },
           { '@type': 'LocationFeatureSpecification', name: '24/7 Support Desk', value: true },
           { '@type': 'LocationFeatureSpecification', name: 'Free High-Speed WiFi', value: true },
           { '@type': 'LocationFeatureSpecification', name: 'AC & Non-AC Rooms', value: true },
+          { '@type': 'LocationFeatureSpecification', name: 'Car Parking', value: true },
         ],
       },
       {
-        '@type': 'FAQPage',
-        '@id': 'https://pselitehomestays.com/#faq',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'How far is PS Elite Homestay from Tirupati Railway Station, Bus Stand, Padmavathi Temple, and Alipiri?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'PS Elite Homestay is centrally located on Air Bypass Road, STV Nagar, just 1 km from Tirupati Bus Stand, 1.5 km from Tirupati Railway Station, 3 km from Padmavathi Ammavari Temple (Tiruchanur), and 8 minutes drive to the Alipiri Footpath gateway to Tirumala.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Do you have both budget-friendly rooms and luxury family apartments?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Yes! We offer a range of stays including Budget Rooms, Standard & Deluxe King AC/Non-AC Rooms, and spacious 1BHK & 2BHK Family Apartments ideal for pilgrim families and group travelers.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Is elevator access available for senior citizens and elders?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Yes, PS Elite Homestay provides smooth elevator access across floors for easy mobility of elders, senior citizens, and luggage transport.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'How can I contact the 24/7 Support Desk to book a room?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'You can call our 24/7 booking desk directly at +91 93927 39715 or +91 94403 11716, or connect with us instantly via WhatsApp.',
-            },
-          },
-        ],
+        '@type': 'WebSite',
+        '@id': 'https://www.pselitehomestays.com/#website',
+        name: 'PS Elite Homestay',
+        url: 'https://www.pselitehomestays.com',
+        description: 'Official portal for PS Elite Homestay luxury rooms and apartments in Tirupati.',
+        publisher: {
+          '@id': 'https://www.pselitehomestays.com/#hotel',
+        },
+        inLanguage: 'en-IN',
       },
     ],
   };
@@ -160,9 +152,14 @@ export default function RootLayout({
       <body className="bg-[#111111] text-white min-h-screen flex flex-col selection:bg-[#B8860B] selection:text-black">
         <BookingProvider>
           <CustomCursor />
-          <LuxuryLoader />
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100000] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black"
+          >
+            Skip to main content
+          </a>
           <Navbar />
-          <main className="flex-grow">{children}</main>
+          <main id="main" className="flex-grow">{children}</main>
           <Footer />
 
           {/* Interactive Global Modals & Audio Concierge */}
@@ -173,6 +170,7 @@ export default function RootLayout({
           <FloatingContactBar />
           <BookDirectPopup />
         </BookingProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -35,7 +35,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Feel at Home in Tirupati',
       description:
         'Unlike standard hotel rooms, our accommodations provide spacious layouts with beautifully designed interiors, comfortable living areas, premium furnishings, and a relaxing atmosphere that feels like your own home.',
-      image: '/images/rooms/2bhk-w1.jpeg',
+      image: '/images/rooms/2bhk-w1.webp',
       icon: Home,
       highlight: '340 - 2,100 Sq. Ft. Private Layouts',
     },
@@ -44,7 +44,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Fast & Convenient Temple Gateway',
       description:
         'Stay just minutes away from Tirumala Temple, Alipiri Footpath, Railway Station, Bus Station, Airport, shopping streets, and popular attractions, making every journey faster and more convenient.',
-      image: '/images/rooms/penthouse-w2.jpeg',
+      image: '/images/rooms/penthouse-w2.webp',
       icon: MapPin,
       highlight: 'Minutes to Alipiri & Railway Station',
     },
@@ -52,8 +52,8 @@ export const WhyChooseUsSection: React.FC = () => {
       title: 'Family-Friendly Accommodation',
       tagline: 'Designed for Every Traveler & Group',
       description:
-        'Traveling with family or large groups? Choose from Deluxe Rooms, Family Suites, 1BHK Apartments, 2BHK Apartments, and Luxury Penthouse options designed for every type of traveler.',
-      image: '/images/rooms/2bhk-1.png',
+        'Traveling with family or large groups? Choose from Deluxe Rooms, 1BHK & 2BHK Service Apartments, and our Penthouse Terrace Suite designed for every type of traveler.',
+      image: '/images/rooms/2bhk-1.webp',
       icon: Users,
       highlight: '1BHK & 2BHK Family Suites Up to 8 Guests',
     },
@@ -62,7 +62,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: '24×7 Dedicated Guest Support',
       description:
         'Our dedicated hospitality team is available around the clock to ensure every guest enjoys a seamless and memorable experience from arrival to departure.',
-      image: '/images/rooms/hospitality-w1.jpeg',
+      image: '/images/rooms/hospitality-w1.webp',
       icon: HeartHandshake,
       highlight: 'Personalized Concierge & Temple Cab Assistance',
     },
@@ -71,7 +71,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Fast Check-In & WhatsApp Assistance',
       description:
         'Enjoy fast online booking, instant confirmation, digital check-in, secure payments, WhatsApp assistance, and personalized guest support.',
-      image: '/images/rooms/standard-w1.jpeg',
+      image: '/images/rooms/standard-w1.webp',
       icon: Smartphone,
       highlight: 'Instant Confirmation & Digital Support',
     },
@@ -80,7 +80,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Sanitized & Inspected Before Check-In',
       description:
         'Every room is professionally cleaned, sanitized, and inspected before every check-in to ensure a fresh and hygienic stay.',
-      image: '/images/rooms/deluxe-w2.jpeg',
+      image: '/images/rooms/deluxe-w2.webp',
       icon: Sparkle,
       highlight: '100% Hygienic & Sanitized Linen',
     },
@@ -89,7 +89,7 @@ export const WhyChooseUsSection: React.FC = () => {
       tagline: 'Escape Overcrowded Commercial Hotels',
       description:
         'Escape the crowded commercial hotel environment and relax in a peaceful setting designed for comfort, privacy, and quality family time.',
-      image: '/images/rooms/outer-2.jpg',
+      image: '/images/rooms/outer-2.webp',
       icon: Moon,
       highlight: 'Serene Sanctuary Under Seshachalam Hills',
     },
@@ -195,6 +195,8 @@ export const WhyChooseUsSection: React.FC = () => {
                     {/* Attractive Image Container */}
                     <div className="relative h-72 sm:h-96 w-full overflow-hidden">
                       <img
+                  loading="lazy"
+                  decoding="async"
                         src={reason.image}
                         alt={reason.title}
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"

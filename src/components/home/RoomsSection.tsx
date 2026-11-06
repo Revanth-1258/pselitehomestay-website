@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
@@ -69,6 +70,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <img
+                  loading="lazy"
+                  decoding="async"
           src={images[currentIdx]}
           alt={`${room.name} photo ${currentIdx + 1}`}
           className="w-full h-full object-cover transition-all duration-500"
@@ -194,13 +197,13 @@ const RoomCard: React.FC<RoomCardProps> = ({
         </div>
 
         {/* Details Link */}
-        <button
-          onClick={() => onDetails(room)}
-          className="mt-2.5 w-full py-1.5 text-center text-xs font-semibold text-neutral-500 hover:text-[#B8860B] transition-colors flex items-center justify-center gap-1"
+        <Link
+          href={`/rooms/${room.id}`}
+          className="mt-2.5 w-full py-1.5 text-center text-xs font-semibold text-neutral-600 hover:text-[#B8860B] transition-colors flex items-center justify-center gap-1 group/link"
         >
-          <Eye className="w-3.5 h-3.5" />
-          <span>View Complete Room Amenities & Specs</span>
-        </button>
+          <Eye className="w-3.5 h-3.5 group-hover/link:text-[#B8860B]" />
+          <span>View {room.name} Details &amp; Tariffs &rarr;</span>
+        </Link>
       </div>
     </div>
   );
@@ -222,7 +225,7 @@ export const RoomsSection: React.FC = () => {
           {/* SINGLE HEADING: Room Types and Prices replacing subtabs */}
           <div className="mt-2 inline-block bg-white/90 border border-neutral-300/80 px-8 py-4 rounded-3xl shadow-md">
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 uppercase">
-              Room Types <span className="text-gold-gradient">&amp; Prices</span>
+              Luxury Rooms &amp; <span className="text-gold-gradient">Family Suites in Tirupati</span>
             </h2>
           </div>
 

@@ -42,7 +42,7 @@ export const RoomDetailModal: React.FC = () => {
           {/* Title & Category Badge */}
           <div className="mb-6">
             <span className="inline-block px-3 py-1 rounded-full bg-[#B8860B]/15 border border-[#B8860B]/40 text-[#D4AF37] text-xs font-semibold tracking-wider uppercase mb-2">
-              {room.category === 'penthouse' ? 'Penthouse' : room.category === 'apartment' ? 'Luxury Apartment' : 'Deluxe Room'}
+              {room.category === 'penthouse' ? 'Penthouse' : room.category === 'apartment' ? 'Service Apartment' : 'Deluxe Room'}
             </span>
             <h2 className="text-2xl md:text-3xl font-light tracking-wide text-neutral-900">
               {room.name}
@@ -54,6 +54,8 @@ export const RoomDetailModal: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="md:col-span-3 relative rounded-xl overflow-hidden h-72 md:h-96 border border-white/10">
               <img
+                  loading="lazy"
+                  decoding="async"
                 src={room.gallery[activePhotoIdx] || room.image}
                 alt={room.name}
                 className="w-full h-full object-cover"
@@ -78,7 +80,7 @@ export const RoomDetailModal: React.FC = () => {
                       : 'border-white/10 opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={imgUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                  <img loading="lazy" decoding="async" src={imgUrl} alt="Thumbnail" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

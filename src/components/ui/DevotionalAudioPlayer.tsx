@@ -18,14 +18,8 @@ export const DevotionalAudioPlayer: React.FC = () => {
     // Full audible volume
     audio.volume = 1.0;
 
-    // Attempt immediate autoplay of the real song on load
-    const attemptPlay = () => {
-      audio.play().catch(() => {
-        // Browser Autoplay Policy deferred playback until user interaction
-      });
-    };
-
-    attemptPlay();
+    // No play attempt on load: it would download the full MP3 for every visitor (and Lighthouse),
+    // and browsers block unmuted autoplay anyway. Playback starts on first interaction below.
 
     // The moment the user clicks, taps, presses a key, or scrolls anywhere on the page, play the real song
     const handleFirstInteraction = () => {
@@ -54,9 +48,8 @@ export const DevotionalAudioPlayer: React.FC = () => {
   return (
     <audio
       ref={audioRef}
-      autoPlay
       loop
-      preload="auto"
+      preload="none"
       className="hidden"
     >
       <source src={DEVOTIONAL_SONG_URLS[0]} type="audio/mpeg" />

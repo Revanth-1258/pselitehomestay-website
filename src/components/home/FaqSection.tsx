@@ -15,7 +15,7 @@ const FAQ_ITEMS: FaqItem[] = [
     badge: 'Proximity & Location',
     question: 'How far is PS Elite Homestay from Tirupati Railway Station, Bus Stand, Padmavathi Temple & Alipiri?',
     answer:
-      'PS Elite Homestay is centrally located on Air Bypass Road (STV Nagar): just 1 km from Tirupati Bus Stand, 1.5 km from Tirupati Railway Station, 3 km from the famous Padmavathi Ammavari Temple (Tiruchanur), and only an 8-minute drive to the Alipiri Footpath entry gate to Tirumala sacred hills.',
+      'PS Elite Homestay is centrally located on Air Bypass Road (STV Nagar): just 1.4 km from Tirupati Bus Stand, 1.5 km from Tirupati Railway Station, 3.5 km from the famous Padmavathi Ammavari Temple (Tiruchanur), and only an 8-minute drive to the Alipiri Footpath entry gate to Tirumala sacred hills.',
   },
   {
     badge: 'Stays & Pricing',
@@ -124,7 +124,7 @@ export const FaqSection: React.FC = () => {
         <div className="mt-12 p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-wrap items-center justify-center gap-6 text-center text-xs text-neutral-300">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" />
-            <span><strong>1 km</strong> to Tirupati Bus Stand</span>
+            <span><strong>1.4 km</strong> to Tirupati Bus Stand</span>
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" />
@@ -132,7 +132,7 @@ export const FaqSection: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" />
-            <span><strong>3 km</strong> to Padmavathi Ammavari Temple</span>
+            <span><strong>3.5 km</strong> to Padmavathi Ammavari Temple</span>
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" />

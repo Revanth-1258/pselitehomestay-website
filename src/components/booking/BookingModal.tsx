@@ -240,6 +240,8 @@ export const BookingModal: React.FC = () => {
           <div className="p-6 border-b border-white/10 flex items-start justify-between bg-white/[0.02]">
             <div className="flex items-center gap-3.5">
               <img
+                  loading="lazy"
+                  decoding="async"
                 src="/ps-elite-logo.png"
                 alt="PS Elite Logo"
                 className="w-11 h-11 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] flex-shrink-0"
@@ -254,6 +256,7 @@ export const BookingModal: React.FC = () => {
               </div>
             </div>
             <button
+              aria-label="Close booking form"
               onClick={handleResetAndClose}
               className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
             >

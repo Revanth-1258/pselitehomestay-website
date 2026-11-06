@@ -20,7 +20,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Guests from Kerala',
     stayType: '2BHK Family Double Room',
     videoUrl: '/videos/customer-review-1.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-1.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-1.webp',
     comment: 'Wonderful family stay just minutes from Alipiri Footpath! Exceptional hygiene and helpful concierge.',
     rating: 5,
   },
@@ -29,7 +29,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Guests from North',
     stayType: 'Superior Terrace 1BHK',
     videoUrl: '/videos/customer-review-2.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-2.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-2.webp',
     comment: 'Guest reviews that speak for us! Comfort, care, and memorable stays in Tirupati.',
     rating: 5,
   },
@@ -38,7 +38,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Surendra & Family',
     stayType: 'Deluxe King Room',
     videoUrl: '/videos/customer-review-3.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-3.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-3.webp',
     comment: 'Thank you PS Elite Homestay for making our pilgrimage so comfortable. Loved the spacious rooms!',
     rating: 5,
   },
@@ -47,7 +47,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Couple from Italy',
     stayType: 'Standard AC Room',
     videoUrl: '/videos/customer-review-4.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-4.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-4.webp',
     comment: 'Peaceful mornings, warm smiles, happy guests and unforgettable memories at PS Elite Homestay.',
     rating: 5,
   },
@@ -56,7 +56,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Rajesh & Family',
     stayType: 'PS Elite Penthouse',
     videoUrl: '/videos/customer-review-5.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-5.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-5.webp',
     comment: 'Amazing scenic views from the terrace and truly premium service throughout our stay.',
     rating: 5,
   },
@@ -65,7 +65,7 @@ const CUSTOMER_VIDEOS: CustomerReviewVideo[] = [
     guestName: 'Kameshwaramma & Elder Couple',
     stayType: '2BHK Family Suite',
     videoUrl: '/videos/customer-review-6.mp4',
-    thumbnailUrl: '/images/reviews/review-thumb-6.jpg',
+    thumbnailUrl: '/images/reviews/review-thumb-6.webp',
     comment: 'Customer love alert! So thrilled with our stay. Clean rooms, great staff, and easy temple darshan access.',
     rating: 5,
   },
@@ -105,6 +105,8 @@ export const CustomerGallerySection: React.FC = () => {
               {/* Thumbnail / Video Preview Box */}
               <div className="relative h-72 sm:h-80 overflow-hidden bg-neutral-900">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={item.thumbnailUrl}
                   alt={item.guestName}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"

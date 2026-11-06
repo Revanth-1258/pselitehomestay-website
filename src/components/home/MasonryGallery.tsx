@@ -82,6 +82,8 @@ export const MasonryGallery: React.FC = () => {
               className="group relative rounded-2xl overflow-hidden border border-white/10 cursor-pointer break-inside-avoid bg-neutral-900"
             >
               <img
+                  loading="lazy"
+                  decoding="async"
                 src={photo.imageUrl}
                 alt={photo.title}
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
@@ -124,6 +126,7 @@ export const MasonryGallery: React.FC = () => {
 
             {/* Prev */}
             <button
+              aria-label="Previous photo"
               onClick={handlePrev}
               className="absolute left-4 z-30 w-12 h-12 rounded-full bg-black/70 border border-white/20 text-white flex items-center justify-center hover:border-[#D4AF37] hover:text-[#D4AF37]"
             >
@@ -132,6 +135,7 @@ export const MasonryGallery: React.FC = () => {
 
             {/* Next */}
             <button
+              aria-label="Next photo"
               onClick={handleNext}
               className="absolute right-4 z-30 w-12 h-12 rounded-full bg-black/70 border border-white/20 text-white flex items-center justify-center hover:border-[#D4AF37] hover:text-[#D4AF37]"
             >
@@ -146,6 +150,8 @@ export const MasonryGallery: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <img
+                  loading="lazy"
+                  decoding="async"
                 src={lightboxPhoto.imageUrl}
                 alt={lightboxPhoto.title}
                 className="max-h-[70vh] rounded-2xl object-contain border border-white/20 shadow-2xl"

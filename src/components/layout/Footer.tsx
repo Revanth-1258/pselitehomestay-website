@@ -25,6 +25,8 @@ export const Footer: React.FC = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
+                  loading="lazy"
+                  decoding="async"
                 src="/ps-elite-logo.png"
                 alt="PS Elite Logo"
                 className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
@@ -49,37 +51,37 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="#rooms" className="hover:text-white transition-colors">
+                <Link href="/#rooms" className="hover:text-white transition-colors">
                   Standard &amp; Deluxe Rooms
                 </Link>
               </li>
               <li>
-                <Link href="#rooms" className="hover:text-white transition-colors">
+                <Link href="/#rooms" className="hover:text-white transition-colors">
                   1 BHK &amp; 2 BHK Family Apartments
                 </Link>
               </li>
               <li>
-                <Link href="#rooms" className="hover:text-white transition-colors">
+                <Link href="/#rooms" className="hover:text-white transition-colors">
                   PS Elite Penthouse
                 </Link>
               </li>
               <li>
-                <Link href="#location" className="hover:text-white transition-colors">
+                <Link href="/#location" className="hover:text-white transition-colors">
                   Live Map &amp; Directions
                 </Link>
               </li>
               <li>
-                <Link href="#amenities" className="hover:text-white transition-colors">
+                <Link href="/#amenities" className="hover:text-white transition-colors">
                   Luxury Amenities &amp; WiFi
                 </Link>
               </li>
               <li>
-                <Link href="#discover-tirupati" className="hover:text-white transition-colors">
+                <Link href="/#discover-tirupati" className="hover:text-white transition-colors">
                   Discover Tirupati Attractions
                 </Link>
               </li>
               <li>
-                <Link href="#customer-gallery" className="hover:text-white transition-colors">
+                <Link href="/#customer-gallery" className="hover:text-white transition-colors">
                   Customer Video Gallery
                 </Link>
               </li>
@@ -94,9 +96,9 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3.5 text-xs text-neutral-400">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
-                <span>
-                  19-4-9/D/9A, Air Bypass Road, STV Nagar, Tirupati, Andhra Pradesh 517501, India
-                </span>
+                <address className="not-italic">
+                  19-4-9/D/9A, Air Bypass Rd, behind Easy Buy, STV Nagar, Tirupati, Andhra Pradesh 517501, India
+                </address>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
@@ -139,7 +141,7 @@ export const Footer: React.FC = () => {
               <div className="relative h-44 w-full rounded-lg overflow-hidden bg-neutral-900">
                 <iframe
                   title="PS Elite Homestay Footer Interactive Map"
-                  src="https://maps.google.com/maps?q=Air+Bypass+Road,+STV+Nagar,+Tirupati,+Andhra+Pradesh+517501&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=PS+Elite+Homestay,+Air+Bypass+Rd,+STV+Nagar,+Tirupati,+Andhra+Pradesh+517501&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   className="w-full h-full border-0 filter contrast-125 saturate-110"
                   allowFullScreen
                   loading="lazy"
@@ -160,7 +162,7 @@ export const Footer: React.FC = () => {
                 </a>
 
                 <Link
-                  href="#location"
+                  href="/#location"
                   className="w-full py-1.5 px-3 rounded-lg border border-white/15 bg-black/50 text-neutral-300 hover:text-white text-[11px] font-medium flex items-center justify-center gap-1.5 transition-all block text-center"
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
@@ -208,7 +210,7 @@ export const Footer: React.FC = () => {
 
           {/* Copyright Centered Below Icons */}
           <p className="text-[11px] text-neutral-500 text-center">
-            &copy; 2026 PS Elite Homestay, Tirupati. All rights reserved. Premium Luxury Pilgrimage Sanctuary.
+            &copy; 2026 PS Elite Homestay. All rights reserved. Premium Luxury Pilgrimage Sanctuary.
           </p>
         </div>
       </div>

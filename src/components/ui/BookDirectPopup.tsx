@@ -40,6 +40,7 @@ export const BookDirectPopup: React.FC = () => {
         >
           {/* Close button */}
           <button
+            aria-label="Close"
             onClick={handleClose}
             className="absolute top-3.5 right-3.5 text-neutral-400 hover:text-white transition-colors"
           >

@@ -32,7 +32,7 @@ export const BookingCtaSection: React.FC = () => {
             Book Your Stay <span className="text-gold-gradient">Today</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto font-medium leading-relaxed">
-            Reserve your deluxe room, family pilgrim suite, or terrace room. Enjoy instant confirmation, transparent rates, and our 24/7 Tirumala darshan concierge.
+            Reserve your deluxe room, 2BHK service apartment, or penthouse suite. Enjoy instant confirmation, transparent rates, and our 24/7 Tirumala darshan concierge.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
