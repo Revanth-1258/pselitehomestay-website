@@ -45,6 +45,7 @@ export const FloatingContactBar: React.FC = () => {
         <div className="group relative">
           <a
             href={phoneUrl}
+            aria-label="Call PS Elite Homestay"
             className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] text-black flex items-center justify-center shadow-xl hover:shadow-[#B8860B]/50 hover:scale-110 transition-all duration-300"
           >
             <Phone className="w-5 h-5 fill-current" />
@@ -58,6 +59,7 @@ export const FloatingContactBar: React.FC = () => {
         <div className="group relative">
           <a
             href={whatsappUrl}
+            aria-label="Chat on WhatsApp"
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:shadow-[#25D366]/50 hover:scale-110 transition-all duration-300"
@@ -73,6 +75,7 @@ export const FloatingContactBar: React.FC = () => {
         <div className="group relative">
           <a
             href={mapsUrl}
+            aria-label="Get directions on Google Maps"
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 rounded-full bg-neutral-900 border border-white/15 text-white flex items-center justify-center shadow-xl hover:bg-neutral-800 hover:scale-110 transition-all duration-300"
