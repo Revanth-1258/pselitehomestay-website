@@ -8,8 +8,8 @@ import 'server-only';
 //   2. Firebase Firestore (Admin SDK)    FIREBASE_PROJECT_ID + FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY
 //   3. Supabase (service role, server)   SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
 //
-// The old public ExtendsClass bin is READ ONCE to migrate existing data into the private store,
-// and is never written to again. Once migrated, empty that bin (see SECURITY notes in the PR).
+// History: data used to live in a public ExtendsClass bin. It was migrated into the private
+// store on 2026-11-07 and the bin was emptied; that bin must never be read or written again.
 
 export type InventoryMap = Record<string, Record<string, { available: number; rateOverride: number }>>;
 
@@ -20,7 +20,6 @@ export interface StoreData {
 }
 
 const STORE_KEY = 'ps_elite_store';
-const LEGACY_EXTENDSCLASS_URL = 'https://extendsclass.com/api/json-storage/bin/fedabbd';
 
 const empty = (): StoreData => ({ inventory: {}, bookings: [], updatedAt: new Date().toISOString() });
 
@@ -128,23 +127,6 @@ async function writeBackend(backend: Backend, data: StoreData): Promise<void> {
   memoryStore = data;
 }
 
-/** One-time import from the legacy public bin into the private store. */
-async function migrateFromLegacy(backend: Backend): Promise<StoreData | null> {
-  if (backend === 'none' || process.env.DISABLE_LEGACY_MIGRATION === 'true') return null;
-  try {
-    const res = await fetch(LEGACY_EXTENDSCLASS_URL, { cache: 'no-store' });
-    if (!res.ok) return null;
-    const legacy = normalize(await res.json());
-    if (legacy) {
-      await writeBackend(backend, legacy);
-      console.info(`[store] Migrated ${legacy.bookings.length} bookings from legacy bin to ${backend}.`);
-    }
-    return legacy;
-  } catch {
-    return null;
-  }
-}
-
 export async function readStore(): Promise<StoreData> {
   const backend = activeBackend();
   if (backend === 'none') {
@@ -155,7 +137,7 @@ export async function readStore(): Promise<StoreData> {
   }
   const data = await readBackend(backend);
   if (data) return data;
-  return (await migrateFromLegacy(backend)) ?? empty();
+  return empty();
 }
 
 export async function writeStore(data: StoreData): Promise<void> {

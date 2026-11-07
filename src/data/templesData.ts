@@ -8,11 +8,17 @@ export interface NearbyAttraction {
   bestTime: string;
   mapCoords: { lat: number; lng: number };
   badge: string;
+  /** Hand-written <title> (max 60 chars) and meta description (max 160 chars). */
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   {
     id: 'tirumala-temple',
+    seoTitle: 'Stay in Tirupati for Tirumala Darshan (24 km) | PS Elite',
+    seoDescription:
+      'Base your Tirumala darshan in Tirupati: AC rooms & family apartments 24 km from the temple, with early-morning cab help, lift & parking. Rated 4.8 on Google.',
     name: 'Tirumala Sri Venkateswara Swamy Temple',
     type: 'temple',
     distanceKm: '24 km (via Ghat Road)',
@@ -25,6 +31,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'alipiri-footpath',
+    seoTitle: 'Homestay Near Alipiri Footpath, Tirupati (6 km) | PS Elite',
+    seoDescription:
+      'Rooms 6 km from the Alipiri footpath to Tirumala. Our desk arranges early-morning autos (3:30–5 AM) for the climb. Family rooms, lift & parking. Book direct.',
     name: 'Alipiri Metlu (Sacred Footpath Entry)',
     type: 'temple',
     distanceKm: '6 km',
@@ -37,6 +46,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'padmavathi-temple',
+    seoTitle: 'Homestay Near Padmavathi Temple, Tiruchanur | PS Elite',
+    seoDescription:
+      'Stay 3.5 km from Sri Padmavathi Ammavari Temple, Tiruchanur. AC rooms & family apartments with lift, parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Sri Padmavathi Ammavaru Temple, Tiruchanoor',
     type: 'temple',
     distanceKm: '3.5 km',
@@ -49,6 +61,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'kapila-theertham',
+    seoTitle: 'Rooms Near Kapila Theertham, Tirupati (4.4 km) | PS Elite',
+    seoDescription:
+      'Stay 4.4 km from Kapila Theertham temple & waterfall. AC rooms & family service apartments with lift, parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Kapila Theertham Temple & Waterfall',
     type: 'temple',
     distanceKm: '4.4 km',
@@ -61,6 +76,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'govindaraja-swamy',
+    seoTitle: 'Homestay Near Govindaraja Swamy Temple (1.3 km) | PS Elite',
+    seoDescription:
+      'Just 1.3 km from Sri Govindaraja Swamy Temple in Tirupati town. AC rooms & family apartments with lift, parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Sri Govindaraja Swamy Temple',
     type: 'temple',
     distanceKm: '1.3 km',
@@ -73,6 +91,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'iskcon-tirupati',
+    seoTitle: 'Homestay Near ISKCON Tirupati (4.3 km) | PS Elite',
+    seoDescription:
+      'Stay 4.3 km from ISKCON Tirupati. AC rooms & 1BHK/2BHK service apartments with lift, parking and a 24/7 desk. Rated 4.8 on Google. Book direct.',
     name: 'ISKCON Radha Govinda Mandir',
     type: 'temple',
     distanceKm: '4.3 km',
@@ -85,6 +106,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'tirupati-airport',
+    seoTitle: 'Stay Near Tirupati Airport, Renigunta (16 km) | PS Elite',
+    seoDescription:
+      'Flying into Tirupati (Renigunta)? Stay 16 km from the airport in AC rooms or family apartments with parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Tirupati International Airport (Renigunta)',
     type: 'transport',
     distanceKm: '16 km',
@@ -97,6 +121,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'railway-station',
+    seoTitle: 'Homestay Near Tirupati Railway Station (1.5 km) | PS Elite',
+    seoDescription:
+      'AC rooms & 2BHK family apartments 1.5 km from Tirupati railway station, about 5 mins by auto. 24/7 desk, lift & parking. Rated 4.8 on Google. Book direct.',
     name: 'Tirupati Main Railway Station',
     type: 'transport',
     distanceKm: '1.5 km',
@@ -109,6 +136,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'bus-stand',
+    seoTitle: 'Homestay Near Tirupati Bus Stand (1.4 km) | PS Elite',
+    seoDescription:
+      'Rooms & family apartments 1.4 km from the Tirupati APSRTC central bus stand, about 5 mins by auto. 24/7 desk, lift & parking. Rated 4.8 on Google. Book direct.',
     name: 'Tirupati Main Bus Stand (APSRTC Hub)',
     type: 'transport',
     distanceKm: '1.4 km',
@@ -121,6 +151,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'sv-zoo',
+    seoTitle: 'Stay Near SV Zoo Park, Tirupati | PS Elite',
+    seoDescription:
+      'Visiting Sri Venkateswara Zoological Park? Stay in Tirupati in AC rooms or family service apartments with parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Sri Venkateswara Zoological Park',
     type: 'nature',
     distanceKm: '9 km',
@@ -133,6 +166,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'chandragiri-fort',
+    seoTitle: 'Stay Near Chandragiri Fort, Tirupati (17.5 km) | PS Elite',
+    seoDescription:
+      'Stay in Tirupati, 17.5 km from Chandragiri Fort & Raja Mahal. AC rooms & family apartments with parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Chandragiri Fort & Raja Mahal Palace',
     type: 'temple',
     distanceKm: '17.5 km',
@@ -145,6 +181,9 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   },
   {
     id: 'srikalahasthi-temple',
+    seoTitle: 'Tirupati Stay for Srikalahasti Temple Trip | PS Elite',
+    seoDescription:
+      'Combine Tirumala & Srikalahasti (38 km): stay in Tirupati in AC rooms or family apartments with parking and a 24/7 desk. Rated 4.8 on Google.',
     name: 'Srikalahasthi Shiva Temple (Rahu Ketu Kshetra)',
     type: 'temple',
     distanceKm: '38 km',

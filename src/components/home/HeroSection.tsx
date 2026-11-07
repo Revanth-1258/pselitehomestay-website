@@ -22,6 +22,8 @@ export const HeroSection: React.FC = () => {
         <img
           fetchPriority="high"
           src="/images/rooms/hospitality-w1.webp"
+          srcSet="/images/rooms/hospitality-w1-828.webp 828w, /images/rooms/hospitality-w1.webp 1920w"
+          sizes="100vw"
           alt="PS Elite Homestay Luxury Living"
           className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[12000ms]"
         />

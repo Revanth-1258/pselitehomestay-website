@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Phone, ExternalLink, Clock, Car, Compass } from 'lucide-react';
 
@@ -52,6 +53,25 @@ export const LocationSection: React.FC = () => {
           </h2>
           <p className="mt-4 text-sm sm:text-base text-neutral-600 font-medium">
             Conveniently located at No:19, 19-4-9/D/9A, Air Bypass Road, STV Nagar, Tirupati, offering quick 8 mins access to Lord Sri Venkateswara&apos;s Alipiri Footpath &amp; Kapila Theertham.
+          </p>
+          <p className="mt-3 text-sm text-neutral-600">
+            Plan your route: our{' '}
+            <Link href="/near/railway-station" className="font-semibold text-[#8C6514] underline underline-offset-2">
+              homestay near Tirupati railway station
+            </Link>
+            ,{' '}
+            <Link href="/near/bus-stand" className="font-semibold text-[#8C6514] underline underline-offset-2">
+              stay near the bus stand
+            </Link>{' '}
+            and{' '}
+            <Link href="/near/alipiri-footpath" className="font-semibold text-[#8C6514] underline underline-offset-2">
+              rooms near Alipiri footpath
+            </Link>{' '}
+            guides, or see{' '}
+            <Link href="/near" className="font-semibold text-[#8C6514] underline underline-offset-2">
+              all distances
+            </Link>
+            .
           </p>
         </div>
 

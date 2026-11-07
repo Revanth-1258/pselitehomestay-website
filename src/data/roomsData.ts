@@ -16,11 +16,14 @@ export interface RoomType {
   highlights: string[];
   isPopular?: boolean;
   videoUrl?: string;
+  /** Short name used in the page <title> (keeps it under 60 chars). */
+  seoName?: string;
 }
 
 export const ROOMS_DATA: RoomType[] = [
   {
     id: 'budget-room',
+    seoName: 'Budget Room',
     name: 'Budget Room',
     category: 'room',
     tagline: 'Cozy, spotless comfort for solo pilgrims & couples',
@@ -51,6 +54,7 @@ export const ROOMS_DATA: RoomType[] = [
   },
   {
     id: 'standard-room',
+    seoName: 'Standard AC Room',
     name: 'Standard AC Room',
     category: 'room',
     tagline: 'Relaxing stay with superior air conditioning and plush bedding',
@@ -86,6 +90,7 @@ export const ROOMS_DATA: RoomType[] = [
   },
   {
     id: 'deluxe-king-room',
+    seoName: 'Deluxe AC Room',
     name: 'Deluxe AC Room',
     category: 'room',
     tagline: 'Refined luxury with lounge seating and superior AC comfort',
@@ -121,6 +126,7 @@ export const ROOMS_DATA: RoomType[] = [
   },
   {
     id: 'superior-terrace-1bhk',
+    seoName: 'Penthouse 1BHK Suite',
     name: 'Penthouse Terrace Suite (1BHK)',
     category: 'penthouse',
     tagline: 'Private 1BHK penthouse service apartment with hall, kitchen, scenic terrace & AC',
@@ -158,6 +164,7 @@ export const ROOMS_DATA: RoomType[] = [
   },
   {
     id: 'family-double-2bhk',
+    seoName: '2BHK Service Apartment',
     name: '2BHK Family Service Apartment',
     category: 'apartment',
     tagline: 'Air-conditioned 2BHK service apartment with kitchen & living hall for big family and pilgrim groups',

@@ -51,23 +51,23 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/#rooms" className="hover:text-white transition-colors">
-                  Standard &amp; Deluxe Rooms
+                <Link href="/rooms" className="hover:text-white transition-colors">
+                  Rooms &amp; Tariffs
                 </Link>
               </li>
               <li>
-                <Link href="/#rooms" className="hover:text-white transition-colors">
-                  1 BHK &amp; 2 BHK Family Apartments
+                <Link href="/rooms/family-double-2bhk" className="hover:text-white transition-colors">
+                  2BHK Family Service Apartment
                 </Link>
               </li>
               <li>
-                <Link href="/#rooms" className="hover:text-white transition-colors">
-                  PS Elite Penthouse
+                <Link href="/rooms/superior-terrace-1bhk" className="hover:text-white transition-colors">
+                  Penthouse Terrace Suite (1BHK)
                 </Link>
               </li>
               <li>
-                <Link href="/#location" className="hover:text-white transition-colors">
-                  Live Map &amp; Directions
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Contact &amp; Directions
                 </Link>
               </li>
               <li>
@@ -76,8 +76,18 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/#discover-tirupati" className="hover:text-white transition-colors">
-                  Discover Tirupati Attractions
+                <Link href="/near/railway-station" className="hover:text-white transition-colors">
+                  Homestay near Tirupati Railway Station
+                </Link>
+              </li>
+              <li>
+                <Link href="/near/alipiri-footpath" className="hover:text-white transition-colors">
+                  Rooms near Alipiri Footpath
+                </Link>
+              </li>
+              <li>
+                <Link href="/near" className="hover:text-white transition-colors">
+                  Distances to Tirumala &amp; Landmarks
                 </Link>
               </li>
               <li>

@@ -41,8 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${room.name} in Tirupati (₹${room.pricePerNight}/night) | PS Elite Homestay`;
-  const description = `${room.name} at PS Elite Homestay Tirupati. ${room.tagline}. Accommodates ${room.guests} guests with AC, elevator access, 1.5 km to Railway Station & 8 mins to Alipiri.`;
+  const price = room.pricePerNight.toLocaleString('en-IN');
+  const name = room.seoName ?? room.name;
+  // Keep titles within ~60 chars so Google doesn't truncate them.
+  const longTitle = `${name} in Tirupati – ₹${price}/night | PS Elite`;
+  const title = longTitle.length <= 60 ? longTitle : `${name} in Tirupati – ₹${price} | PS Elite`;
+  const description = `${name} for up to ${room.guests} guests, 1.5 km from Tirupati railway station. Lift, parking & 24/7 desk. ₹${price}/night when you book direct.`;
   const canonicalUrl = `https://www.pselitehomestays.com/rooms/${room.id}`;
   const ogImageUrl = `https://www.pselitehomestays.com/images/og/${room.id}.jpg`;
 
@@ -145,8 +149,8 @@ export default async function RoomPage({ params }: Props) {
           {
             '@type': 'ListItem',
             position: 2,
-            name: 'Accommodations',
-            item: 'https://www.pselitehomestays.com/#rooms',
+            name: 'Rooms & Tariffs',
+            item: 'https://www.pselitehomestays.com/rooms',
           },
           {
             '@type': 'ListItem',
@@ -204,8 +208,8 @@ export default async function RoomPage({ params }: Props) {
               <span>Home</span>
             </Link>
             <span>/</span>
-            <Link href="/#rooms" className="hover:text-[#D4AF37] transition-colors">
-              Accommodations
+            <Link href="/rooms" className="hover:text-[#D4AF37] transition-colors">
+              Rooms &amp; Tariffs
             </Link>
             <span>/</span>
             <span className="text-[#D4AF37] font-semibold">{room.name}</span>
@@ -416,7 +420,7 @@ export default async function RoomPage({ params }: Props) {
                   </a>
 
                   <Link
-                    href="/#rooms"
+                    href="/rooms"
                     className="w-full py-2.5 px-4 rounded-xl text-center text-xs text-neutral-400 hover:text-white transition-colors block"
                   >
                     &larr; Compare with all room types
@@ -450,7 +454,7 @@ export default async function RoomPage({ params }: Props) {
               </h2>
             </div>
             <Link
-              href="/#rooms"
+              href="/rooms"
               className="text-xs font-bold text-[#D4AF37] hover:underline hidden sm:block"
             >
               View All Tariffs &rarr;

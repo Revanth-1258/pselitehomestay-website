@@ -41,8 +41,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `Homestay near ${attraction.name} (${attraction.distanceKm}) | PS Elite Homestay`;
-  const description = `Looking for stays near ${attraction.name}? PS Elite Homestay is just ${attraction.distanceKm} (${attraction.travelTimeMin}) on Air Bypass Road, Tirupati. AC rooms, elevator access, parking & 24/7 desk.`;
+  const title =
+    attraction.seoTitle ?? `Homestay near ${attraction.name} (${attraction.distanceKm}) | PS Elite Homestay`;
+  const description =
+    attraction.seoDescription ??
+    `Looking for stays near ${attraction.name}? PS Elite Homestay is just ${attraction.distanceKm} (${attraction.travelTimeMin}) on Air Bypass Road, Tirupati. AC rooms, elevator access, parking & 24/7 desk.`;
   const canonicalUrl = `https://www.pselitehomestays.com/near/${attraction.id}`;
 
   return {
@@ -106,8 +109,8 @@ export default async function NearbyAttractionPage({ params }: Props) {
           {
             '@type': 'ListItem',
             position: 2,
-            name: 'Near Landmarks',
-            item: 'https://www.pselitehomestays.com/#discover-tirupati',
+            name: 'Nearby Landmarks',
+            item: 'https://www.pselitehomestays.com/near',
           },
           {
             '@type': 'ListItem',
@@ -165,8 +168,8 @@ export default async function NearbyAttractionPage({ params }: Props) {
               <span>Home</span>
             </Link>
             <span>/</span>
-            <Link href="/#discover-tirupati" className="hover:text-[#D4AF37] transition-colors">
-              Attractions
+            <Link href="/near" className="hover:text-[#D4AF37] transition-colors">
+              Nearby Landmarks
             </Link>
             <span>/</span>
             <span className="text-[#D4AF37] font-semibold">{attraction.name}</span>
@@ -379,7 +382,7 @@ export default async function NearbyAttractionPage({ params }: Props) {
               </h2>
             </div>
             <Link
-              href="/#discover-tirupati"
+              href="/near"
               className="text-xs font-bold text-[#D4AF37] hover:underline hidden sm:block"
             >
               View Full Guide &rarr;
