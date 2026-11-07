@@ -34,7 +34,7 @@ const faqSchema = {
       name: 'How far is PS Elite Homestay from Tirupati Railway Station, Bus Stand, Padmavathi Temple, and Alipiri?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'PS Elite Homestay is centrally located on Air Bypass Road, STV Nagar, just 1.4 km from Tirupati Bus Stand, 1.5 km from Tirupati Railway Station, 3.5 km from Padmavathi Ammavari Temple (Tiruchanur), and 8 minutes drive to the Alipiri Footpath gateway to Tirumala.',
+        text: 'PS Elite Homestay is centrally located on Air Bypass Road, STV Nagar, just 1.4 km from Tirupati Bus Stand, 1.5 km from Tirupati Railway Station, 3.5 km from Padmavathi Ammavari Temple (Tiruchanur), and about a 10-minute drive to the Alipiri Footpath gateway to Tirumala.',
       },
     },
     {

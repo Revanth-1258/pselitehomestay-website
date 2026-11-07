@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.pselitehomestays.com'),
   title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
   description:
-    'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
+    'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 10 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
   keywords: [
     'PS Elite Homestay Tirupati',
     'Budget homestay Tirupati',
@@ -44,13 +44,17 @@ export const metadata: Metadata = {
   // Canonical is set per page (page.tsx, rooms, near). Setting it here would make
   // every route without its own canonical (404s, admin) point at the homepage.
   icons: {
-    icon: '/favicon.ico',
+    // /favicon.ico is emitted automatically from src/app/favicon.ico.
+    icon: [
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
     description:
-      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
+      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 10 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
     url: 'https://www.pselitehomestays.com',
     siteName: 'PS Elite Homestay',
     locale: 'en_IN',
@@ -68,7 +72,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tirupati Homestay Near Alipiri & Railway Station | PS Elite',
     description:
-      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 8 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
+      'Budget AC rooms & family apartments in Tirupati, 1.5 km from the railway station and 10 mins to Alipiri. Rated 4.8 on Google by 550+ guests. Book direct.',
     images: ['https://www.pselitehomestays.com/images/og-cover.jpg'],
   },
 };
@@ -100,6 +104,8 @@ export default function RootLayout({
         sameAs: [
           'https://instagram.com/ps_elite_homestay',
           'https://www.youtube.com/@PSEliteHomestay',
+          // Google Business Profile (Maps CID, resolved from g.page/r/CUrLKvmEc7ihEAE)
+          'https://maps.google.com/?cid=11653191050774367050',
         ],
         image: [
           'https://www.pselitehomestays.com/images/rooms/hospitality-w1.webp',

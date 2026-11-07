@@ -12,7 +12,7 @@ export const LocationSection: React.FC = () => {
   const routeGuides = [
     {
       from: 'Alipiri Footpath & Padmavathi Ammavari Temple',
-      time: '8 Mins Drive',
+      time: '10 Mins Drive',
       distance: '3.5 KM',
       icon: Compass,
       routeUrl: `https://www.google.com/maps/dir/Alipiri+Footpath+Entry,+Tirupati/Air+Bypass+Road,+STV+Nagar,+Tirupati`,
@@ -52,7 +52,7 @@ export const LocationSection: React.FC = () => {
             How to Reach <span className="text-gold-gradient">PS Elite Homestay</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-neutral-600 font-medium">
-            Conveniently located at No:19, 19-4-9/D/9A, Air Bypass Road, STV Nagar, Tirupati, offering quick 8 mins access to Lord Sri Venkateswara&apos;s Alipiri Footpath &amp; Kapila Theertham.
+            Conveniently located at No:19, 19-4-9/D/9A, Air Bypass Road, STV Nagar, Tirupati, offering quick 10 mins access to Lord Sri Venkateswara&apos;s Alipiri Footpath &amp; Kapila Theertham.
           </p>
           <p className="mt-3 text-sm text-neutral-600">
             Plan your route: our{' '}

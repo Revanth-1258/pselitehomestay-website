@@ -138,7 +138,7 @@ export const HeroSection: React.FC = () => {
         >
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-            <span>8 Mins to Alipiri Footpath &amp; Padmavathi Ammavari Temple, Tiruchanoor</span>
+            <span>10 Mins to Alipiri Footpath &amp; Padmavathi Ammavari Temple, Tiruchanoor</span>
           </div>
         </motion.div>
 

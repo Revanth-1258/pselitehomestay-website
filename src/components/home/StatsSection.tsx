@@ -31,10 +31,10 @@ export const StatsSection: React.FC = () => {
       desc: 'Spotless hygienic linen & organic toiletries',
     },
     {
-      value: '8 Mins',
+      value: '10 Mins',
       label: 'Alipiri & Padmavathi Amma Temple',
       icon: MapPin,
-      desc: '8 Mins drive to Alipiri Footpath & Tiruchanur Padmavathi Amma Temple',
+      desc: '10 Mins drive to Alipiri Footpath & Tiruchanur Padmavathi Amma Temple',
     },
   ];
 

@@ -136,7 +136,7 @@ export const FaqSection: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" />
-            <span><strong>8 Mins</strong> to Alipiri Footpath</span>
+            <span><strong>10 Mins</strong> to Alipiri Footpath</span>
           </div>
         </div>
       </div>

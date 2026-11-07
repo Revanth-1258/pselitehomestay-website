@@ -367,7 +367,7 @@ export default async function RoomPage({ params }: Props) {
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                    <span><strong>8 mins</strong> to Alipiri Footpath entry gate for Tirumala ascent</span>
+                    <span><strong>10 mins</strong> to Alipiri Footpath entry gate for Tirumala ascent</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />

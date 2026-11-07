@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex items-center gap-2 text-xs text-[#D4AF37] bg-[#B8860B]/10 px-3 py-1.5 rounded-full border border-[#B8860B]/30 w-fit">
               <Clock className="w-3.5 h-3.5" />
-              <span>Only 8 Mins to Alipiri Footpath &amp; Padmavathi Ammavari Temple, Tiruchanoor</span>
+              <span>Only 10 Mins to Alipiri Footpath &amp; Padmavathi Ammavari Temple, Tiruchanoor</span>
             </div>
           </div>
 

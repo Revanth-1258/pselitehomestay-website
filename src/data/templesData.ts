@@ -11,7 +11,20 @@ export interface NearbyAttraction {
   /** Hand-written <title> (max 60 chars) and meta description (max 160 chars). */
   seoTitle?: string;
   seoDescription?: string;
+  /** Practical arrival tips; rendered on the page and added to its FAQPage schema. */
+  localTips?: { q: string; a: string }[];
 }
+
+/**
+ * Railway stations around Tirupati. Road distances are from the GBP pin via OSRM;
+ * times are typical car/auto times, not free-flow.
+ */
+export const RAIL_STATIONS = [
+  { name: 'Tirupati Main', code: 'TPTY', distanceKm: '1.5 km', time: 'about 5 mins', href: '/near/railway-station' },
+  { name: 'Tirupati West (halt)', code: 'TPW', distanceKm: '4.1 km', time: 'about 12 mins' },
+  { name: 'Tiruchanur', code: 'TCNR', distanceKm: '6.7 km', time: 'about 15 mins' },
+  { name: 'Renigunta Junction', code: 'RU', distanceKm: '9.5 km', time: 'about 20 mins', href: '/near/renigunta-junction' },
+];
 
 export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
   {
@@ -37,7 +50,7 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
     name: 'Alipiri Metlu (Sacred Footpath Entry)',
     type: 'temple',
     distanceKm: '6 km',
-    travelTimeMin: '8 mins by Car / Taxi',
+    travelTimeMin: 'About 10 mins by Car / Auto',
     description:
       'The starting point of the historic 3,550-step walking pilgrimage to Tirumala. Ideal starting location for pilgrims undertaking the holy climb.',
     bestTime: '4:00 AM - 6:00 AM',
@@ -131,8 +144,55 @@ export const NEARBY_ATTRACTIONS: NearbyAttraction[] = [
     description:
       'Major railway junction with direct Vande Bharat and superfast connections just 1.5 km away from PS Elite Homestay.',
     bestTime: '24/7 Access',
-    mapCoords: { lat: 13.6291, lng: 79.4198 },
+    mapCoords: { lat: 13.6283, lng: 79.4195 },
     badge: 'Railway Hub',
+    localTips: [
+      {
+        q: 'How do I get from Tirupati railway station to PS Elite Homestay?',
+        a: 'Take an auto or taxi from the stand at the station entrance. It is about 1.5 km, roughly 5 minutes. Tell the driver "Air Bypass Road, behind Easy Buy, STV Nagar". The station is being rebuilt, so if you are unsure which exit to use, call or WhatsApp the desk when your train arrives and we will guide you.',
+      },
+      {
+        q: 'How much is an auto from Tirupati station?',
+        a: 'It is a short city ride. Agree the fare with the driver before you get in, or message our desk on WhatsApp for the current going rate.',
+      },
+      {
+        q: 'My train arrives late at night or early in the morning. Can I still check in?',
+        a: 'Yes. The front desk is open 24/7, so you can arrive at any hour. Standard check-in is from 12:00 PM; if your train arrives early in the morning, ask about early check-in when you book and share your train number.',
+      },
+      {
+        q: 'Is it easy to manage heavy luggage?',
+        a: 'Yes. There is a lift to every guest floor and parking at the building. If you need to leave bags at the station, Tirupati station has a cloak room.',
+      },
+      {
+        q: 'My train stops at Renigunta, not Tirupati. How far is that?',
+        a: 'Renigunta Junction is about 9.5 km away, roughly 20 minutes by taxi. Many long-distance trains stop only at Renigunta. Tirupati West halt (4.1 km) and Tiruchanur (6.7 km) are also nearby.',
+      },
+    ],
+  },
+  {
+    id: 'renigunta-junction',
+    seoTitle: 'Stay Near Renigunta Junction Station (9.5 km) | PS Elite',
+    seoDescription:
+      'Train stops at Renigunta? Stay 9.5 km away in Tirupati, about 20 mins by taxi. AC rooms & family apartments, 24/7 desk, lift & parking. Rated 4.8 on Google.',
+    name: 'Renigunta Junction Railway Station',
+    type: 'transport',
+    distanceKm: '9.5 km',
+    travelTimeMin: 'About 20 mins by Taxi / Auto',
+    description:
+      'Major railway junction east of Tirupati where the Chennai, Guntakal and Gudur lines meet. Many long-distance trains stop here instead of Tirupati Main, so it is a common arrival point for pilgrims. The airport is a short drive further east.',
+    bestTime: '24/7 Access',
+    mapCoords: { lat: 13.6379, lng: 79.5063 },
+    badge: 'Railway Junction',
+    localTips: [
+      {
+        q: 'How do I get from Renigunta Junction to PS Elite Homestay?',
+        a: 'Take a taxi or auto from outside the station to Air Bypass Road, STV Nagar, Tirupati (behind Easy Buy). It is about 9.5 km, roughly 20 minutes depending on traffic. Our desk can arrange a cab if you share your train number.',
+      },
+      {
+        q: 'I arrive at Renigunta late at night. Can I check in?',
+        a: 'Yes. The front desk is open 24/7. Share your train number and expected arrival time when you book.',
+      },
+    ],
   },
   {
     id: 'bus-stand',

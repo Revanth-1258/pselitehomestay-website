@@ -16,7 +16,7 @@ import {
   Building,
   ShieldCheck,
 } from 'lucide-react';
-import { NEARBY_ATTRACTIONS, NearbyAttraction } from '@/data/templesData';
+import { NEARBY_ATTRACTIONS, RAIL_STATIONS } from '@/data/templesData';
 import { ROOMS_DATA } from '@/data/roomsData';
 
 type Props = {
@@ -147,6 +147,11 @@ export default async function NearbyAttractionPage({ params }: Props) {
               text: 'Yes! PS Elite Homestay provides elevator access to all guest floors and secure parking for private cars, making it the ideal base for families with senior citizens.',
             },
           },
+          ...(attraction.localTips ?? []).map((tip) => ({
+            '@type': 'Question',
+            name: tip.q,
+            acceptedAnswer: { '@type': 'Answer', text: tip.a },
+          })),
         ],
       },
     ],
@@ -224,6 +229,57 @@ export default async function NearbyAttractionPage({ params }: Props) {
                   {attraction.description}
                 </p>
               </div>
+
+              {attraction.localTips && (
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-4">Arriving by Train: Practical Tips</h2>
+                  <dl className="space-y-4">
+                    {attraction.localTips.map((tip) => (
+                      <div key={tip.q} className="p-4 rounded-xl bg-white/5 border border-white/10">
+                        <dt className="font-semibold text-white">{tip.q}</dt>
+                        <dd className="mt-1.5 text-sm text-neutral-300 leading-relaxed">{tip.a}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+
+              {attraction.type === 'transport' && attraction.id !== 'tirupati-airport' && attraction.id !== 'bus-stand' && (
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-4">Railway Stations Near PS Elite Homestay</h2>
+                  <div className="overflow-x-auto rounded-2xl border border-white/10">
+                    <table className="w-full min-w-[480px] text-sm">
+                      <caption className="sr-only">Road distance from PS Elite Homestay to Tirupati-area railway stations</caption>
+                      <thead className="bg-white/5 text-left text-xs uppercase tracking-wider text-neutral-400">
+                        <tr>
+                          <th scope="col" className="px-4 py-3">Station</th>
+                          <th scope="col" className="px-4 py-3">Code</th>
+                          <th scope="col" className="px-4 py-3">Road distance</th>
+                          <th scope="col" className="px-4 py-3">Travel time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {RAIL_STATIONS.map((s) => (
+                          <tr key={s.code} className="border-t border-white/10">
+                            <th scope="row" className="px-4 py-3 text-left font-semibold text-white">
+                              {s.href && s.href !== `/near/${attraction.id}` ? (
+                                <Link href={s.href} className="text-[#D4AF37] hover:underline">
+                                  {s.name}
+                                </Link>
+                              ) : (
+                                s.name
+                              )}
+                            </th>
+                            <td className="px-4 py-3 text-neutral-300 font-mono">{s.code}</td>
+                            <td className="px-4 py-3 text-neutral-200">{s.distanceKm}</td>
+                            <td className="px-4 py-3 text-neutral-200">{s.time}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
               {/* Proximity Advantages Box */}
               <div className="p-6 rounded-2xl bg-white/5 border border-white/10">

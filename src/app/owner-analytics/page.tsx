@@ -96,7 +96,7 @@ export default function OwnerAnalyticsPage() {
 
   // Dynamic Room-by-Room Metrics strictly from real bookings
   const roomCategorySpecs = [
-    { id: 'family-double-2bhk', name: 'Family AC Room (2BHK Suite)', defaultRate: 4000, tag: '#1 Top Revenue Driver', badgeBg: 'bg-[#D4AF37]/20 text-[#D4AF37]' },
+    { id: 'family-double-2bhk', name: 'Family AC Room (2BHK Suite)', defaultRate: 3499, tag: '#1 Top Revenue Driver', badgeBg: 'bg-[#D4AF37]/20 text-[#D4AF37]' },
     { id: 'terrace-ac', name: 'Penthouse AC Room (Private Terrace)', defaultRate: 3500, tag: '#2 High Margin', badgeBg: 'bg-emerald-500/20 text-emerald-400' },
     { id: 'deluxe-ac', name: 'Deluxe AC Room (King Balcony)', defaultRate: 2500, tag: '#3 Steady Occupancy', badgeBg: 'bg-blue-500/20 text-blue-400' },
     { id: 'standard-ac', name: 'Standard AC Room (Couples Suite)', defaultRate: 1800, tag: '#4 High Turnover', badgeBg: 'bg-neutral-700 text-neutral-300' },
@@ -490,7 +490,7 @@ export default function OwnerAnalyticsPage() {
                   </span>
                 </div>
                 <p className="text-neutral-300 leading-relaxed">
-                  Family AC 2BHK occupancy hits <strong className="text-white">98%</strong> on Friday–Sunday weekends. We recommend raising weekend rates from <strong className="text-[#D4AF37]">₹4,000 to ₹4,500/night</strong> while keeping Monday–Thursday at ₹4,000.
+                  Family AC 2BHK occupancy hits <strong className="text-white">98%</strong> on Friday–Sunday weekends. We recommend raising weekend rates from <strong className="text-[#D4AF37]">₹3,499 to ₹3,999/night</strong> while keeping Monday–Thursday at ₹3,499.
                 </p>
               </div>
 
