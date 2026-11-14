@@ -163,6 +163,8 @@ export default function AdminPage() {
   const [taxOtherDesc, setTaxOtherDesc] = useState('');
   const [taxAdvancePaid, setTaxAdvancePaid] = useState<number>(0);
   const [taxPaymentMode, setTaxPaymentMode] = useState('Cash');
+  // 'AUTO' = auto-detect by slab, '0' = exempt, '5' = 5%, '18' = 18%
+  const [taxGSTMode, setTaxGSTMode] = useState<'AUTO' | '0' | '5' | '18'>('AUTO');
 
   const handleUpdateDateInventory = (roomId: string, available: number, rateOverride: number) => {
     setDateInventory((prev) => {
@@ -1421,10 +1423,12 @@ export default function AdminPage() {
             <div className="p-6 sm:p-8">
               {/* GST Slab Info Banner */}
               <div className="mb-6 p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-blue-800">
-                <span className="font-bold uppercase tracking-wide">GST Slab Applied:</span> PS Elite Homestay room tariffs (₹1,699–₹3,499/night) fall under the{' '}
-                <span className="font-bold text-blue-900">12% GST bracket</span> (SAC 996311) →{' '}
-                <span className="font-bold">6% CGST + 6% SGST</span> on the taxable room rent amount.
-                Room tariffs ≤ ₹1,000/night are exempt (0% GST).
+                <span className="font-bold uppercase tracking-wide">India Hospitality GST Slabs (SAC 996311):</span>
+                <div className="mt-2 flex flex-wrap gap-3">
+                  <span className="px-2.5 py-1 rounded-lg bg-white border border-blue-200 font-bold">≤ ₹7,500/night → <span className="text-blue-900">5% GST</span> (2.5% CGST + 2.5% SGST)</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-white border border-blue-200 font-bold">&gt; ₹7,500/night → <span className="text-orange-700">18% GST</span> (9% CGST + 9% SGST)</span>
+                </div>
+                <p className="mt-2 text-blue-600">PS Elite Homestay rates (₹1,699–₹3,499/night) → <strong>5% GST auto-applied</strong>. You can override below.</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
@@ -1585,6 +1589,20 @@ export default function AdminPage() {
                         <option>Cash + Card</option>
                       </select>
                     </div>
+                    {/* GST Rate Override */}
+                    <div className="space-y-1 col-span-full sm:col-span-1">
+                      <label className="font-semibold text-neutral-500 flex items-center gap-1.5">
+                        GST Rate
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-bold uppercase tracking-wide">Configurable</span>
+                      </label>
+                      <select value={taxGSTMode} onChange={(e) => setTaxGSTMode(e.target.value as any)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border-2 border-blue-300 font-bold text-[#1a2744] focus:border-blue-500 focus:outline-none">
+                        <option value="AUTO">Auto (5% ≤₹7,500 / 18% &gt;₹7,500)</option>
+                        <option value="5">5% — 2.5% CGST + 2.5% SGST (≤₹7,500)</option>
+                        <option value="18">18% — 9% CGST + 9% SGST (&gt;₹7,500)</option>
+                        <option value="0">0% — Exempt (Special / Government)</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1593,11 +1611,15 @@ export default function AdminPage() {
               {(() => {
                 const roomTotal = taxRoomRent * taxRoomQty * taxNoOfNights;
                 const subtotal = roomTotal + taxExtraBed + taxOtherCharges;
-                const gstRate = taxRoomRent <= 1000 ? 0 : 0.12;
-                const cgst = Math.round(subtotal * (gstRate / 2) * 100) / 100;
+                const autoRate = taxRoomRent <= 7500 ? 0.05 : 0.18;
+                const gstRate = taxGSTMode === 'AUTO' ? autoRate : (taxGSTMode === '0' ? 0 : taxGSTMode === '5' ? 0.05 : 0.18);
+                const halfRate = gstRate / 2;
+                const cgst = Math.round(subtotal * halfRate * 100) / 100;
                 const sgst = cgst;
                 const grandTotal = subtotal + cgst + sgst;
                 const balance = Math.max(0, grandTotal - taxAdvancePaid);
+                const pct = Math.round(gstRate * 100);
+                const halfPct = pct / 2;
                 return (
                   <div className="mt-6 p-5 rounded-2xl bg-[#1a2744]/5 border border-[#1a2744]/20">
                     <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#1a2744] mb-3">Live Tax Calculation Preview</h3>
@@ -1613,9 +1635,11 @@ export default function AdminPage() {
                         <span className="text-[10px] text-neutral-400 block">incl. extra bed &amp; other charges</span>
                       </div>
                       <div className="p-3 rounded-xl bg-blue-50 border border-blue-200">
-                        <span className="text-blue-700 font-bold uppercase block">CGST (6%) + SGST (6%)</span>
+                        <span className="text-blue-700 font-bold uppercase block">CGST ({halfPct}%) + SGST ({halfPct}%)</span>
                         <span className="text-lg font-extrabold font-mono text-blue-800">₹{(cgst + sgst).toLocaleString('en-IN')}</span>
-                        <span className="text-[10px] text-blue-500 block">{gstRate === 0 ? '0% (Exempt ≤₹1,000)' : '12% GST applied'}</span>
+                        <span className="text-[10px] text-blue-500 block">
+                          {pct === 0 ? '0% Exempt' : `${pct}% GST ${taxGSTMode === 'AUTO' ? '(Auto)' : '(Manual)'}`}
+                        </span>
                       </div>
                       <div className="p-3 rounded-xl bg-[#1a2744] border border-[#1a2744]">
                         <span className="text-blue-200 font-bold uppercase block">Grand Total</span>
@@ -1634,11 +1658,15 @@ export default function AdminPage() {
                   onClick={() => {
                     const roomTotal = taxRoomRent * taxRoomQty * taxNoOfNights;
                     const subtotal = roomTotal + taxExtraBed + taxOtherCharges;
-                    const gstRate = taxRoomRent <= 1000 ? 0 : 0.12;
-                    const cgst = Math.round(subtotal * (gstRate / 2) * 100) / 100;
+                    const autoRate = taxRoomRent <= 7500 ? 0.05 : 0.18;
+                    const gstRate = taxGSTMode === 'AUTO' ? autoRate : (taxGSTMode === '0' ? 0 : taxGSTMode === '5' ? 0.05 : 0.18);
+                    const halfRate = gstRate / 2;
+                    const cgst = Math.round(subtotal * halfRate * 100) / 100;
                     const sgst = cgst;
                     const grandTotal = subtotal + cgst + sgst;
                     const balance = Math.max(0, grandTotal - taxAdvancePaid);
+                    const pct = Math.round(gstRate * 100);
+                    const halfPct = pct / 2;
 
                     // Amount in Words helper
                     const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
@@ -1848,8 +1876,8 @@ export default function AdminPage() {
     </div>
     <div class="totals-right">
       <div class="total-row"><span class="tl">Subtotal / Taxable Amount</span><span class="tv">₹${subtotal.toLocaleString('en-IN')}</span></div>
-      <div class="total-row"><span class="tl">CGST @ 6%</span><span class="tv">₹${cgst.toLocaleString('en-IN')}</span></div>
-      <div class="total-row"><span class="tl">SGST @ 6%</span><span class="tv">₹${sgst.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span class="tl">CGST @ ${halfPct}%</span><span class="tv">₹${cgst.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span class="tl">SGST @ ${halfPct}%</span><span class="tv">₹${sgst.toLocaleString('en-IN')}</span></div>
       <div class="grand-row"><span class="gl">Grand Total</span><span class="gv">Rs. ${grandTotal.toLocaleString('en-IN')}</span></div>
       <div class="adv-row"><span class="tl">Advance Paid</span><span class="tv">₹${taxAdvancePaid.toLocaleString('en-IN')}</span></div>
       <div class="bal-row"><span class="tl">Balance Paid</span><span class="tv">₹${balance.toLocaleString('en-IN')}</span></div>
