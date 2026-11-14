@@ -20,6 +20,7 @@ import {
   KeyRound,
   LogOut,
   MessageCircle,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import PasskeyResetModal from '@/components/admin/PasskeyResetModal';
@@ -135,6 +136,33 @@ export default function AdminPage() {
   const [vAdvancePaid, setVAdvancePaid] = useState<number>(500);
   const [vAdultsCount, setVAdultsCount] = useState<number>(2);
   const [vKidsCount, setVKidsCount] = useState<number>(0);
+
+  // Tax Invoice State
+  const [taxShowForm, setTaxShowForm] = useState(false);
+  const [taxInvoiceNo, setTaxInvoiceNo] = useState(() => `PSE-TAX-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [taxDate, setTaxDate] = useState(() => getLocalDateStr());
+  const [taxGuestName, setTaxGuestName] = useState('');
+  const [taxGuestMobile, setTaxGuestMobile] = useState('');
+  const [taxGuestGSTIN, setTaxGuestGSTIN] = useState('');
+  const [taxRoomNo, setTaxRoomNo] = useState('');
+  const [taxCheckIn, setTaxCheckIn] = useState(() => getLocalDateTimeStr());
+  const [taxCheckOut, setTaxCheckOut] = useState(() => {
+    const d = new Date(); d.setDate(d.getDate() + 1); return getLocalDateTimeStr(d);
+  });
+  const [taxNoOfGuests, setTaxNoOfGuests] = useState<number>(2);
+  const [taxNoOfNights, setTaxNoOfNights] = useState<number>(1);
+  const [taxGuestAddress, setTaxGuestAddress] = useState('');
+  // Room category: Standard | Deluxe | Terrace | Family
+  const [taxRoomCategory, setTaxRoomCategory] = useState('Deluxe');
+  const [taxIsAC, setTaxIsAC] = useState(true);
+  // Charges
+  const [taxRoomRent, setTaxRoomRent] = useState<number>(2499);
+  const [taxRoomQty, setTaxRoomQty] = useState<number>(1);
+  const [taxExtraBed, setTaxExtraBed] = useState<number>(0);
+  const [taxOtherCharges, setTaxOtherCharges] = useState<number>(0);
+  const [taxOtherDesc, setTaxOtherDesc] = useState('');
+  const [taxAdvancePaid, setTaxAdvancePaid] = useState<number>(0);
+  const [taxPaymentMode, setTaxPaymentMode] = useState('Cash');
 
   const handleUpdateDateInventory = (roomId: string, available: number, rateOverride: number) => {
     setDateInventory((prev) => {
@@ -1355,6 +1383,518 @@ export default function AdminPage() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* TAX INVOICE GENERATOR */}
+        <div className="bg-white rounded-3xl border-2 border-[#1a2744] shadow-2xl mb-12 overflow-hidden">
+          {/* Header Bar */}
+          <div className="bg-gradient-to-r from-[#1a2744] to-[#2c3e6b] px-6 sm:px-8 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/50 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-[#D4AF37]" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] text-[9px] font-bold uppercase tracking-widest">
+                    SAC 996311 · GSTIN: 37ASOPP1099G1Z7
+                  </span>
+                </div>
+                <h2 className="text-lg sm:text-xl font-extrabold tracking-tight uppercase text-white">
+                  GST Tax Invoice Generator
+                </h2>
+                <p className="text-xs text-blue-200 mt-0.5">
+                  Accommodation Services · 12% GST (6% CGST + 6% SGST) for tariffs ₹1,001–₹7,500/night
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setTaxShowForm((v) => !v)}
+              className="px-5 py-2.5 rounded-xl bg-[#D4AF37] hover:bg-[#c59b27] text-black font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 shrink-0"
+            >
+              <FileText className="w-4 h-4" />
+              <span>{taxShowForm ? 'Hide Form' : '+ New Tax Invoice'}</span>
+            </button>
+          </div>
+
+          {taxShowForm && (
+            <div className="p-6 sm:p-8">
+              {/* GST Slab Info Banner */}
+              <div className="mb-6 p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-blue-800">
+                <span className="font-bold uppercase tracking-wide">GST Slab Applied:</span> PS Elite Homestay room tariffs (₹1,699–₹3,499/night) fall under the{' '}
+                <span className="font-bold text-blue-900">12% GST bracket</span> (SAC 996311) →{' '}
+                <span className="font-bold">6% CGST + 6% SGST</span> on the taxable room rent amount.
+                Room tariffs ≤ ₹1,000/night are exempt (0% GST).
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                {/* Invoice No */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Invoice No.</label>
+                  <input type="text" value={taxInvoiceNo} onChange={(e) => setTaxInvoiceNo(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-mono font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Date */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Invoice Date</label>
+                  <input type="date" value={taxDate} onChange={(e) => setTaxDate(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Guest Name */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Guest Name *</label>
+                  <input type="text" value={taxGuestName} onChange={(e) => setTaxGuestName(e.target.value)}
+                    placeholder="e.g. Karthik Reddy"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Mobile */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Mobile</label>
+                  <input type="tel" value={taxGuestMobile} onChange={(e) => setTaxGuestMobile(e.target.value)}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Guest GSTIN */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Guest GSTIN (if any)</label>
+                  <input type="text" value={taxGuestGSTIN} onChange={(e) => setTaxGuestGSTIN(e.target.value)}
+                    placeholder="Optional"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-mono text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Room No */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Room No.</label>
+                  <input type="text" value={taxRoomNo} onChange={(e) => setTaxRoomNo(e.target.value)}
+                    placeholder="e.g. 101"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Check-In */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Check-In (Date / Time)</label>
+                  <input type="datetime-local" value={taxCheckIn} onChange={(e) => setTaxCheckIn(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Check-Out */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Check-Out (Date / Time)</label>
+                  <input type="datetime-local" value={taxCheckOut} onChange={(e) => setTaxCheckOut(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* No. of Guests */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">No. of Guests</label>
+                  <input type="number" min={1} max={20} value={taxNoOfGuests} onChange={(e) => setTaxNoOfGuests(parseInt(e.target.value) || 1)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* No. of Nights */}
+                <div className="space-y-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">No. of Nights</label>
+                  <input type="number" min={1} max={365} value={taxNoOfNights} onChange={(e) => setTaxNoOfNights(parseInt(e.target.value) || 1)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+                {/* Guest Address */}
+                <div className="space-y-1 sm:col-span-2 lg:col-span-1">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500">Guest Address</label>
+                  <input type="text" value={taxGuestAddress} onChange={(e) => setTaxGuestAddress(e.target.value)}
+                    placeholder="City, State"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                </div>
+
+                {/* Room Category */}
+                <div className="space-y-1 col-span-full">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500 block mb-2">Room Category &amp; Type</label>
+                  <div className="flex flex-wrap gap-3">
+                    {['Standard', 'Deluxe', 'Terrace', 'Family'].map((cat) => (
+                      <label key={cat} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer font-bold text-xs transition-all ${
+                        taxRoomCategory === cat
+                          ? 'bg-[#1a2744] text-white border-[#1a2744]'
+                          : 'bg-neutral-50 text-neutral-700 border-neutral-300 hover:border-[#1a2744]'
+                      }`}>
+                        <input type="radio" name="taxRoomCat" value={cat} checked={taxRoomCategory === cat}
+                          onChange={() => setTaxRoomCategory(cat)} className="sr-only" />
+                        {cat}
+                      </label>
+                    ))}
+                    <div className="flex items-center gap-1 ml-4">
+                      <label className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer font-bold text-xs transition-all ${
+                        taxIsAC ? 'bg-blue-700 text-white border-blue-700' : 'bg-neutral-50 text-neutral-700 border-neutral-300'
+                      }`}>
+                        <input type="checkbox" checked={taxIsAC} onChange={() => setTaxIsAC(true)} className="sr-only" />
+                        AC
+                      </label>
+                      <label className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer font-bold text-xs transition-all ${
+                        !taxIsAC ? 'bg-neutral-700 text-white border-neutral-700' : 'bg-neutral-50 text-neutral-700 border-neutral-300'
+                      }`}>
+                        <input type="checkbox" checked={!taxIsAC} onChange={() => setTaxIsAC(false)} className="sr-only" />
+                        Non-AC
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Charges */}
+                <div className="col-span-full border-t border-neutral-200 pt-4">
+                  <label className="font-bold uppercase tracking-wider text-neutral-500 block mb-3 text-[11px]">Charges (Taxable)</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Room Rent / Night (₹)</label>
+                      <input type="number" step={1} value={taxRoomRent} onChange={(e) => setTaxRoomRent(parseInt(e.target.value) || 0)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Rooms × Nights</label>
+                      <div className="flex gap-2">
+                        <input type="number" min={1} value={taxRoomQty} onChange={(e) => setTaxRoomQty(parseInt(e.target.value) || 1)}
+                          placeholder="Rooms"
+                          className="w-1/2 px-3 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                        <input type="number" min={1} value={taxNoOfNights} onChange={(e) => setTaxNoOfNights(parseInt(e.target.value) || 1)}
+                          placeholder="Nights"
+                          className="w-1/2 px-3 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Extra Bed Charges (₹)</label>
+                      <input type="number" step={50} value={taxExtraBed} onChange={(e) => setTaxExtraBed(parseInt(e.target.value) || 0)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Other Charges (₹)</label>
+                      <input type="number" step={50} value={taxOtherCharges} onChange={(e) => setTaxOtherCharges(parseInt(e.target.value) || 0)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                    </div>
+                    <div className="space-y-1 sm:col-span-2">
+                      <label className="font-semibold text-neutral-500">Other Charges Description</label>
+                      <input type="text" value={taxOtherDesc} onChange={(e) => setTaxOtherDesc(e.target.value)}
+                        placeholder="e.g. Laundry, Food, etc."
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 text-neutral-900 focus:border-[#1a2744] focus:outline-none" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Advance Paid (₹)</label>
+                      <input type="number" step={100} value={taxAdvancePaid} onChange={(e) => setTaxAdvancePaid(parseInt(e.target.value) || 0)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-emerald-700 focus:border-[#1a2744] focus:outline-none" />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="font-semibold text-neutral-500">Payment Mode</label>
+                      <select value={taxPaymentMode} onChange={(e) => setTaxPaymentMode(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-50 border border-neutral-300 font-bold text-neutral-900 focus:border-[#1a2744] focus:outline-none">
+                        <option>Cash</option>
+                        <option>UPI</option>
+                        <option>Card</option>
+                        <option>Bank Transfer</option>
+                        <option>Cash + UPI</option>
+                        <option>Cash + Card</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Tax Calculation Summary */}
+              {(() => {
+                const roomTotal = taxRoomRent * taxRoomQty * taxNoOfNights;
+                const subtotal = roomTotal + taxExtraBed + taxOtherCharges;
+                const gstRate = taxRoomRent <= 1000 ? 0 : 0.12;
+                const cgst = Math.round(subtotal * (gstRate / 2) * 100) / 100;
+                const sgst = cgst;
+                const grandTotal = subtotal + cgst + sgst;
+                const balance = Math.max(0, grandTotal - taxAdvancePaid);
+                return (
+                  <div className="mt-6 p-5 rounded-2xl bg-[#1a2744]/5 border border-[#1a2744]/20">
+                    <h3 className="text-xs font-extrabold uppercase tracking-wider text-[#1a2744] mb-3">Live Tax Calculation Preview</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                      <div className="p-3 rounded-xl bg-white border border-neutral-200">
+                        <span className="text-neutral-500 font-bold uppercase block">Room Rent Total</span>
+                        <span className="text-lg font-extrabold font-mono text-neutral-900">₹{roomTotal.toLocaleString('en-IN')}</span>
+                        <span className="text-[10px] text-neutral-400 block">{taxRoomQty} room(s) × {taxNoOfNights} night(s)</span>
+                      </div>
+                      <div className="p-3 rounded-xl bg-white border border-neutral-200">
+                        <span className="text-neutral-500 font-bold uppercase block">Subtotal (Taxable)</span>
+                        <span className="text-lg font-extrabold font-mono text-neutral-900">₹{subtotal.toLocaleString('en-IN')}</span>
+                        <span className="text-[10px] text-neutral-400 block">incl. extra bed &amp; other charges</span>
+                      </div>
+                      <div className="p-3 rounded-xl bg-blue-50 border border-blue-200">
+                        <span className="text-blue-700 font-bold uppercase block">CGST (6%) + SGST (6%)</span>
+                        <span className="text-lg font-extrabold font-mono text-blue-800">₹{(cgst + sgst).toLocaleString('en-IN')}</span>
+                        <span className="text-[10px] text-blue-500 block">{gstRate === 0 ? '0% (Exempt ≤₹1,000)' : '12% GST applied'}</span>
+                      </div>
+                      <div className="p-3 rounded-xl bg-[#1a2744] border border-[#1a2744]">
+                        <span className="text-blue-200 font-bold uppercase block">Grand Total</span>
+                        <span className="text-lg font-extrabold font-mono text-[#D4AF37]">₹{grandTotal.toLocaleString('en-IN')}</span>
+                        <span className="text-[10px] text-blue-300 block">Balance: ₹{balance.toLocaleString('en-IN')}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Print Button */}
+              <div className="mt-6 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const roomTotal = taxRoomRent * taxRoomQty * taxNoOfNights;
+                    const subtotal = roomTotal + taxExtraBed + taxOtherCharges;
+                    const gstRate = taxRoomRent <= 1000 ? 0 : 0.12;
+                    const cgst = Math.round(subtotal * (gstRate / 2) * 100) / 100;
+                    const sgst = cgst;
+                    const grandTotal = subtotal + cgst + sgst;
+                    const balance = Math.max(0, grandTotal - taxAdvancePaid);
+
+                    // Amount in Words helper
+                    const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+                    const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+                    const toWords = (n: number): string => {
+                      if (n === 0) return 'Zero';
+                      if (n < 20) return ones[n];
+                      if (n < 100) return tens[Math.floor(n/10)] + (n%10 ? ' ' + ones[n%10] : '');
+                      if (n < 1000) return ones[Math.floor(n/100)] + ' Hundred' + (n%100 ? ' ' + toWords(n%100) : '');
+                      if (n < 100000) return toWords(Math.floor(n/1000)) + ' Thousand' + (n%1000 ? ' ' + toWords(n%1000) : '');
+                      if (n < 10000000) return toWords(Math.floor(n/100000)) + ' Lakh' + (n%100000 ? ' ' + toWords(n%100000) : '');
+                      return toWords(Math.floor(n/10000000)) + ' Crore' + (n%10000000 ? ' ' + toWords(n%10000000) : '');
+                    };
+                    const amtWords = toWords(Math.floor(grandTotal)) + ' Rupees Only';
+
+                    const printWin = window.open('', '_blank', 'width=900,height=1100');
+                    if (!printWin) { alert('Please allow popups to print the Tax Invoice.'); return; }
+                    printWin.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <title>Tax Invoice - ${taxInvoiceNo} - PS Elite Homestay</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: #fff; color: #1a1a1a; font-size: 12px; }
+    .page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0; }
+    /* TOP HEADER */
+    .top-header { background: #1a2744; display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; }
+    .logo-area { display: flex; align-items: center; gap: 14px; }
+    .logo-box { width: 56px; height: 56px; background: #D4AF37; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #1a2744; letter-spacing: -1px; }
+    .logo-text h1 { color: #fff; font-size: 20px; font-weight: 900; letter-spacing: 1px; line-height: 1.1; }
+    .logo-text p { color: #93c5fd; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+    .invoice-title-area { text-align: right; }
+    .invoice-title-area h2 { color: #D4AF37; font-size: 28px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+    .invoice-title-area p { color: #93c5fd; font-size: 10px; font-weight: 600; letter-spacing: 1px; }
+    .invoice-title-area .original { color: #fcd34d; font-style: italic; font-size: 10px; }
+    /* ADDRESS STRIP */
+    .address-strip { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 28px 10px; border-bottom: 2px solid #1a2744; gap: 20px; }
+    .address-left h3 { font-size: 13px; font-weight: 800; color: #1a2744; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .address-left p { font-size: 10.5px; color: #374151; line-height: 1.6; }
+    .address-right { text-align: right; }
+    .address-right p { font-size: 10.5px; color: #374151; line-height: 1.7; }
+    /* SECTION HEADER */
+    .section-header { background: #1a2744; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 28px; }
+    /* GUEST DETAILS GRID */
+    .guest-grid { display: grid; grid-template-columns: 1fr 1fr; border-left: 1px solid #d1d5db; margin: 0 28px; }
+    .guest-cell { border-right: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; padding: 7px 12px; }
+    .guest-cell.full { grid-column: span 2; }
+    .cell-label { font-size: 10px; color: #6b7280; font-weight: 600; margin-bottom: 2px; }
+    .cell-value { font-size: 12px; font-weight: 700; color: #111; }
+    /* ROOM CATEGORY */
+    .cat-row { display: flex; align-items: center; gap: 24px; padding: 10px 28px; border-bottom: 1px solid #e5e7eb; }
+    .cat-row span { font-size: 11px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 8px; }
+    .cat-box { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #374151; }
+    .cat-box .chk { width: 13px; height: 13px; border: 1.5px solid #374151; display: inline-block; border-radius: 2px; position: relative; }
+    .cat-box.selected .chk::after { content: '✓'; position: absolute; top: -2px; left: 1px; font-size: 10px; color: #1a2744; font-weight: 900; }
+    /* CHARGES TABLE */
+    .charges-section { margin: 0 28px 0; }
+    .charges-table { width: 100%; border-collapse: collapse; }
+    .charges-table th { background: #1a2744; color: #fff; font-size: 11px; font-weight: 700; padding: 8px 12px; text-align: left; letter-spacing: 0.5px; }
+    .charges-table th:last-child, .charges-table td:last-child { text-align: right; }
+    .charges-table td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: 12px; color: #1a1a1a; }
+    .charges-table tr:nth-child(even) td { background: #f9fafb; }
+    /* TOTALS */
+    .totals-section { display: flex; gap: 0; margin: 0 28px; border: 1px solid #d1d5db; border-top: none; }
+    .amount-words { flex: 1; border-right: 1px solid #d1d5db; padding: 10px 12px; }
+    .amount-words .aw-label { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .amount-words .aw-value { font-size: 11.5px; font-weight: 700; color: #1a2744; font-style: italic; }
+    .totals-right { width: 300px; }
+    .total-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; border-bottom: 1px solid #e5e7eb; font-size: 12px; }
+    .total-row .tl { font-weight: 600; color: #374151; }
+    .total-row .tv { font-weight: 700; color: #111; font-family: monospace; }
+    .grand-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #1a2744; }
+    .grand-row .gl { font-size: 13px; font-weight: 900; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; }
+    .grand-row .gv { font-size: 14px; font-weight: 900; color: #D4AF37; font-family: monospace; }
+    .adv-row { display: flex; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid #e5e7eb; }
+    .adv-row .tl { font-size: 11px; font-weight: 600; color: #374151; }
+    .adv-row .tv { font-size: 12px; font-weight: 700; color: #059669; font-family: monospace; }
+    .bal-row { display: flex; justify-content: space-between; padding: 7px 12px; }
+    .bal-row .tl { font-size: 11px; font-weight: 700; color: #1a2744; }
+    .bal-row .tv { font-size: 12px; font-weight: 900; color: #dc2626; font-family: monospace; }
+    /* PAYMENT MODE */
+    .payment-section { display: flex; align-items: center; gap: 20px; padding: 10px 28px; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; margin: 0; }
+    .payment-section .pm-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #374151; letter-spacing: 0.5px; }
+    /* SIGNATURES */
+    .sig-section { display: flex; justify-content: space-between; align-items: flex-end; padding: 20px 28px 14px; }
+    .sig-box { text-align: center; }
+    .sig-line { width: 160px; border-bottom: 1px solid #374151; margin-bottom: 5px; }
+    .sig-label { font-size: 10.5px; color: #374151; font-weight: 600; }
+    .sig-label strong { display: block; font-size: 11px; font-weight: 800; color: #1a2744; }
+    /* FOOTER */
+    .footer-bar { background: #1a2744; padding: 12px 28px; display: flex; justify-content: center; align-items: center; gap: 20px; }
+    .footer-bar p { color: #93c5fd; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-align: center; }
+    .thank-you { text-align: center; padding: 10px 28px 6px; background: #f0f4ff; }
+    .thank-you p { color: #1a2744; font-size: 11px; font-weight: 700; }
+    .disclaimer { padding: 6px 28px 8px; }
+    .disclaimer p { font-size: 9.5px; color: #9ca3af; }
+    @media print { body { margin: 0; } .page { width: 100%; } }
+  </style>
+</head>
+<body>
+<div class="page">
+  <!-- TOP HEADER -->
+  <div class="top-header">
+    <div class="logo-area">
+      <div class="logo-box">PS</div>
+      <div class="logo-text">
+        <h1>PS ELITE HOME STAY</h1>
+        <p>Feels Like Home</p>
+      </div>
+    </div>
+    <div class="invoice-title-area">
+      <h2>TAX INVOICE</h2>
+      <p>Accommodation Services &nbsp;|&nbsp; SAC 996311</p>
+      <p class="original">Original for Recipient</p>
+    </div>
+  </div>
+
+  <!-- ADDRESS STRIP -->
+  <div class="address-strip">
+    <div class="address-left">
+      <h3>PS ELITE HOMESTAY</h3>
+      <p>19-4-8/D/9A, STV Nagar, Air Bypass Road, Near PLR Convention Hall,<br>Behind Jawalnidhi, Tirupati - 517501, Andhra Pradesh</p>
+    </div>
+    <div class="address-right">
+      <p><strong>GSTIN: 37ASOPP1099G1Z7</strong></p>
+      <p>Email: pselitehomestays@gmail.com</p>
+      <p>Phone: 9392739715</p>
+    </div>
+  </div>
+
+  <!-- GUEST & STAY DETAILS -->
+  <div class="section-header">Guest &amp; Stay Details</div>
+  <div class="guest-grid">
+    <div class="guest-cell"><div class="cell-label">Invoice No.</div><div class="cell-value">${taxInvoiceNo}</div></div>
+    <div class="guest-cell"><div class="cell-label">Date</div><div class="cell-value">${new Date(taxDate).toLocaleDateString('en-IN', {day:'2-digit',month:'2-digit',year:'numeric'})}</div></div>
+    <div class="guest-cell"><div class="cell-label">Guest Name</div><div class="cell-value">${taxGuestName || '—'}</div></div>
+    <div class="guest-cell"><div class="cell-label">Mobile</div><div class="cell-value">${taxGuestMobile || '—'}</div></div>
+    <div class="guest-cell"><div class="cell-label">Guest GSTIN (if any)</div><div class="cell-value">${taxGuestGSTIN || '—'}</div></div>
+    <div class="guest-cell"><div class="cell-label">Room No.</div><div class="cell-value">${taxRoomNo || '—'}</div></div>
+    <div class="guest-cell"><div class="cell-label">Check-In (Date / Time)</div><div class="cell-value">${formatDisplayDate(taxCheckIn)}</div></div>
+    <div class="guest-cell"><div class="cell-label">Check-Out (Date / Time)</div><div class="cell-value">${formatDisplayDate(taxCheckOut)}</div></div>
+    <div class="guest-cell"><div class="cell-label">No. of Guests</div><div class="cell-value">${taxNoOfGuests}</div></div>
+    <div class="guest-cell"><div class="cell-label">No. of Nights</div><div class="cell-value">${taxNoOfNights}</div></div>
+    <div class="guest-cell full"><div class="cell-label">Guest Address</div><div class="cell-value">${taxGuestAddress || '—'}</div></div>
+  </div>
+
+  <!-- ROOM CATEGORY -->
+  <div class="cat-row">
+    <span>Room Category</span>
+    ${['Standard','Deluxe','Terrace','Family'].map(cat => `<div class="cat-box ${taxRoomCategory === cat ? 'selected' : ''}"><span class="chk"></span>${cat}</div>`).join('')}
+    &nbsp;&nbsp;
+    <span>AC / Non-AC</span>
+    <div class="cat-box ${taxIsAC ? 'selected' : ''}"><span class="chk"></span>AC</div>
+    <div class="cat-box ${!taxIsAC ? 'selected' : ''}"><span class="chk"></span>Non-AC</div>
+  </div>
+
+  <!-- CHARGES TABLE -->
+  <div class="charges-section">
+    <table class="charges-table">
+      <thead>
+        <tr>
+          <th>Particulars</th>
+          <th>Date</th>
+          <th>Rate (Rs.)</th>
+          <th>Qty</th>
+          <th>Amount (Rs.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Room Rent (${taxRoomCategory} ${taxIsAC ? 'AC' : 'Non-AC'}) × ${taxNoOfNights} Night(s)</td>
+          <td>${new Date(taxDate).toLocaleDateString('en-IN')}</td>
+          <td>₹${taxRoomRent.toLocaleString('en-IN')}</td>
+          <td>${taxRoomQty}</td>
+          <td>₹${roomTotal.toLocaleString('en-IN')}</td>
+        </tr>
+        <tr>
+          <td>Extra Bed Charges</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>${taxExtraBed > 0 ? '₹' + taxExtraBed.toLocaleString('en-IN') : '—'}</td>
+        </tr>
+        <tr>
+          <td>Other Charges${taxOtherDesc ? ': ' + taxOtherDesc : ''}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>${taxOtherCharges > 0 ? '₹' + taxOtherCharges.toLocaleString('en-IN') : '—'}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOTALS + AMOUNT IN WORDS -->
+  <div class="totals-section">
+    <div class="amount-words">
+      <div class="aw-label">Amount In Words</div>
+      <div class="aw-value">${amtWords}</div>
+      <div style="margin-top:12px;">
+        <div class="aw-label" style="margin-bottom:6px;">Payment Mode</div>
+        <div style="display:flex;gap:14px;">
+          ${['Cash','UPI','Card','Bank Transfer'].map(pm => `<div class="cat-box ${taxPaymentMode === pm || taxPaymentMode.includes(pm) ? 'selected' : ''}"><span class="chk"></span><span style="font-size:11px;font-weight:700;">${pm}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="totals-right">
+      <div class="total-row"><span class="tl">Subtotal / Taxable Amount</span><span class="tv">₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span class="tl">CGST @ 6%</span><span class="tv">₹${cgst.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span class="tl">SGST @ 6%</span><span class="tv">₹${sgst.toLocaleString('en-IN')}</span></div>
+      <div class="grand-row"><span class="gl">Grand Total</span><span class="gv">Rs. ${grandTotal.toLocaleString('en-IN')}</span></div>
+      <div class="adv-row"><span class="tl">Advance Paid</span><span class="tv">₹${taxAdvancePaid.toLocaleString('en-IN')}</span></div>
+      <div class="bal-row"><span class="tl">Balance Paid</span><span class="tv">₹${balance.toLocaleString('en-IN')}</span></div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <p>SAC 996311 — Accommodation services. GST as applicable on tariff.</p>
+    <p>E. &amp; O.E. &nbsp; This is a computer-generated tax invoice.</p>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="sig-section">
+    <div class="sig-box">
+      <div class="sig-line"></div>
+      <div class="sig-label">Customer Signature</div>
+    </div>
+    <div class="sig-box" style="text-align:right;">
+      <div class="sig-line" style="margin-left:auto;"></div>
+      <div class="sig-label">Authorized Signature<strong>For PS Elite Homestay</strong></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="thank-you">
+    <p>Thank you for choosing PS Elite Homestay. We look forward to welcoming you again!</p>
+  </div>
+  <div class="footer-bar">
+    <p>FEELS LIKE HOME &nbsp;|&nbsp; pselitehomestays@gmail.com &nbsp;|&nbsp; GSTIN 37ASOPP1099G1Z7</p>
+  </div>
+</div>
+<script>window.onload = function() { window.print(); };<\/script>
+</body>
+</html>`);
+                    printWin.document.close();
+                  }}
+                  className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#1a2744] to-[#2c3e6b] hover:from-[#2c3e6b] hover:to-[#1a2744] text-white font-extrabold text-sm uppercase tracking-wider transition-all shadow-lg shadow-[#1a2744]/30 flex items-center gap-2"
+                >
+                  <FileText className="w-5 h-5" />
+                  <span>🖨️ Print / Download GST Tax Invoice (PDF)</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* BOOKINGS MANAGEMENT TABLE */}
